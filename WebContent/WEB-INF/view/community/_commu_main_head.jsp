@@ -50,11 +50,6 @@
 				</li>
 			</c:if>
 			<li><a href="/mooc/main.mooc">MOOC</a></li>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="SEARCH">
-				</div>
-			</form>
 		</ul>
 	</div>
 </nav>

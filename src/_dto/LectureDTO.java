@@ -1,6 +1,7 @@
 package _dto;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class LectureDTO {
 	//메인 강의
@@ -41,7 +42,13 @@ public class LectureDTO {
 	
 	
 	
-	
+
+	public String getLive_lec_date() {
+		return live_lec_date;
+	}
+	public void setLive_lec_date(String live_lec_date) {
+		this.live_lec_date = live_lec_date;
+	}
 	public int getOt_link() {
 		return ot_link;
 	}
@@ -135,9 +142,7 @@ public class LectureDTO {
 	public Timestamp getSub_lec_deldate() {
 		return sub_lec_deldate;
 	}
-	public String getLive_lec_date() {
-		return live_lec_date;
-	}
+	
 	public String getLive_lec_chat() {
 		return live_lec_chat;
 	}
@@ -201,9 +206,7 @@ public class LectureDTO {
 	public void setSub_lec_deldate(Timestamp sub_lec_deldate) {
 		this.sub_lec_deldate = sub_lec_deldate;
 	}
-	public void setLive_lec_date(String real_lec_date) {
-		this.live_lec_date = real_lec_date;
-	}
+	
 	public void setLive_lec_chat(String real_lec_chat) {
 		this.live_lec_chat = real_lec_chat;
 	}

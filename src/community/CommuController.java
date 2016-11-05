@@ -1,5 +1,8 @@
 package community;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +19,44 @@ public class CommuController {
 	SqlMapClientTemplate sqlMap;
 	
 	String main = "/community/_commu_main.jsp";
-	String content; // °¢ main ÆäÀÌÁöÀÇ container ºÎºĞ¿¡ µé¾î°¥ content Á¤ÀÇ
+	String content; // ê° main í˜ì´ì§€ì˜ container ë¶€ë¶„ì— ë“¤ì–´ê°ˆ content ì •ì˜
 	String commu_main = "myStudyRoom/_commu_myStudyRoom_main.jsp";
 	
 	@RequestMapping("/community.mooc")
-	//myStudy ¸ŞÀÎ
-		public String community_main(HttpServletRequest request){
+	//myStudy ë©”ì¸
+		public String community_main(HttpServletRequest request, String searchType, String searchValue){
+		
+		Map map = new HashMap();
+		map.put("searchType", searchType);
+		map.put("searchValue", searchValue);
+		
+		List getAllstudyGroupList = sqlMap.queryForList("getAllstudyGroupList", map); 
+		
+		String pageNum=request.getParameter("pageNum");
+		pageAction pageing=new pageAction();
+		List studylist=pageing.pageList(pageNum, getAllstudyGroupList, 10);
+		
+		request.setAttribute("count",pageing.count());
+		request.setAttribute("currentPage", pageing.current());
+		request.setAttribute("pageSize", pageing.size());
+		request.setAttribute("studylist", studylist);
+		request.setAttribute("pageNum", pageNum);
+		
 			content = "_commu_main_container.jsp";
 			request.setAttribute("community_main_content", content);
 			return main;
 		}
 	
-	/*½ºÅÍµğ Ã¤³Î ¸Ş´º Å¬¸¯½Ã */
+	/*ìŠ¤í„°ë”” ì±„ë„ ë©”ë‰´ í´ë¦­ì‹œ */
 	
 	@RequestMapping("study/studylist.mooc")
-	//Ã¤³Î ½ºÅÍµğ ¸®½ºÆ®
+	//ì±„ë„ ìŠ¤í„°ë”” ë¦¬ìŠ¤íŠ¸
 		public String studylist_main(HttpServletRequest request,StudygroupDTO stgDto){
 			int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
 			String sub_ctg_name	= (String) sqlMap.queryForObject("selectSubCtgName",sub_ctg_code); 
-			List stdlist = sqlMap.queryForList("selectlist", stgDto); //Ä«Å×°í¸®ÄÚµå ³Ñ°ÜÁÖ±â
+			List stdlist = sqlMap.queryForList("selectlist", stgDto); //ì¹´í…Œê³ ë¦¬ì½”ë“œ ë„˜ê²¨ì£¼ê¸°
 	
-			//ÆäÀÌÂ¡
+			//í˜ì´ì§•
 			String pageNum="1";
 			if(request.getParameter("pageNum")!=null){  pageNum=request.getParameter("pageNum");}
 			pageAction pageing=new pageAction();
@@ -55,10 +75,10 @@ public class CommuController {
 		}
 	
 	
-	/*½ºÅÍµğ ¸¸µé±â ¸Ş´º Å¬¸¯½Ã */
+	/*ìŠ¤í„°ë”” ë§Œë“¤ê¸° ë©”ë‰´ í´ë¦­ì‹œ */
 	
 	@RequestMapping("study/StudyWrite.mooc")
-	//½ºÅÍµğ ¹æ ¸¸µé±â
+	//ìŠ¤í„°ë”” ë°© ë§Œë“¤ê¸°
 		public String StudyWrite_main(HttpServletRequest request){
 			List ctglist =sqlMap.queryForList("selectAllTopCtg",null);
 			request.setAttribute("list",ctglist);
@@ -69,7 +89,7 @@ public class CommuController {
 		}
 	
 	@RequestMapping("study/myStudyWritePro.mooc")
-	//½ºÅÍµğ ¹æ¸¸µé±â ÇÁ·Î 
+	//ìŠ¤í„°ë”” ë°©ë§Œë“¤ê¸° í”„ë¡œ 
 		public String writePro(HttpServletRequest request, StudygroupDTO stgDto){
 			String sub_ctg_name=stgDto.getSub_ctg_name();
 			System.out.println(sub_ctg_name);
@@ -80,7 +100,7 @@ public class CommuController {
 			String u_id=(String) session.getAttribute("memId");
 			stgDto.setU_id(u_id);
 			sqlMap.insert("insertStg",stgDto);
-			int stg_code=(int) sqlMap.queryForObject("SelectStgl", null); // ¹ÎÁ¤ÀÌ°¡ ÇÑ°Å
+			int stg_code=(int) sqlMap.queryForObject("SelectStgl", null); // ë¯¼ì •ì´ê°€ í•œê±°
 			stgDto.setStg_code(stg_code);
 			sqlMap.insert("InsertStgl", stgDto);
 			
@@ -88,9 +108,9 @@ public class CommuController {
 		}
 	
 	@RequestMapping("study/studyModify.mooc")
-	//½ºÅÍµğ ¹æ ¼öÁ¤
+	//ìŠ¤í„°ë”” ë°© ìˆ˜ì •
 		public String studyModify_main(HttpServletRequest request, int stg_code){
-		 	//HttpSession session = request.getSession();  //ÀÓÀÇ ¼¼¼Ç ‹š¹®¿¡  ÀÌ·±½Ä ³ªÁß¿¡ ¹Ù²Ù±â
+		 	//HttpSession session = request.getSession();  //ì„ì˜ ì„¸ì…˜ ï¿½ï¿½ë¬¸ì—  ì´ëŸ°ì‹ ë‚˜ì¤‘ì— ë°”ê¾¸ê¸°
 		 	//String id = session.getAttribute("memId"); 
 		
 			StudygroupDTO dto =(StudygroupDTO)sqlMap.queryForObject("selectstg",stg_code);
@@ -103,7 +123,7 @@ public class CommuController {
 		}
 	
 	@RequestMapping("study/myStudymodifyPro.mooc")
-	//½ºÅÍµğ ¹æ ¼öÁ¤ ÇÁ·Î
+	//ìŠ¤í„°ë”” ë°© ìˆ˜ì • í”„ë¡œ
 		public String modifyPro_main(HttpServletRequest request, StudygroupDTO stgDto){
 			sqlMap.update("updatestg", stgDto);
 			request.setAttribute("community_main_content", content);
@@ -111,7 +131,7 @@ public class CommuController {
 	}
 	
 	@RequestMapping("study/studyJoin.mooc")
-	//½ºÅÍµğ °¡ÀÔÇÏ±â
+	//ìŠ¤í„°ë”” ê°€ì…í•˜ê¸°
 		public String studyJoin(HttpServletRequest request,StudygroupDTO stgDto){
 			HttpSession session=request.getSession();
 			String u_id=(String) session.getAttribute("memId");
@@ -122,7 +142,7 @@ public class CommuController {
 		}
 	
 	@RequestMapping("study/myStudydelete.mooc")
-	//½ºÅÍµğ Å»Åğ
+	//ìŠ¤í„°ë”” íƒˆí‡´
 		public String myStudydelete(HttpServletRequest request, StudygroupDTO stgDto){
 			HttpSession session=request.getSession();
 			String u_id=(String) session.getAttribute("memId");

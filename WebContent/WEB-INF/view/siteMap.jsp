@@ -3,8 +3,9 @@
 <table class="table" align="center">
 	<tr>
 		<td>
+			<p>&nbsp;</p>
 			<p>ADMIN</p>
-			<a href="/mooc/admin.mooc" target="blank">ADMINISTRATOR 메인</a></br>
+			<a href="/mooc/admin.mooc" target="blank">관리자 메인</a></br>
 			<a href="/mooc/admin/ctgList.mooc" target="blank">카테고리 관리</a></br>
 			<a href="/mooc/admin/userList.mooc" target="blank">유저 관리</a></br>
 			<a href="/mooc/admin/accessList.mooc" target="blank">휴면계정 관리</a></br>
@@ -13,8 +14,9 @@
 			<a href="/mooc/admin/qnaList.mooc" target="blank">문의 관리</a></br>
 		</td>
 		<td>
+			<p>&nbsp;</p>
 			<p>COMMUNITY</p>
-			<a href="/mooc/community.mooc" target="blank">COMMUNITY 메인</a></br>
+			<a href="/mooc/community.mooc" target="blank">커뮤니티 메인</a></br>
 			<a href="/mooc/study/StudyWrite.mooc" target="blank">스터디 만들기</a></br>
 			<a href="mooc/study/myStudyList.mooc" target="blank">나의 스터디 목록</a></br>
 		</td>
@@ -22,7 +24,7 @@
 	</tr>
 	<tr>
 		<td>
-		<p>&nbsp;</p>
+			<p>&nbsp;</p>
 			<p>USER</p>
 			<a href="/mooc/user/myStudy.mooc" target="blank">MY STUDY 메인</a></br>
 			<a href="/mooc/user/teacherSign.mooc" target="blank">강사되기</a></br>
@@ -36,7 +38,7 @@
 			<a href="/mooc/user/userDelete.mooc" target="blank">회원 탈퇴</a></br>
 		</td>
 		<td>
-		<p>&nbsp;</p>
+			<p>&nbsp;</p>
 			<p>TEACHER</p>
 			<a href="/mooc/teacher/myClass.mooc" target="blank">MY CLASS 메인</a></br>
 			<a href="/mooc/teacher/liveLecListClass.mooc" target="blank">실시간 강의 목록</a></br>

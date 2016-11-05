@@ -14,13 +14,13 @@
 </script>
 <table class="table" align="center">
 	<tr>
-		<td><center>강의 분류:${subName}</center></td>
+		<td><center><h2>${subName}</h2></center></td>
 		<td colspan="2" align="right">
 			<select class="form-control" id="selected">
 				<option>강의</option>
 				<option>강사</option>
 			</select>
-			<input type="text" class="form-control" id="write" placeholder="Search for...">
+			<input type="text" class="form-control" id="write" placeholder="찾고 싶은 강의  검색">
 	    	<input class="btn btn-default" type="button" value="Go!" onClick="go()"/>
 		</td>
 	</tr>
@@ -35,23 +35,7 @@
 		<center><img src="${dto.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
 			강사:${dto.t_id}
 		<a href="/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}"><br/>강의:${dto.main_lec_subject}</a><br/>
-		<a href="#" class="btn btn-default" id="openBtn">강의 개요 </a>
-			<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-							<h3>강의 개요</h3>
-					</div>
-					<div class="modal-body">
-						<p>${dto.main_lec_content}</p>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal">Close</button>
-					</div>
-					</div>
-				</div>
-			</div>	
+			<p>${dto.main_lec_content}</p>
 			</center>
 	</td>
 	

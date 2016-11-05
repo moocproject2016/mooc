@@ -14,9 +14,8 @@
 				<h4>나의 SturdyRoom 목록입니다.</h4>
 		        <form action="/mooc/study/myStudylist.mooc?sub_ctg_code=${sub_ctg_code}"  method="post">
 					<select  name="searchType" style="width: 200px;">
-						<option selected="selected">-선택-</option>
 					    <option value="stg_name">방 제목</option>
-						<option value="u_id">그룹장</option>
+						<option value="u_id">그룹장ID</option>
 					</select>
 					<input type="text" name="searchValue">
 					<input type="submit" value="검색"  />

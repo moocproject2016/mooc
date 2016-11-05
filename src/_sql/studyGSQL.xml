@@ -18,8 +18,8 @@
     	where stg_code=#stg_code#
     </update>
     
-	<select id="selectlist"  resultClass="sgdto" parameterClass="sgdto">
-	    select a.*, nvl(b.stg_count, 0) as stg_count
+	<select id="selectlist"  resultClass="sgdto" parameterClass="sgdto">  <!-- 22번줄 11 06 김효미 u_name 조인 추가  -->
+	    select a.*, (select u_name from userinfo where u_id=a.u_id)u_name, nvl(b.stg_count, 0) as stg_count
 		from (
         	select * from studygroup where sub_ctg_code=#sub_ctg_code#
         	<dynamic prepend="and">
@@ -50,6 +50,17 @@
     <select id="selectcodeCount" resultClass="int" parameterClass="int">
     	select count(*) from studygroup_list where stg_code = #stg_code#
     </select>
+    <!-- 11 06 김효미 스터디 메인 추가 시작 -->
+    <select id="getAllstudyGroupList" resultClass="sgdto" parameterClass="java.util.HashMap">
+    	select a.*, (select u_name from userinfo where u_id=a.u_id)u_name from (select * from studyGroup natural join sub_category)a
+    	<dynamic prepend="WHERE">
+    		<isNotEmpty prepend="AND" property="searchType">
+    			<isEqual property="searchType" compareValue="stg_name">stg_name like '%'||#searchValue#||'%' </isEqual>
+    			<isEqual property="searchType" compareValue="u_id">u_id like '%'||#searchValue#||'%' </isEqual>
+    		</isNotEmpty>
+    	</dynamic>
+    </select>
+     <!-- 11 06 김효미 스터디 메인 추가  끝-->
     
     <insert id="insertJoin" parameterClass="sgdto">
     	 insert into studygroup_list values(
@@ -79,7 +90,4 @@
     }
     </delete>	
     
-    <!-- <select id="selectcgr" parameterClass="sgdto">
-   
-    </select> -->
 </sqlMap>

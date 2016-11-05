@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <table class="table" align="center">
 	<tr>
 		<td align="right">
@@ -37,7 +39,10 @@
 				<td align="center"><a href="/mooc/viewMainLec.mooc?main_lec_code=${live_dto.main_lec_code}">${live_dto.sub_lec_subject}(관심강의:${live_dto.likeLectureCount})</a></td>
 				<td align="center">${live_dto.u_name}(관심강사:${live_dto.likeTeacherCount})</td>
 				<td align="center">${live_dto.sub_lec_content}</td>
-				<td align="center">${live_dto.live_lec_date}</td>
+				<td align="center">
+					<c:set var="live_date" value="${fn:split(live_dto.live_lec_date, ' ')}"/>
+					${live_date[0]}
+				</td>
 			</tr>
 		</c:forEach>
 	</c:if>
