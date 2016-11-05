@@ -60,7 +60,8 @@ public class MyStudyController {
 			request.setAttribute("currentPage", pageing.current());
 			request.setAttribute("pageSize", pageing.size());
 			request.setAttribute("list", list);
-		
+			
+			
 		
 			content = "user_lectureList.jsp";
 			request.setAttribute("main_content", myStudy_main);

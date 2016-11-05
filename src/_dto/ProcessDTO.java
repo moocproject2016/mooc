@@ -2,7 +2,7 @@ package _dto;
 
 import java.sql.Timestamp;
 
-public class ProgressDTO {
+public class ProcessDTO {
 	private int main_lec_code;
 	private int sub_lec_code;
 	private String u_id;

@@ -16,8 +16,6 @@
 	                 }	                      
 	           });
 		});
-	$(document).ready(function() {
-		
    		 $("#report").click(function() {
    			var comment=prompt("신고내용","");
              $.ajax({        
@@ -41,9 +39,6 @@
     	})
 
 	})
-
-
-
 	function viewData(x){
 		var lec_data_path=document.inform.lec_data_path[x-1].value;
 		var lec_data_type=document.inform.lec_data_type[x-1].value;

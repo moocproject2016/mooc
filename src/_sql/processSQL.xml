@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org/DTD Sql Map 2.0//EN'
+						'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+
+<sqlMap>
+	<typeAlias alias="processDTO" type="_dto.ProcessDTO"/>
+	<insert id="insertSubLecProcess" parameterClass="processDTO" >
+		insert into STUDY_SUBLEC_PROCESS values(#sub_lec_code#,#main_lec_code#,#u_id#,1,sysdate)
+	</insert>
+	
+</sqlMap>
