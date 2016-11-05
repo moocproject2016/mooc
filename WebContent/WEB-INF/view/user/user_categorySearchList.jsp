@@ -41,7 +41,7 @@
 			</tr>
 		</c:forEach>
 	</c:if>
-	<c:if test="${mainCount==0}">
+	<c:if test="${liveCount==0}">
 		<tr><td colspan="6">검색결과가 없습니다.</td></tr>
 	</c:if>
 </table>
