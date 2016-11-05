@@ -13,7 +13,7 @@
 	<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Subjects<strong class="caret"></strong></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">카테고리<strong class="caret"></strong></a>
 				<ul class="dropdown-menu" role="menu">
 					<ul class="dropdown-ctg" role="menu">
 					<c:forEach var="topCtgDTO" items="${topCtgList}">
@@ -33,8 +33,8 @@
 		<form class="navbar-form navbar-left" action="/mooc/user/user_categorySearchList.mooc" role="search">
 			<div class="form-group">
 				<input type="hidden" name="recentlyList">
-				<input type="text" class="form-control" name="mainSearchValue" placeholder="Search you want to learn">
-				<input type="submit" value="검색" />
+				<input type="text" class="search-form-control" name="mainSearchValue" placeholder="배우고 싶은 것을 검색하세요!">
+                <button class="btn btn-default btn-primary" type="submit"><img src="/mooc/images/user/search_icon.png"></button>
 			</div>
 		</form>
 		<ul class="nav navbar-nav navbar-right">

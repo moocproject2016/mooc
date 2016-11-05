@@ -35,7 +35,24 @@
 		<center><img src="${dto.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
 			강사:${dto.t_id}
 		<a href="/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}"><br/>강의:${dto.main_lec_subject}</a><br/>
-			comment:${dto.main_lec_content}</center>
+		<a href="#" class="btn btn-default" id="openBtn">강의 개요 </a>
+			<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+							<h3>강의 개요</h3>
+					</div>
+					<div class="modal-body">
+						<p>${dto.main_lec_content}</p>
+					</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal">Close</button>
+					</div>
+					</div>
+				</div>
+			</div>	
+			</center>
 	</td>
 	
 	
@@ -92,3 +109,9 @@
 				</td>
 			</tr>
 	</table>
+	
+	<script>
+	$('#openBtn').click(function(){
+		$('#myModal').modal({show:true})
+	});
+	</script>
