@@ -24,7 +24,7 @@
 		</c:forEach>  	
 	</div>
 		
-	<div class="page-header"></div>
+	<div class="page-header2"></div>
 		
 	<div class="row">
 		<div class="page-header">
@@ -41,7 +41,7 @@
 		</c:forEach>
 	</div>
 	
-	<div class="page-header"></div>
+	<div class="page-header2"></div>
 	
 	<div class="row">
 		<div class="page-header">
