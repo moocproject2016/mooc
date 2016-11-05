@@ -141,22 +141,26 @@ public class UserController {
 		if(request.getParameter("popularLikeList")!=null){ //인기 관심 강의 순 정렬
 			MSL.put("popularLikeList", request.getParameter("popularLikeList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
-			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);	
+			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
+			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
 		if(request.getParameter("popularTeacherList")!=null){ //인기 관심 강사 순 정렬
 			MSL.put("popularTeacherList", request.getParameter("popularTeacherList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
-			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);		
+			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
+			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
 		if(request.getParameter("sizeReviewList")!=null){ //강의평 많은 순 정렬
 			MSL.put("sizeReviewList", request.getParameter("sizeReviewList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
+			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
 		if(request.getParameter("recentlyList")!=null){ //최신 순 정렬
 			MSL.put("recentlyList", request.getParameter("recentlyList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
+			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
 		
 		int mainCount= Allsearch_mainList.size();		

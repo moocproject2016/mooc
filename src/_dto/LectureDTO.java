@@ -20,6 +20,7 @@ public class LectureDTO {
 	private int LikeLectureCount;
 	private int ReviewLecCount;
 	private int main_sub_count;
+	private int ot_link;
 	
 
 	//서브 강의
@@ -41,6 +42,12 @@ public class LectureDTO {
 	
 	
 	
+	public int getOt_link() {
+		return ot_link;
+	}
+	public void setOt_link(int ot_link) {
+		this.ot_link = ot_link;
+	}
 	public int getMain_sub_count() {
 		return main_sub_count;
 	}
