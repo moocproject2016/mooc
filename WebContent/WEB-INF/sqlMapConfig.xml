@@ -11,7 +11,6 @@
 	<sqlMap resource="/_sql/noticeSQL.xml"/>
 	<sqlMap resource="/_sql/userSQL.xml"/>
 	<sqlMap resource="/_sql/studyGboardSQL.xml"/>
-	<sqlMap resource="/_sql/studyGdataSQL.xml"/>
 	<sqlMap resource="/_sql/studyGSQL.xml"/>
 	<sqlMap resource="/_sql/adminSQL.xml"/>
 	<sqlMap resource="/_sql/qnaSQL.xml"/>
