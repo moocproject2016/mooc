@@ -16,8 +16,7 @@
 	<sqlMap resource="/_sql/adminSQL.xml"/>
 	<sqlMap resource="/_sql/qnaSQL.xml"/>
 	<sqlMap resource="/_sql/category_admSQL.xml"/>
-	<sqlMap resource="/_sql/user1_SQL.xml"/>
+	<sqlMap resource="/_sql/userBoardSQL.xml"/>
 	<sqlMap resource="/_sql/scheduleSQL.xml"/>
-	<sqlMap resource="/_sql/test_SQL.xml"/>
 	<sqlMap resource="/_sql/doLiveSQL.xml"/>
 </sqlMapConfig>
