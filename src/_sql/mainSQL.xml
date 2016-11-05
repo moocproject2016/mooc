@@ -70,11 +70,23 @@
 			select * from (select a.*,rownum r,(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a) where r between 1 and 3
 		</select>
 		<select id="main_bestLecture_List" resultClass="LectureDTO">
-			select * from(select c.*,rownum r from(select * from (select a.*, (select sum(lec_r_score) from lecture_review where main_lec_code=a.main_lec_code)like_lec_count from (select * from main_lecture) a) where like_lec_count is not null order by like_lec_count desc)c )where r between 1 and 3
+			select * from(select c.*,rownum r from(select * from (select a.*, (select sum(lec_r_score) from lecture_review where main_lec_code=a.main_lec_code)like_lec_count from (select * from main_lecture) a) where like_lec_count is not null order by like_lec_count desc)c )where r between 1 and 6
 		</select>
-		<select id="main_popularLectureList" resultClass="LectureDTO">
-			select*from(select b.*, rownum r from(select a.*,(select count(*) from register_lecture where main_lec_code = a.main_lec_code) register_count from (select * from main_lecture)a order by register_count desc)b ) where r between 1 and 3
+		<select id="main_popularLecture_List" resultClass="LectureDTO">
+			select*from(select b.*, rownum r from(select a.*,(select count(*) from register_lecture where main_lec_code = a.main_lec_code) register_count from (select * from main_lecture)a order by register_count desc)b ) where r between 1 and 6
 		</select>
 		
+		
+		<!-- 메인 리스트 더보기 -->
+		
+		<select id="liveLecture_List" resultClass="LectureDTO">
+			select * from (select a.*,rownum r,(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a) where r between 1 and 6
+		</select>
+		<select id="bestLecture_List" resultClass="LectureDTO">
+			select * from(select c.*,rownum r from(select * from (select a.*, (select sum(lec_r_score) from lecture_review where main_lec_code=a.main_lec_code)like_lec_count from (select * from main_lecture) a) where like_lec_count is not null order by like_lec_count desc)c )where r between 1 and 12
+		</select>
+		<select id="popularLecture_List" resultClass="LectureDTO">
+			select*from(select b.*, rownum r from(select a.*,(select count(*) from register_lecture where main_lec_code = a.main_lec_code) register_count from (select * from main_lecture)a order by register_count desc)b ) where r between 1 and 12
+		</select>
 		
 	</sqlMap>

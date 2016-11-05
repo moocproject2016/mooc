@@ -20,13 +20,14 @@ html{background:#fbfbfb;}
   border-color: #999;
   outline: 0;
 }
+.row{padding-top:50px;}
+.tableWrap{padding-top:45px; width:100%; height:100%; valign:middle; background:transparent;}
 
 
 /* 테이블 css */
 
 .theadtop{background:#f0f0f0;}
 .tableHead{padding-top:25px; height:100px; text-align: left}
-.tableWrap{padding-top:25px; width:100%; height:100%; valign:middle; background:transparent;}
 
 .rightTab{text-align:right;}
 

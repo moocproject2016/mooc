@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+
+function  search_blank_check(){
+	if (document.getElementById('searchForm').value == null || document.getElementById('searchForm').value == "") {
+        alert("검색어를 입력하세요");
+        return false;
+    }
+
+}
+</script>
    <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -30,11 +40,11 @@
 				</ul>
 			</li>
 		</ul>
-		<form class="navbar-form navbar-left" action="/mooc/user/user_categorySearchList.mooc" role="search">
+		<form class="navbar-form navbar-left" action="/mooc/user/user_categorySearchList.mooc" role="search" onsubmit="return search_blank_check();">
 			<div class="form-group">
 				<input type="hidden" name="recentlyList">
-				<input type="text" class="search-form-control" name="mainSearchValue" placeholder="배우고 싶은 것을 검색하세요!">
-                <button class="btn btn-default btn-primary" type="submit"><img src="/mooc/images/user/search_icon.png"></button>
+				<input type="text" id="searchForm" class="search-form-control" name="mainSearchValue" placeholder="배우고 싶은 것을 검색하세요!">
+                <button class="btn btn-default btn-primary"  type="submit" ><img src="/mooc/images/user/search_icon.png"></button>
 			</div>
 		</form>
 		<ul class="nav navbar-nav navbar-right">
