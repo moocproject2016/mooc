@@ -19,4 +19,6 @@
 	<sqlMap resource="/_sql/scheduleSQL.xml"/>
 	<sqlMap resource="/_sql/doLiveSQL.xml"/>
 	<sqlMap resource="/_sql/mainSQL.xml"/>
+	<sqlMap resource="/_sql/progressSQL.xml"/>
+	
 </sqlMapConfig>
