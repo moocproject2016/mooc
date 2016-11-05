@@ -19,8 +19,8 @@
 			select main_lec_subject from main_lecture where main_lec_code=#main_lec_code#
 		</select>
 		
-		<select id="sub_ctgList" parameterClass="int" resultClass="mainLec">
-			select * from main_lecture where sub_ctg_code=#sub_ctg_code#   order by main_lec_regdate desc
+		<select id="sub_ctgList" parameterClass="int" resultClass="mainLec">  <!-- 관심 강의 u_name 추가 조인 11 06 김효미 수정  -->
+			select a.*, (select u_name from userinfo where a.t_id=u_id)u_name from(select * from main_lecture where sub_ctg_code=#sub_ctg_code# order by main_lec_regdate desc)a
 		</select>
 		
 		<select id="sub_ctgSubjectList" parameterClass="mainLec" resultClass="mainLec">
@@ -88,12 +88,12 @@
 			select count(*) from report where t_id=#t_id# and u_id=#u_id# and sub_lec_code=#sub_lec_code#
 		</select>
 		
-		<select id="likeLectureList" parameterClass="String" resultClass="mainLec">
-			select * from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#u_id# 
+		<select id="likeLectureList" parameterClass="String" resultClass="mainLec"> <!-- 관심 강의 u_name 추가 조인 11 06 김효미 수정  -->
+			select a.*, (select u_name from userinfo where a.t_id=u_id)u_name from(select * from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#u_id#)a
 		</select>
 		
-		<select id="likeTeacherList" parameterClass="String" resultClass="mainLec">
-			select * from like_teacher where u_id=#u_id#
+		<select id="likeTeacherList" parameterClass="String" resultClass="mainLec"> <!-- 관심 강사 u_name 추가 조인 11 06 김효미 수정  -->
+			select u_id, t_id, (select u_name from userinfo where u_id=t_id)u_name from like_teacher where u_id=#u_id#
 		</select>
 		
 		<select id="TeacherLecList" parameterClass="String" resultClass="mainLec">

@@ -25,7 +25,7 @@ html{background:#fbfbfb;}
 
 /* 테이블 css */
 
-.theadtop{background:#f0f0f0;}
+.theadtop{height:30px; background:#f0f0f0;}
 .tableHead{padding-top:25px; height:100px; text-align: left}
 
 .rightTab{text-align:right;}

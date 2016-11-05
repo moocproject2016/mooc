@@ -62,19 +62,25 @@
 </head>
 
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="myStudy.mooc">myStudy Home</a></li>
-  <li role="presentation"><a href="myQuestion.mooc">Question</a></li>
-  <li role="presentation"><a href="myLecture_review.mooc">Lecture_review</a></li>
-  <li role="presentation"><a href="myStgWriter.mooc">StudyBoard</a></li>
-  <li role="presentation"><a href="myLec_questionList.mooc">Lecture_question</a></li>
+  <li role="presentation"><a href="myStgWriter.mooc">스터디 게시판</a></li>
+  <li role="presentation"><a href="myQuestion.mooc">관리자 문의 / 답변</a></li>
+  <li role="presentation" class="active"><a href="myLecture_review.mooc">강의 후기</a></li>
+  <li role="presentation"><a href="myLec_questionList.mooc">강의 질문/ 답변</a></li>
 </ul>	
-<div class="page-header">
-  <h1>내가 쓴 게시글<small>&nbsp;&nbsp;&nbsp;&nbsp;Lecture_review</small></h1>
-</div>
+
 	<form name="updateform" method="post" action="/mooc/admin/qnaWriteForm.mooc">
 	<c:set var="index" value="0" />
 		<table class="table" align="center">
+			<tr>
+				<td>
+					<h1>내가 쓴 게시글<small>&nbsp;&nbsp;&nbsp;&nbsp;강의 후기</small></h1>
+					<div class="page-header"></div>
+				</td>
+			</tr>
+		</table>
+		<table class="table" align="center">
 			<thead>
+				
 				<tr class="theadtop">
 					<th><input type="checkbox" name="allcheck" onclick="allCheck()"/></th>
 					<th>문의번호</th>

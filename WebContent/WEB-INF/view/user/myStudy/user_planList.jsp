@@ -82,7 +82,7 @@
                 <tr>
                     <td>
                         <table style="width:100%;" class="table  table-bordered table-over ">
-                            <tr style="height:30px;">
+                            <tr class="theadtop">
                                 <th>일</th>
                                 <th>월</th>
                                 <th>화</th>

@@ -32,7 +32,7 @@
 	<div class="leftTable20">
 		<ul><h3>관심강사</h3></br>
 		<c:forEach var="dto" items="${list}"  varStatus="i">
-			<li><a href="javascript:clickMain('${i.index}','${fn:length(list)}');">${dto.t_id}</a></li>
+			<li><a href="javascript:clickMain('${i.index}','${fn:length(list)}');">${dto.u_name}</a></li>
 			<input type="hidden" name="t_id" value="${dto.t_id}"/>
 		</c:forEach>
 		</ul>
