@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" />
+	
+	<sqlMap resource="/_sql/lectureSQL.xml"/>
+	<sqlMap resource="/_sql/lectureNoticeSQL.xml"/>
+	<sqlMap resource="/_sql/categorySQL.xml"/>
+	<sqlMap resource="/_sql/memberSQL.xml"/>
+	<sqlMap resource="/_sql/noticeSQL.xml"/>
+	<sqlMap resource="/_sql/userSQL.xml"/>
+	<sqlMap resource="/_sql/studyGboardSQL.xml"/>
+	<sqlMap resource="/_sql/studyGdataSQL.xml"/>
+	<sqlMap resource="/_sql/studyGSQL.xml"/>
+	<sqlMap resource="/_sql/adminSQL.xml"/>
+	<sqlMap resource="/_sql/qnaSQL.xml"/>
+	<sqlMap resource="/_sql/category_admSQL.xml"/>
+	<sqlMap resource="/_sql/user1_SQL.xml"/>
+	<sqlMap resource="/_sql/scheduleSQL.xml"/>
+	<sqlMap resource="/_sql/test_SQL.xml"/>
+	<sqlMap resource="/_sql/doLiveSQL.xml"/>
+</sqlMapConfig>

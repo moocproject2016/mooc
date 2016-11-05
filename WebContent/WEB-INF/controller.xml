@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+	>	
+	<context:component-scan base-package="admin" />
+	<context:component-scan base-package="user" />
+	<context:component-scan base-package="teacher" />
+	<context:component-scan base-package="community" />
+	<context:component-scan base-package="common" />
+	
+	<aop:aspectj-autoproxy/>
+	<bean id="aop" class="_aop.Advice"/>
+	
+	<bean id="download" class="user.DownloadView"/> 
+  	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"> 
+    	<property name="order" value="0"/>
+  	</bean>
+	 
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="1"/>  <!-- 우선순위(1) 부여 -->
+   		<property name="prefix" value="/WEB-INF/view/"/>
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="-1"/> <!-- -1은 업로드 크기의 제한이 없음 무한대임 -->
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="/WEB-INF/sqlMapConfig.xml"/>
+	</bean>
+	
+	<bean id="SqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource"
+	    destroy-method="close"
+	    p:driverClassName="oracle.jdbc.driver.OracleDriver"
+	    p:url="jdbc:oracle:thin:@khstudy.iptime.org:7000:orcl"
+	    p:username="java09" p:password="java09" />
+	
+	</beans>

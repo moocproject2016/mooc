@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<head>
+	<!-- 웹RTC 스트리밍 라이브러리 -->
+    <script src="https://cdn.webrtc-experiment.com/getMediaElement.min.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/webrtc.css">
+
+	
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <script src="js/jquery.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="js/bootstrap.js"></script>
+
+</head>
+<div id="wrap"> 
+<!--header -->
+	<div id="header">
+			<c:if test="${sessionScope.memId!=t_id}"><input type="button" value="필기노트"/></c:if>
+			<header style="text-align: center;">
+				<h4>${sub_lec_dto.sub_lec_chapter}강 ${sub_lec_dto.sub_lec_subject}</h4>
+				<input type="hidden" name="sub_lec_code" value="${sub_lec_dto.sub_lec_code}"/>
+
+				<div class="github-stargazers"></div>
+
+	      		<div class="make-center">
+	      			방번호 : <input type="text" id="room-id" size="5" value="${sub_lec_dto.sub_lec_code }">
+	            	이름 :  <input type = "text" id ="user_id" size = "8">
+	            	<button id="open-room">강의 준비</button>
+	                <button id="join-room">강의 참여</button>
+	                <button id="start-record" disabled>강의 시작</button>
+					<button id="stop-record" disabled>강의 중지</button>
+					<div id="saveDIV" style="text-align: center; display: none;">
+               			<button id="save-to-disk1">Save Video</button>
+               			<button id="save-to-disk2">Save Screen</button>
+          			</div>
+	                <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
+	       	 	</div>
+	       	 </header>
+	</div>
+	<div id="container">
+            <div class="content">
+            	<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#home">영상1</a></li>
+					<li><a data-toggle="tab" href="#menu1">영상2</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="home" class="tab-pane fade in active">
+						<div id="videos-container"></div>
+					</div>
+					<div id="menu1" class="tab-pane fade">
+						<div id="videos-container2">aaa</div>
+		     		</div>
+		     	</div>
+	
+	            <br><br>
+	            <div  class="rtc_bottom">
+		            <div>강의 내용 : ${sub_lec_dto.sub_lec_content}</div>
+		            	(Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension) 
+					</div>
+				</div>
+			 <!-- 채팅구역 -->
+			<div class="aside">
+				<section style="height:auto; width:395px;">
+					<div id="messages"></div>
+					<input type="file" id="file" disabled><br/>
+					<input id="chatinput" type="text" placeholder="Message:" disabled/>
+				</section>
+			</div>
+			
+	</div>
+</div>
+        <script>
+        	
+            // ......................................................
+            // .......................UI Code........................
+            // ......................................................
+
+           
+
+            // ......................................................
+            // ..................RTCMultiConnection Code.............
+            // ......................................................
+			var state=0;
+            var connection = new RTCMultiConnection();
+			var record_video,record_screen;
+            // by default, socket.io server is assumed to be deployed on your own URL
+            //connection.socketURL = '/';
+
+            // comment-out below line if you do not have your own socket.io server
+            connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+            connection.socketMessageEvent = 'screen-sharing-demo';
+
+            connection.session = {
+            	video: 'one-way',
+            	audio: 'two-way',        
+	            screen: true,
+                oneway: true,
+                data: true
+            };
+
+            connection.sdpConstraints.mandatory = {
+                OfferToReceiveAudio: true,
+                OfferToReceiveVideo: true
+            };
+
+            document.getElementById('open-room').onclick = function() {
+                disableInputButtons();
+                connection.userid=document.getElementById('user_id').value;
+                connection.open(document.getElementById('room-id').value,true);
+				alert(connection.sessionid);
+            };
+
+            document.getElementById('join-room').onclick = function() {
+                disableInputButtons();
+                connection.userid=document.getElementById('user_id').value;
+                connection.extra= {'username': connection.userid || 'Anonymous'}
+                connection.join(document.getElementById('room-id').value);
+            };
+            
+            
+            connection.videosContainer = document.getElementById('videos-container');
+            connection.videosContainer2 = document.getElementById('videos-container2');
+
+            connection.onstream = function(event) {
+				alert("onstream");
+				
+				
+                var width = event.mediaElement.clientWidth || connection.videosContainer.clientWidth;
+                var mediaElement = getMediaElement(event.mediaElement, {
+                    title: event.userid,
+                    buttons: ['full-screen'],
+                    width: width,
+                    showOnMouseEnter: false
+                });
+				
+                if(event.stream.isScreen) {
+                	alert(event.stream);
+                	var options = {
+                			   type: 'video',
+                			   //frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
+                			};
+                	record_screen=RecordRTC(event.stream,options);
+                	
+                	connection.videosContainer.appendChild(mediaElement);
+                }
+                else {
+                	var options = {
+             			   type: 'video',
+             			   //frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
+             		};
+                	record_video=RecordRTC(event.stream,options);
+                	connection.videosContainer2.appendChild(mediaElement);
+                }
+                mediaElement.id = event.streamid;
+
+            };
+            connection.onstreamended = function(event) {
+                var mediaElement = document.getElementById(event.streamid);
+                if(mediaElement) {
+                    mediaElement.parentNode.removeChild(mediaElement);
+                }
+                alert("연결 끊김");
+            };
+
+            
+            //녹화
+            document.getElementById('start-record').onclick = function() {
+                alert("녹화시작");
+                record_video.startRecording();
+                record_screen.startRecording();
+                document.getElementById('start-record').disabled=true;
+                document.getElementById('stop-record').disabled=false;
+            };
+            document.getElementById('stop-record').onclick = function() {
+            	document.getElementById('stop-record').disabled=true;
+                record_video.stopRecording(function(videoURL) {
+                    var recordedBlob = record_video.getBlob();
+                    alert(recordedBlob);
+                    record_video.getDataURL(function(dataURL) { });
+                    var fileType = 'video'; // or "audio"
+                    var fileName = document.getElementById('room-id').value+'_video.webm';  // or "wav"
+
+                    var formData = new FormData();
+                    formData.append('sub_lec_code',document.getElementById('room-id').value);
+                    formData.append(fileType + '-filename', fileName);
+                    formData.append(fileType + '-blob', recordedBlob);
+                    $.ajax({
+                    	url: 'http://192.168.30.110:8000/mooc/doLive_ajax.mooc',
+                    	 processData : false,
+                         contentType : false,
+                         data : formData,
+                         type : 'post',
+                         dataType: "text",
+                         success : function(data){
+                          	alert('ajax 전송 성공');
+                         }
+                    })
+                    document.getElementById('saveDIV').style.display = 'block';
+                    document.getElementById('save-to-disk1').onclick = function() {
+                        if(!record_video) return alert('No recording found.');
+                        record_video.save();
+                    };
+
+                });
+                record_screen.stopRecording(function(videoURL) {
+                    var recordedBlob = record_screen.getBlob();
+                    alert(recordedBlob);
+                    record_screen.getDataURL(function(dataURL) { });
+                    var fileType = 'video'; // or "audio"
+                    var fileName = document.getElementById('room-id').value+'_screen.webm';  // or "wav"
+
+                    var formData = new FormData();
+                    formData.append('sub_lec_code',document.getElementById('room-id').value);
+                    formData.append(fileType + '-filename', fileName);
+                    formData.append(fileType + '-blob', recordedBlob);
+					
+                    $.ajax({
+                    	url: 'http://192.168.30.110:8000/mooc/doLive_ajax.mooc',
+                    	 processData : false,
+                         contentType : false,
+                         data : formData,
+                         type : 'post',
+                         dataType: "text",
+                         success : function(data){
+                          	alert('ajax 전송 성공');
+                         }
+                    })
+                    document.getElementById('saveDIV').style.display = 'block';
+                    document.getElementById('save-to-disk2').onclick = function() {
+                        if(!record_screen) return alert('No recording found.');
+                        record_screen.save();
+                    };
+                });
+               	connection.close();
+            };
+            // Using getScreenId.js to capture screen from any domain
+            // You do NOT need to deploy Chrome Extension YOUR-Self!!
+            connection.getScreenConstraints = function(callback) {
+				alert("getScreenConstraints");
+                getScreenConstraints(function(error, screen_constraints) {
+					
+                    if (!error) {
+						
+                        screen_constraints = connection.modifyScreenConstraints(screen_constraints);
+                        callback(error, screen_constraints);
+                        return;
+                    }
+                    throw error;
+                });
+            };
+
+
+            //시작할때 활성화시킬 것을 결정한다.
+            connection.onopen = function() {
+            	alert("onopen");
+                if (document.getElementById('chatinput')) document.getElementById('chatinput').disabled = false;
+                if (document.getElementById('file')) document.getElementById('file').disabled = false;
+            };
+            
+            connection.onmessage = function(event){
+            	div = document.createElement('div');
+                div.innerHTML = event.data;
+                messages.appendChild(div);
+            }
+            
+            
+            function disableInputButtons() {
+            	document.getElementById('open-room').disabled = true;
+                document.getElementById('join-room').disabled = true;
+                document.getElementById('room-id').disabled = true;
+                document.getElementById('chatinput').disabled = false;
+                document.getElementById('start-record').disabled=false;
+            }
+            
+            //----------------------파일업로드 기능----------------------
+            var progressHelper = {};
+
+            connection.autoSaveToDisk = false;
+            
+    		//파일을 업로드 할때의 처리의 함수 
+            connection.onFileProgress = function(chunk) {
+                var helper = progressHelper[chunk.uuid];
+                helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
+                updateLabel(helper.progress, helper.label);
+            };
+            
+            //파일업로드가 시작될때 함수
+            connection.onFileStart = function(file) {
+                var div = document.createElement('div');
+                div.title = file.name;
+                div.innerHTML = '<label>0%</label> <progress></progress>';
+                appendDIV(div, fileProgress);
+                progressHelper[file.uuid] = {
+                    div: div,
+                    progress: div.querySelector('progress'),
+                    label: div.querySelector('label')
+                };
+                progressHelper[file.uuid].progress.max = file.maxChunks;
+            };
+    		
+            //파일 업로드가 종료되었을때 innerHTML로 링크로 바꿔준다.
+            connection.onFileEnd = function(file) {
+                progressHelper[file.uuid].div.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
+            };
+            
+            //----------------------업로드 진행 상황 기능----------------------
+            //업로드가 진행될때 %를 바꿔지는 함수
+            function updateLabel(progress, label) {
+                if (progress.position == -1) return;
+                var position = +progress.position.toFixed(2).split('.')[1] || 100;
+                label.innerHTML = position + '%';
+            }
+
+            //업로드가 진행된 컨텐츠를 div를 생성하여 채팅창에 붙이는 과정
+            function appendDIV(div, parent) {
+                if (typeof div === 'string') {
+                     var content = div;
+                    div = document.createElement('div');
+                    div.innerHTML = content;
+                }
+                if (!parent){ messages.appendChild(div); }
+                else { fileProgress.appendChild(div);}
+            }
+            //파일의 0번째, 첫번째로 바꿈.
+            document.getElementById('file').onchange = function() {
+                connection.send(this.files[0]);
+            };
+            
+            var fileProgress = document.getElementById('messages');
+          	//채팅 메시지를 위한 함수구현
+	        document.getElementById('chatinput').onkeyup = send_chat_message;		
+	            
+	    	function send_chat_message(e) {
+	    		if(e.keyCode == 13) {
+	    			var new_message = connection.userid + "님 : " + this.value + '\r'+'\n';
+	    			connection.send(new_message);
+	    			appendDIV(connection.userid + "님 : " + this.value);
+	    			this.value="";
+	    			document.getElementById('chatinput').focus();
+	    		}
+	    	};
+	    	
+        </script>
