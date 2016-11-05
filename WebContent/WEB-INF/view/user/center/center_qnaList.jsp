@@ -69,7 +69,7 @@
 	        window.location='/mooc/user/userSign.mooc';
 		</script>
 	</c:if>
-
+<div class="tableWrap">
 	<form name="updateform" method="post" action="/mooc/user/center/qnaList.mooc">
 		<c:set var="index" value="0" />
 		<table class="table" align="center">
@@ -170,3 +170,4 @@
 				</td>
 			</tr>
 	</table>
+</div>
