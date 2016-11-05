@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	<sqlMap>
+		<typeAlias type="_dto.studyNoteDTO" alias="NoteDTO"/>
+		<typeAlias type="_dto.mainlectureDTO" alias="mainLec"/>
+		<typeAlias type="_dto.ChoiceLectureDTO" alias="registrationDTO"/>
+		<typeAlias type="_dto.LectureDTO" alias="LectureDTO"/>
+		
+		<select id="NoteList" parameterClass="String" resultClass="NoteDTO">
+			select sub_lecture.main_lec_code,sub_lecture.sub_lec_chapter,sub_lecture.sub_lec_subject,study_note.note_type,study_note.note_date,
+			study_note.sub_lec_code,study_note.u_id from sub_lecture join study_note on sub_lecture.sub_lec_code=study_note.sub_lec_code 
+			where study_note.u_id=#id# order by note_date desc
+		</select>
+		<select id="getU_name" parameterClass="String" resultClass="String">
+			select u_name from userinfo where u_id=#u_id#
+		</select>
+		<select id="NoteListSubject" parameterClass="int" resultClass="String">
+			select main_lec_subject from main_lecture where main_lec_code=#main_lec_code#
+		</select>
+		
+		<select id="sub_ctgList" parameterClass="int" resultClass="mainLec">
+			select * from main_lecture where sub_ctg_code=#sub_ctg_code#   order by main_lec_regdate desc
+		</select>
+		
+		<select id="sub_ctgSubjectList" parameterClass="mainLec" resultClass="mainLec">
+			select * from main_lecture where sub_ctg_code=#sub_ctg_code# and main_lec_subject like '%'||#main_lec_subject#||'%'   order by main_lec_regdate desc
+		</select>
+		
+		<select id="sub_ctgIdList" parameterClass="mainLec" resultClass="mainLec">
+			select * from main_lecture where sub_ctg_code=#sub_ctg_code# and t_id like '%'||#t_id#||'%'   order by main_lec_regdate desc
+		</select>
+		
+		<!-- 추가 통합검색  1103 김효미  시작 -->
+		
+		<select id="main_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+		select * from(select a.*,b.u_name, (select count(*) from lecture_review where main_lec_code=a.main_lec_code) ReviewLecCount, (select count(*) from like_teacher where t_id=a.t_id) LikeTeacherCount, (select count(*) from like_lecture where main_lec_code=a.main_lec_code) LikeLectureCount,(select count(*) from sub_lecture where main_lec_code=a.main_lec_code) main_sub_count from (select * from main_lecture NATURAL JOIN sub_category) a,
+		(select * from userinfo) b where a.t_id=b.u_id) where u_name like '%'|| #mainSearchValue# ||'%' or main_lec_subject like '%'|| #mainSearchValue# ||'%'
+			<dynamic prepend="order by">
+				<isNotNull property="popularLikeList">
+				    LikeLectureCount desc
+				</isNotNull>
+				<isNotNull property="popularTeacherList">
+				    LikeTeacherCount desc
+				</isNotNull>
+				<isNotNull property="sizeReviewList">
+				    ReviewLecCount desc
+				</isNotNull>
+				<isNotNull property="recentlyList">
+					main_lec_regdate desc
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+		<select id="sub_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+			select * from(select a.*, b.u_name, (select count(*) from lecture_review where main_lec_code=a.main_lec_code) ReviewLecCount, (select count(*) from like_teacher where t_id=a.t_id) LikeTeacherCount, (select count(*) from like_lecture where main_lec_code=a.main_lec_code) LikeLectureCount,
+			(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code) main_lec_image,(select main_lec_subject from main_lecture where main_lec_code=a.main_lec_code) main_lec_subject from (select * from sub_lecture) a, (select * from userinfo) b where a.t_id=b.u_id) where u_name like '%'|| #mainSearchValue# ||'%' or sub_lec_subject like '%'|| #mainSearchValue# ||'%' or sub_lec_content like '%'|| #mainSearchValue# ||'%'
+			<dynamic prepend="order by">
+				<isNotNull property="popularLikeList">
+				    LikeLectureCount desc
+				</isNotNull>
+				<isNotNull property="popularTeacherList">
+				    LikeTeacherCount desc
+				</isNotNull>
+				<isNotNull property="sizeReviewList">
+				    ReviewLecCount desc
+				</isNotNull>
+				<isNotNull property="recentlyList">
+					sub_lec_regdate desc
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+		<select id="live_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+			select * from (select a.*,b.u_name, (select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a,(select * from userinfo) b where a.t_id=b.u_id) where u_name like '%m%' or sub_lec_subject like '%m%'
+			<dynamic prepend="order by">
+				<isNotNull property="recentlyList">
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+		<select id="main_liveLecture_List" resultClass="LectureDTO">
+			select * from (select a.*,rownum r,(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a) where r between 1 and 3
+		</select>
+		<select id="main_bestLecture_List" resultClass="LectureDTO">
+			select * from(select c.*,rownum r from(select * from (select a.*, (select sum(lec_r_score) from lecture_review where main_lec_code=a.main_lec_code)like_lec_count from (select * from main_lecture) a) where like_lec_count is not null order by like_lec_count desc)c )where r between 1 and 3
+		</select>
+		<select id="main_popularLectureList" resultClass="LectureDTO">
+			select*from(select b.*, rownum r from(select a.*,(select count(*) from register_lecture where main_lec_code = a.main_lec_code) register_count from (select * from main_lecture)a order by register_count desc)b ) where r between 1 and 3
+		</select>
+		
+			
+		<!-- 추가 통합검색 1103 김효미  끝-->
+		
+		<select id="ctg_subject" parameterClass="int" resultClass="String">
+			select sub_ctg_name from sub_category where sub_ctg_code=#sub_ctg_code#
+		</select>
+		
+		<insert id="LectureRegistration" parameterClass="registrationDTO" >
+			insert into register_lecture values(#main_lec_code#,#u_id#,sysdate)
+		</insert>
+		
+		<insert id="interastTeacher" parameterClass="mainLec" >
+			insert into like_teacher values(#u_id#,#t_id#)
+		</insert>
+		
+		
+		<insert id="interastLecture" parameterClass="mainLec" >
+			insert into like_lecture values(#u_id#,#main_lec_code#)
+		</insert>
+		
+		<select id="checkT_id" parameterClass="java.util.HashMap" resultClass="int">
+			select count(*) from like_teacher where u_id=#u_id# and t_id=#t_id#
+		</select>
+		
+		<select id="checkMain_lec_code" parameterClass="java.util.HashMap" resultClass="int">
+			select count(*) from like_lecture where u_id=#u_id# and main_lec_code=#main_lec_code#
+		</select>
+		
+		<select id="checkLecture" parameterClass="java.util.HashMap" resultClass="int">
+			select count(*) from register_lecture where u_id=#u_id# and main_lec_code=#main_lec_code#
+		</select>
+		
+		<select id="userlecture" parameterClass="String" resultClass="mainLec">
+			select * from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
+			where register_lecture.u_id=#id#
+		</select>
+		
+		<select id="userlectureCount" parameterClass="String" resultClass="int">
+			select count(*) from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
+			where register_lecture.u_id=#id#
+		</select>
+		
+		<select id="userCtglecture" parameterClass="java.util.HashMap" resultClass="mainLec">
+			select * from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
+			where register_lecture.u_id=#u_id# and main_lecture.sub_ctg_code=#sub_ctg_code#   order by main_lecture.main_lec_regdate desc
+		</select>
+		
+		<select id="userCtglectureCount" parameterClass="java.util.HashMap" resultClass="int">
+			select count(*) from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
+			where register_lecture.u_id=#u_id#  and main_lecture.sub_ctg_code=#sub_ctg_code# 
+		</select>
+		
+		<insert id="report" parameterClass="java.util.HashMap">
+			insert into report values(#t_id#,#u_id#,sysdate,#main_lec_code#,#sub_lec_code#,#comment#)
+		</insert>
+		
+		<select id="reportCheck" parameterClass="java.util.HashMap" resultClass="int">
+			select count(*) from report where t_id=#t_id# and u_id=#u_id# and sub_lec_code=#sub_lec_code#
+		</select>
+		
+		<select id="likeLectureList" parameterClass="String" resultClass="mainLec">
+			select * from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#u_id# 
+		</select>
+		
+		<select id="likeTeacherList" parameterClass="String" resultClass="mainLec">
+			select * from like_teacher where u_id=#u_id#
+		</select>
+		
+		<select id="TeacherLecList" parameterClass="String" resultClass="mainLec">
+			select * from main_lecture where t_id=#t_id# order by main_lec_regdate desc
+		</select>
+		
+		<select id="teacherUpdate" parameterClass="String" resultClass="mainLec">
+			select * from main_lecture where t_id=#t_id# order by main_lec_regdate desc
+		</select>
+		
+		<select id="checkT_idflag" parameterClass="String" resultClass="int">
+			select t_flag from teacher where t_id=#t_id#
+		</select>
+		
+		<select id="main_lecT_id" parameterClass="String" resultClass="mainLec">
+			select * from main_lecture where t_id=#id#
+		</select>
+		<select id="main_lecStudentList" parameterClass="int" resultClass="mainLec">
+			select * from register_lecture where main_lec_code=#main_lec_code#
+		</select>		
+		
+	</sqlMap>

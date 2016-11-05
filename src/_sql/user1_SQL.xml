@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<typeAlias type="_dto.LectureReviewDTO" alias="lec_review"/>
+	<typeAlias type="_dto.QuestionDTO" alias="question"/>
+	<typeAlias type="_dto.StgBoardDTO" alias="stg_b"/>
+	<typeAlias type="_dto.LectureQuestionDTO" alias="lec_question"/>
+	<typeAlias type="_dto.UserDTO" alias="user_info"/>
+	
+	<select id="selectUser" parameterClass="String" resultClass="user_info">
+		select * from userinfo where u_id=#u_id# order by u_indate desc
+	</select>
+	<update id="view_ReContent" parameterClass="lec_question">
+		update lecture_question set lec_c_content=#lec_c_content#, lec_c_regdate=sysdate where lec_q_num=#lec_q_num#
+	</update>
+	<insert id="insertQnA" parameterClass="lec_question">
+		insert into lecture_question values(lecture_question_seq.nextval, #main_lec_code#, #u_id#, #lec_q_subject#, #lec_q_content#, sysdate, null, sysdate)
+	</insert>
+	<select id="qnalist2" parameterClass="lec_question" resultClass="lec_question">
+		select*from lecture_question where main_lec_code=#main_lec_code# order by lec_q_regdate desc
+	</select>
+	<insert id="reviewInsert" parameterClass="lec_review">
+		insert into lecture_review values(#main_lec_code#, #u_id#, #lec_r_subject#, #lec_r_content#, #lec_r_score#, sysdate)
+	</insert>
+	<select id="view_review" resultClass="lec_review" parameterClass="String">
+		select * from lecture_review where lec_r_subject=#lec_r_subject# order by lec_r_regdate desc 
+	</select>
+	<insert id="review" parameterClass="lec_review">
+		insert into lecture_review values(lecture_review_seq.nextval, #u_id#, 'a' , #lec_r_content#, #lec_r_score#, sysdate)
+	</insert>
+	<select id="myreviewlist" resultClass="lec_review" parameterClass="String">
+		select*from lecture_review where u_id=#u_id# order by lec_r_regdate desc 
+	</select>
+	<select id="myreviewlistForT" resultClass="lec_review" parameterClass="lec_review">
+		select a.* from lecture_review a,
+		(select * from main_lecture where t_id=#t_id# 
+		<dynamic prepend="and">
+			<isNotEqual property="main_lec_code" compareValue="0">
+			main_lec_code=#main_lec_code# 
+			</isNotEqual>
+		</dynamic>
+		) b 
+		where a.main_lec_code=b.main_lec_code 
+		<dynamic prepend="and">
+			<isNotNull property="lec_r_regdate">
+			lec_r_regdate > sysdate-2
+			</isNotNull>
+		</dynamic>
+		order by lec_r_regdate desc 
+	</select>
+	<select id="question" resultClass="question" parameterClass="String">
+		select*from question where u_id=#u_id# order by q_regdate desc
+	</select>
+	<select id="lec_review" resultClass="lec_review" parameterClass="String">
+		select * from lecture_review where u_id=#u_id# order by lec_r_regdate desc 
+	</select>
+	<select id="stg_b" resultClass="stg_b" parameterClass="String">
+		select*from studygroup_board where u_id = #u_id# order by stg_b_regdate desc 
+	</select>
+	<select id="view_question" resultClass="question" >
+		select*from question order by q_regdate desc
+	</select>
+	<select id="lec_question" resultClass="lec_question" parameterClass="String">
+		select*from lecture_question where u_id=#u_id# order by lec_q_regdate desc 
+	</select>
+	<select id="lec_questionForT" resultClass="lec_question" parameterClass="lec_question">
+		select a.* from lecture_question a,
+		(select * from main_lecture where t_id=#t_id# 
+		<dynamic prepend="and">
+			<isNotEqual property="main_lec_code" compareValue="0">
+			main_lec_code=#main_lec_code# 
+			</isNotEqual>
+		</dynamic>
+		) b 
+		where a.main_lec_code=b.main_lec_code 
+		<dynamic prepend="and">
+			<isEqual property="lec_c_content" compareValue="0">
+			lec_c_content is null
+			</isEqual>
+		</dynamic>
+		order by lec_q_regdate desc 
+	</select>
+	<delete id="qnadelete2" parameterClass="int">
+		delete from question where q_num=#q_num#
+	</delete>
+	<delete id="myreviewdelete" parameterClass="int">
+		delete from lecture_review where main_lec_code=#main_lec_code#
+	</delete>
+	<delete id="reviewdelete" parameterClass="int">
+		delete from lecture_review where main_lec_code=#main_lec_code#
+	</delete>
+	<delete id="mystgdelete" parameterClass="int">
+		delete from studygroup_board where stg_b_num=#stg_b_num#
+	</delete>
+	<delete id="mylec_q_delete" parameterClass="int">
+		delete from lecture_question where lec_q_num=#lec_q_num#
+	</delete>
+</sqlMap>
+

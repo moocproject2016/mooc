@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+
+	<sqlMap>
+		<typeAlias alias="ctgDTO" type="_dto.CtgDTO" />
+		<typeAlias alias="lectureDTO" type="_dto.LectureDTO"/>
+		
+		<!-- 카테고리 리스트 불러오기 -->
+		<select id="selectAllCtgList" resultClass="ctgDTO" parameterClass="java.util.HashMap">
+			SELECT * FROM (SELECT lower(top_ctg_name) as low_top_ctg_name,lower(sub_ctg_name) as low_sub_ctg_name,top_ctg_code,top_ctg_name,sub_ctg_code,sub_ctg_name FROM (SELECT a.top_ctg_code, a.top_ctg_name, b.sub_ctg_code, b.sub_ctg_name FROM top_category a,sub_category b 
+			WHERE a.top_ctg_code=b.top_ctg_code order by top_ctg_code asc))
+			<dynamic prepend="WHERE">
+				<isNotEmpty prepend="AND" property="SUB_SEARCH_KEY">
+					low_sub_ctg_name like '%'|| #SUB_SEARCH_KEY# ||'%'
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="TOP_SEARCH_KEY">
+					low_top_ctg_name like '%'|| #TOP_SEARCH_KEY# ||'%'
+				</isNotEmpty>
+				<isNotEqual prepend="AND" property="CTG_CODE" compareValue="0">
+					top_ctg_code = #CTG_CODE#
+				</isNotEqual>
+			</dynamic>
+		</select>
+		
+		<select id="selectSubCtgCodeList" resultClass="int" parameterClass="String">
+			select sub_ctg_code from sub_category where sub_ctg_name=#sub_ctg_name#
+		</select>
+		
+		<!-- 대분류 검색시 셀렉 박스에 해당 대분류가 선택되도록 대분류 코드를 전송  -->
+		<select id="getTopCode" resultClass="int" parameterClass="java.util.HashMap">
+			SELECT top_ctg_code FROM (SELECT lower(top_ctg_name) as low_top_ctg_name,lower(sub_ctg_name) as low_sub_ctg_name,top_ctg_code,top_ctg_name,sub_ctg_code,sub_ctg_name FROM (SELECT a.top_ctg_code, a.top_ctg_name, b.sub_ctg_code, b.sub_ctg_name FROM top_category a,sub_category b 
+			WHERE a.top_ctg_code=b.top_ctg_code order by top_ctg_code asc)) where 1=1 and low_top_ctg_name like '%'|| #TOP_SEARCH_KEY# ||'%'
+		</select>
+		
+		<select id="countSubCtg" resultClass="int" parameterClass="int">
+			SELECT COUNT(*) FROM SUB_CATEGORY WHERE top_ctg_code = #ctg_code#
+		</select>
+		<select id="getSubList" resultClass="ctgDTO" parameterClass="int">
+			SELECT * FROM SUB_CATEGORY WHERE top_ctg_code = #ctg_code# ORDER BY sub_ctg_code ASC
+		</select>
+		<select id="countSubCtg_mainLec" resultClass="int" parameterClass="int">
+			SELECT count(*) FROM MAIN_LECTURE WHERE sub_ctg_code = #ctg_code#
+		</select>
+		<select id="getSubCtg_mainLec" resultClass="lectureDTO" parameterClass="int">
+			SELECT * FROM MAIN_LECTURE WHERE sub_ctg_code = #ctg_code# order by main_lec_code asc
+		</select>
+		
+		<insert id="insertTOP_CATEGORY" parameterClass="String">
+			INSERT INTO TOP_CATEGORY VALUES(top_category_seq.NEXTVAL, #top_ctg_name#)
+		</insert>
+		<insert id="insertSUB_CATEGORY" parameterClass="ctgDTO">
+			INSERT INTO SUB_CATEGORY VALUES(sub_category_seq.NEXTVAL, #sub_ctg_name#, #top_ctg_code#)
+		</insert>
+		<update id="updateTOP_CATEGORY" parameterClass="ctgDTO">
+   			UPDATE TOP_CATEGORY SET top_ctg_name=#top_ctg_name#	WHERE top_ctg_code=#top_ctg_code# 
+		</update>
+  			
+		<update id="updateSUB_CATEGORY" parameterClass="ctgDTO">
+			UPDATE SUB_CATEGORY SET sub_ctg_name=#sub_ctg_name#, top_ctg_code=#top_ctg_code# WHERE sub_ctg_code=#sub_ctg_code#
+		</update>
+		
+		<update id="moveSUB_CATEGORY" parameterClass="ctgDTO">
+   			UPDATE SUB_CATEGORY SET top_ctg_code=#top_ctg_code# WHERE sub_ctg_code=#sub_ctg_code#
+   		</update>
+   		<update id="moveSubCtg_MainLec" parameterClass="java.util.HashMap">
+   			UPDATE MAIN_LECTURE SET sub_ctg_code=#CTG_CODE# WHERE main_lec_code=#MAIN_CODE#
+   		</update>
+   		
+		<delete id="deleteTOP_CATEGORY" parameterClass="int">
+			DELETE FROM TOP_CATEGORY WHERE top_ctg_code=#top_ctg_code# 
+		</delete>
+		<delete id="deleteSUB_CATEGORY" parameterClass="int">
+			DELETE FROM SUB_CATEGORY WHERE sub_ctg_code=#sub_ctg_code# 
+		</delete>
+		<delete id="deleteSubCtg_MainLec" parameterClass="int">
+			DELETE FROM MAIN_LECTURE WHERE main_lec_code=#main_code# 
+		</delete>
+	</sqlMap>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="ctgDTO" type="_dto.CtgDTO"/>
+	
+	<select id="selectAllTopCtg" resultClass="ctgDTO" parameterClass="int">
+		select * from top_category 
+		ORDER BY top_ctg_code ASC
+	</select>
+	
+	<select id="selectAllSubCtg" resultClass="ctgDTO" parameterClass="int">
+		select * from sub_category 
+		ORDER BY sub_ctg_code ASC
+	</select>
+	
+	<select id="selectSubCtgList" resultClass="String" parameterClass="int">
+		select sub_ctg_name from sub_category
+		where top_ctg_code=#top_ctg_code# 
+		ORDER BY sub_ctg_code ASC
+	</select>
+	
+	<select id="selectSubCtgCode" resultClass="int" parameterClass="String" >
+		select sub_ctg_code from sub_category where sub_ctg_name=#sub_ctg_name#
+	</select>
+	<select id="selectSubCtgName" resultClass="String" parameterClass="int">
+		select sub_ctg_name from sub_category where sub_ctg_code=#sub_ctg_code#
+	</select>
+</sqlMap>

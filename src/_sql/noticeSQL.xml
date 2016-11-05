@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org/DTD Sql Map 2.0//EN'
+						'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+
+<sqlMap>
+	<typeAlias alias="NoticeDTO" type="_dto.NoticeDTO"/>
+	<insert id="insertNotice" parameterClass="NoticeDTO">
+		insert into NOTICE values(
+			notice_seq.nextval, #notice_subject#, #notice_type#, #notice_content#, #notice_file#, sysdate
+		)
+	</insert>
+	<select id="type1" parameterClass="int" resultClass="NoticeDTO">
+		select * from NOTICE where notice_type=1 order by notice_num desc
+	</select>
+	<select id="type0" parameterClass="int" resultClass="NoticeDTO">
+		select * from NOTICE where notice_type=0 order by notice_num desc
+	</select>
+	
+	<select id="resultNotice" parameterClass="int" resultClass="NoticeDTO">
+		select * from NOTICE where notice_num=#notice_num#
+	</select>
+	
+	<select id="resultNoticeAll" parameterClass="int" resultClass="NoticeDTO">
+		select * from NOTICE order by notice_type desc, notice_num desc
+	</select>
+	
+	<select id="contentNotice" parameterClass="int" resultClass="NoticeDTO">
+		select * from NOTICE
+	</select>
+	
+	<update id="updateNotice" parameterClass="NoticeDTO">
+		update NOTICE set
+			notice_subject=#notice_subject#,
+			notice_type=#notice_type#,
+			notice_content=#notice_content#,
+			notice_file=#notice_file#
+		where notice_num=#notice_num#
+	</update>
+	
+	<delete id="deleteNotice" parameterClass="int">
+		delete from NOTICE where notice_num=#notice_num#
+	</delete>
+	
+	<select id="seqNotice" parameterClass="int" resultClass="int">
+		select nvl(max(notice_num),0) from NOTICE
+	</select>
+	
+</sqlMap>

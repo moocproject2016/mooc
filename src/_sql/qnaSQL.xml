@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="user_qnadto" type="_dto.QnAListDTO" />
+	
+	<select id="user_qnalist" parameterClass="user_qnadto" resultClass="user_qnadto">
+		select * from question where u_id=#u_id# order by q_num desc
+	</select>
+
+	
+	<delete id="user_qnadelete" parameterClass="int">
+		delete from question where q_num=#q_num#
+	</delete>
+	
+	<insert id="user_qnawrite" parameterClass="user_qnadto">
+		insert into question values(question_seq.nextval,#u_id#,#q_subject#,#q_content#,sysdate,null,null)
+	</insert>
+
+</sqlMap>

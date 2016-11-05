@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="LecNoticeDTO" type="_dto.LecNoticeDTO"/>
+	
+	<select id="selectAllLecNotice" parameterClass="LecNoticeDTO" resultClass="LecNoticeDTO">
+		select a.*,b.main_lec_subject from 
+		(select * from lecture_notice where t_id=#t_id# and lec_n_type=#lec_n_type# 
+		<dynamic prepend="and">
+			<isNotEqual property="main_lec_code" compareValue="0">
+			main_lec_code=#main_lec_code# 
+			</isNotEqual>
+		</dynamic>
+		<dynamic prepend="and">
+			<isNotNull property="lec_n_regdate">
+			lec_n_regdate > sysdate-2
+			</isNotNull>
+		</dynamic>
+		<dynamic prepend="and">
+			<isNotNull property="searchKey">
+				<isEqual property="searchKey" compareValue="lec_n_subject">
+					lec_n_subject like '%'||#searchValue#||'%'
+				</isEqual>
+				<isEqual property="searchKey" compareValue="lec_n_content">
+					lec_n_content like '%'||#searchValue#||'%'
+				</isEqual>
+			</isNotNull>
+		</dynamic>
+		order by lec_n_type desc,lec_n_regdate desc) a,main_lecture b 
+		where a.main_lec_code=b.main_lec_code
+	</select>
+	
+	<select id="selectLecNoticeSeq" parameterClass="int" resultClass="int">
+		select nvl(max(lec_n_num),0) from lecture_notice
+	</select>
+	
+	<select id="selectOneLecNotice" parameterClass="int" resultClass="LecNoticeDTO">
+		select a.*,b.main_lec_subject from 
+		(select * from lecture_notice where lec_n_num=#lec_n_num#
+		order by lec_n_type desc,lec_n_regdate desc) a,main_lecture b 
+		where a.main_lec_code=b.main_lec_code
+	</select>
+	<select id="getLecNFile"  resultClass="String" parameterClass="int">
+		select lec_n_file from lecture_notice where lec_n_num=#lec_n_num#
+	</select>
+	
+	<select id="selectAllLecNoticeForMainLec"  resultClass="LecNoticeDTO" parameterClass="LecNoticeDTO">
+		select a.*,b.main_lec_subject from 
+		(select * from lecture_notice where main_lec_code=#main_lec_code# and lec_n_type=#lec_n_type# 
+		order by lec_n_type desc,lec_n_regdate desc) a,main_lecture b 
+		where a.main_lec_code=b.main_lec_code
+	</select>
+	
+	<insert id="insertLecNotice" parameterClass="LecNoticeDTO">
+		insert into lecture_notice values(lecture_notice_seq.nextval,#main_lec_code#,#t_id#,#lec_n_type#,#lec_n_subject#,#lec_n_content#,#lec_n_file#,sysdate)
+	</insert>
+	
+	<update id="updateLecNotice" parameterClass="LecNoticeDTO">
+		update lecture_notice set main_lec_code=#main_lec_code#,lec_n_type=#lec_n_type#,lec_n_subject=#lec_n_subject#,lec_n_content=#lec_n_content#,lec_n_file=#lec_n_file#
+		where lec_n_num=#lec_n_num#
+	</update>
+	
+	<delete id="deleteLecNotice"  parameterClass="int">
+		delete from lecture_notice where lec_n_num=#lec_n_num#
+	</delete>
+</sqlMap>

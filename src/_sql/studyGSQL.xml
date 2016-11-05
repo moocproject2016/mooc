@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="sgdto" type="_dto.StudygroupDTO"/>
+
+	
+    <insert id="insertStg" parameterClass="sgdto">
+      insert into studygroup values(
+      studygroup_seq.nextval,#sub_ctg_code#,#u_id#,#stg_name#,#stg_type#,#stg_password#,#stg_limit#,#stg_purpose#,sysdate,'/study/'
+      )
+    </insert>
+    <select id="selectstg" resultClass="sgdto" parameterClass="int">
+		  select * from studygroup where stg_code = #stg_code#
+    </select>
+    <update id="updatestg" parameterClass="sgdto">
+    	update studygroup set
+    	stg_name=#stg_name#,stg_limit=#stg_limit#,stg_type=#stg_type#,stg_password=#stg_password#,stg_purpose=#stg_purpose#
+    	where stg_code=#stg_code#
+    </update>
+    
+	<select id="selectlist"  resultClass="sgdto" parameterClass="sgdto">
+	    select a.*, nvl(b.stg_count, 0) as stg_count
+		from (
+        	select * from studygroup where sub_ctg_code=#sub_ctg_code#
+        	<dynamic prepend="and">
+        		<isNotNull property="searchType">
+        			<isEqual property="searchType" compareValue="stg_name">stg_name like '%'||#searchValue#||'%' </isEqual>
+        			<isEqual property="searchType" compareValue="u_id">u_id like '%'||#searchValue#||'%' </isEqual>
+        		
+        		</isNotNull>
+        	</dynamic>
+		) a
+		left join (
+        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
+		) b
+		on a.stg_code = b.stg_code
+	</select>
+    
+    <select id="SelectStgl" resultClass="int" parameterClass="int">
+    	select nvl(max(stg_code),0) from studygroup
+    </select>
+    <insert id="InsertStgl" parameterClass="sgdto">
+    	insert into studygroup_list values(
+    		#stg_code#,#u_id#
+    	)
+    </insert>
+    <select id="selectcode" resultClass="int" parameterClass="int">
+    	select distinct stg_code from studygroup_list 
+    </select>
+    <select id="selectcodeCount" resultClass="int" parameterClass="int">
+    	select count(*) from studygroup_list where stg_code = #stg_code#
+    </select>
+    
+    <insert id="insertJoin" parameterClass="sgdto">
+    	 insert into studygroup_list values(
+      #stg_code#,#u_id#
+      )
+    </insert>
+    <select id="myselectlist" resultClass="sgdto" parameterClass="String">
+		select a.*, b.stg_count 
+		from (
+	        select a.stg_code,a.stg_name,a.stg_regdate,a.stg_limit,a.u_id u_id,b.u_id bid
+	        from studygroup a,studygroup_list b 
+	        where a.stg_code=b.stg_code and b.u_id = #u_id#
+		) a
+		left join (
+        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
+		) b
+		on a.stg_code = b.stg_code
+    </select>
+    
+    <delete id="mydeletelist" parameterClass="sgdto">
+    {call
+    	declare 
+        begin
+    		DELETE FROM studygroup_list WHERE stg_code=#stg_code# and u_id=#u_id#;
+    		DELETE FROM studygroup WHERE stg_code = #stg_code# AND (SELECT COUNT(stg_code) FROM studygroup_list WHERE stg_code=#stg_code#) = 0;
+    	end
+    }
+    </delete>	
+    
+    <!-- <select id="selectcgr" parameterClass="sgdto">
+   
+    </select> -->
+</sqlMap>

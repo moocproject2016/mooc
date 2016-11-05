@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias type="_dto.ChoiceLectureDTO" alias="choice"/>
+	
+	
+		<select parameterClass="String" resultClass="choice" id="choiceMain">
+			select main_lecture.main_lec_subject,main_lecture.main_lec_code,register_lecture.main_lec_code,register_lecture.u_id from main_lecture 
+			join register_lecture on register_lecture.main_lec_code=main_lecture.main_lec_code 
+			where register_lecture.u_id=#id#
+		</select>
+		
+		<select parameterClass="int" resultClass="choice" id="subcode">
+			select * from sub_lecture where main_lec_code=#code# order by sub_lec_chapter asc
+		</select>
+		
+		<insert id="calandarinsert" parameterClass="choice">
+			insert into study_schedule values(study_schedule_seq.nextval,#u_id#,#ssd_date#,#sub_lec_code#,#ssd_type#,0,#ssd_content#)
+		</insert>
+
+		<select id="cal_list" parameterClass="String" resultClass="choice">
+			select * from study_schedule where u_id=#id# order by ssd_num asc
+		</select>
+		
+		<select id="sub_lec" parameterClass="int" resultClass="choice">
+			select * from sub_lecture where sub_lec_code=#sub_lec_code#  order by sub_lec_chapter asc
+		</select>	
+		
+		<select id="main_lec" parameterClass="int" resultClass="String">
+			select main_lec_subject from main_lecture where main_lec_code=#main_lec_code#  
+		</select>
+		
+		<delete id="planDelete" parameterClass="int">
+			delete from study_schedule where ssd_num=#ssd_num#  
+		</delete>
+		
+		<update id="planDone" parameterClass="choice">
+			update study_schedule set ssd_done=#ssd_done# where ssd_num=#ssd_num#
+		</update>
+</sqlMap>

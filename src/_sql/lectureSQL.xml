@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="lectureDTO" type="_dto.LectureDTO"/>
+	<typeAlias alias="lecDataDTO" type="_dto.LecDataDTO"/>
+	<typeAlias alias="LecNoticeDTO" type="_dto.LecNoticeDTO"/>
+	
+	<select id="selectMainLecSeq" resultClass="int">
+		select nvl(max(main_lec_code),0) from main_lecture
+	</select>
+	
+	<select id="selectAllMainLecture" parameterClass="String" resultClass="lectureDTO">
+		select * from main_lecture where t_id=#t_id# order by main_lec_code asc
+	</select>
+	
+	<select id="selectAllSubLectureForMain" parameterClass="int" resultClass="lectureDTO">
+		select a.sub_lec_code,a.main_lec_code,a.t_id,a.sub_lec_chapter,a.sub_lec_subject,a.sub_lec_content,a.sub_lec_media,a.sub_lec_type,a.sub_lec_flag,to_char(b.live_lec_date,'yyyy/mm/dd hh24:mi') live_lec_date from 
+		(select * from sub_lecture where main_lec_code=#main_lec_code# order by sub_lec_chapter asc) a,live_lecture b 
+		where a.sub_lec_code=b.sub_lec_code(+)
+	</select>
+	
+	<select id="selectAllSubLecture" parameterClass="int" resultClass="lectureDTO">
+		select * from sub_lecture order by sub_lec_chapter asc
+	</select>
+	
+	<select id="selectSubLecSeq" resultClass="int">
+		select nvl(max(sub_lec_code),0) from sub_lecture
+	</select>
+	
+	<select id="selectOneMainLecture" parameterClass="int" resultClass="lectureDTO">
+		select * from main_lecture where main_lec_code=#main_lec_code#
+	</select>
+	
+	<select id="selectOneSubLecture" parameterClass="int" resultClass="lectureDTO">
+		select * from sub_lecture where sub_lec_code=#sub_lec_code#
+	</select>
+	
+	<select id="selectAllLecData" parameterClass="int" resultClass="lecDataDTO">
+		select * from lecture_data where sub_lec_code=#sub_lec_code#
+	</select>
+	
+	<select id="selectMainLecSubject" parameterClass="int" resultClass="String">
+		select main_lec_subject from main_lecture where main_lec_code=#main_lec_code#
+	</select>
+	
+	<select id="selectMainLecListForTID" parameterClass="String" resultClass="lectureDTO">
+		select * from main_lecture where t_id=#t_id#
+	</select>
+	
+	<select id="selectSubLecCodeList" parameterClass="int" resultClass="int">
+		select sub_lec_code from sub_lecture where main_lec_code=#main_lec_code#
+	</select>
+	<select id="getSubLecMedia" parameterClass="int" resultClass="String">
+		select sub_lec_media from sub_lecture where sub_lec_code=#sub_lec_code#
+	</select>
+	<select id="selectSubLiveLecList" parameterClass="String" resultClass="lectureDTO">
+		select a.live_lec_date,b.* 
+		from live_lecture a,(select a.main_lec_subject,b.* 
+		from main_lecture a,(select * from sub_lecture where t_id=#t_id# and sub_lec_type=1) b 
+		where a.main_lec_code=b.main_lec_code) b where a.sub_lec_code=b.sub_lec_code order by a.live_lec_date asc
+	</select>
+	<select id="selectLecDataFile" parameterClass="int" resultClass="String">
+		select lec_data_path from lecture_data where lec_data_code=#lec_data_code#
+	</select>
+	
+	<insert id="insertMainLecture" parameterClass="lectureDTO">
+		insert into main_lecture(main_lec_code,sub_ctg_code,t_id,main_lec_subject,main_lec_image,main_lec_content,main_lec_regdate,main_lec_flag) values(
+		main_lecture_seq.nextval,
+		#sub_ctg_code#,
+		#t_id#,
+		#main_lec_subject#,
+		#main_lec_image#,
+		#main_lec_content#,
+		sysdate,
+		1
+		)
+	</insert>
+	
+	<insert id="insertSubLecture" parameterClass="lectureDTO">
+		insert into sub_lecture(sub_lec_code,main_lec_code,t_id,sub_lec_chapter,sub_lec_subject,sub_lec_content,sub_lec_media,sub_lec_type,sub_lec_regdate,sub_lec_flag) 
+		values(sub_lecture_seq.nextval,#main_lec_code#,#t_id#,#sub_lec_chapter#,#sub_lec_subject#,#sub_lec_content#,#sub_lec_media#,#sub_lec_type#,sysdate,1)
+	</insert>
+	
+	<insert id="insertLiveLecture" parameterClass="lectureDTO">
+		insert into live_lecture values(#sub_lec_code#,to_date(#live_lec_date#,'yyyy/mm/dd hh24:mi'),'',1)
+	</insert>
+	
+	<insert id="insertLecData" parameterClass="lecDataDTO" >
+		insert into lecture_data values(#sub_lec_code#,lecture_data_seq.nextval,#lec_data_type#,#lec_data_path#,sysdate)
+	</insert>
+	
+	<update id="updateMainLec" parameterClass="lectureDTO">
+		update main_lecture set main_lec_subject=#main_lec_subject#,main_lec_content=#main_lec_content#,main_lec_image=#main_lec_image# where main_lec_code=#main_lec_code#
+	</update>
+	
+	<update id="updateSubLec" parameterClass="lectureDTO">
+		update sub_lecture set sub_lec_subject=#sub_lec_subject#,sub_lec_content=#sub_lec_content#,sub_lec_media=#sub_lec_media# where sub_lec_code=#sub_lec_code#
+	</update>
+	
+	<update id="updateLiveLec" parameterClass="lectureDTO">
+		update live_lecture set live_lec_date=to_date(#live_lec_date#,'yyyy/mm/dd hh24:mi') where sub_lec_code=#sub_lec_code#
+	</update>
+	<update id="updateSubLecMedia"  parameterClass="lectureDTO">
+		update sub_lecture set sub_lec_media=#sub_lec_media# where sub_lec_code=#sub_lec_code#
+	</update>
+	
+	<update id="completeLiveLec" parameterClass="int">
+		declare
+		begin
+			update live_lecture set live_lec_flag=0 where sub_lec_code=#sub_lec_code#;
+			update sub_lecture set sub_lec_type=2 where sub_lec_code=#sub_lec_code#;
+		end;
+	</update>
+	<delete id="deleteLiveLec" parameterClass="int">
+		delete from live_lecture where sub_lec_code=#sub_lec_code#
+	</delete>
+	
+	<delete id="deleteSubLec" parameterClass="int">
+		delete from sub_lecture where sub_lec_code=#sub_lec_code#
+	</delete>
+	
+	<delete id="deleteMainLec" parameterClass="int">
+		delete from main_lecture where main_lec_code=#main_lec_code#
+	</delete>
+	
+	<delete id="deleteLecData" parameterClass="int">
+		delete from lecture_data where lec_data_code=#lec_data_code#
+	</delete>
+</sqlMap>

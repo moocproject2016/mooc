@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias type="_dto.memberDTO" alias="dto"/>
+
+	<select parameterClass="dto" id="checkid" resultClass="int">
+		select count(*) from USERINFO where u_id=#u_id# and u_pw=#u_pw# and u_flag=0
+	</select>
+	<select parameterClass="String" id="checkid1" resultClass="int">
+		select count(*) from USERINFO where u_id=#id# 
+	</select>
+		<select parameterClass="String" id="checkidGoogle" resultClass="int">
+		select count(*) from USERINFO where u_id=#id# and u_flag=1
+	</select>
+
+	<insert id="memberinsert" parameterClass="dto">
+		  insert into USERINFO values(#u_id#,#u_pw#,#u_name#,sysdate,null,0,0,null)
+	</insert>
+	
+	<select parameterClass="String" id="modify" resultClass="dto">
+		select * from userinfo where u_id=#u_id#
+	</select>
+	
+	<update parameterClass="dto" id="modifyPro">
+		update userinfo set u_pw=#u_pw#,u_type=#u_type#,u_name=#u_name# where u_id=#u_id#
+	</update>
+	
+	<update parameterClass="java.util.HashMap" id="pwdModifyPro">
+		update userinfo set u_pw=#U_PW# where u_id=#U_ID#
+	</update>
+	
+	<update parameterClass="String" id="teacherType">
+		update userinfo set u_type=1 where u_id=#id#
+	</update>
+	
+	<update parameterClass="String" id="deletePro">
+		update userinfo set u_flag=1,u_outdate=sysdate where u_id=#id#
+	</update>
+	
+	<update parameterClass="String" id="access">
+		update userinfo set u_accessdate=sysdate where u_id=#id#
+	</update>
+	
+	<insert id="teacher" parameterClass="_dto.TeacherDTO"> 
+		insert into teacher values(#t_id#,#t_education#,#t_certificate#,#t_prize#,#t_skill#,#t_other#,0)
+	</insert>
+	
+	<update id="teacherOut" parameterClass="String">
+	DECLARE
+	BEGIN
+		update teacher set t_flag='2' where t_id=#id# ;
+		update userinfo set u_type='0' where u_id=#id# ;
+	END;
+	</update>
+	
+	<select id="t_idfrofile" parameterClass="String" resultClass="_dto.TeacherDTO">
+		select * from teacher where t_id=#id#
+	</select>
+	
+	<update id="teacherfrofileUpdate" parameterClass="_dto.TeacherDTO">
+		update teacher set t_education=#t_education#,t_certificate=#t_certificate#,t_prize=#t_prize#,t_skill=#t_skill#,t_other=#t_other#
+		where t_id=#t_id#
+	</update>
+	
+	<update id="teacherchange" parameterClass="String">
+	DECLARE
+	BEGIN
+		update teacher set t_flag='0' where t_id=#id# ;
+		update userinfo set u_type='1' where u_id=#id# ;
+	END;
+	</update>
+
+</sqlMap>

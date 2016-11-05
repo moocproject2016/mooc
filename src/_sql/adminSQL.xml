@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="admin_dto" type="_dto.UserDTO" />
+	<typeAlias alias="qna_dto" type="_dto.QnAListDTO" />
+	<typeAlias alias="black_dto" type="_dto.BlackListDTO" />
+	
+	<select id="userinfo" parameterClass="admin_dto" resultClass="admin_dto">
+		select * from userinfo
+	</select>
+	
+	<select id="humanlist" resultClass="admin_dto" >
+		select * from userinfo 
+	</select>
+	
+	<select id="usertype" parameterClass="int" resultClass="admin_dto">
+		select * from userinfo where u_type=#type#
+	</select>
+	
+	<update id="userupdate" parameterClass="admin_dto">
+		update userinfo set u_pw=#u_pw#,u_name=#u_name# where u_id=#u_id#
+	</update>
+	
+	<select id="blacklist" resultClass="black_dto"><!--  -->
+		select * from report join teacher on report.t_id=teacher.t_id 
+	</select>
+	
+	<update id="blackistupdate" parameterClass="string">
+		declare
+		begin
+			update teacher set t_flag=1 where t_id=#id#;
+			update userinfo set u_type=0 where u_id=#id#;
+		end;
+	</update>
+
+	<select id="qnalist" parameterClass="qna_dto" resultClass="qna_dto">
+		select * from question where c_content is null order by q_regdate desc
+	</select>
+	
+	<select id="qnalist1" parameterClass="qna_dto" resultClass="qna_dto">
+		select * from question order by q_num desc
+	</select>
+	
+	<select id="search_subject" parameterClass="qna_dto" resultClass="qna_dto">
+		select * from question where q_subject like '%'||#q_subject#||'%'
+	</select>
+	
+	<select id="search_id" parameterClass="qna_dto" resultClass="qna_dto">
+		select * from question where u_id like '%'||#u_id#||'%'
+	</select>
+	
+	<!--<update id="qnaupdate" parameterClass="int">
+		update question set c_content=#c_content#,c_regdate=sysdate where q_num=#q_num#
+	</update>-->
+	
+	  <update id="qnaupdate" parameterClass="java.util.HashMap">
+		update question set c_content=#c_content#,c_regdate=sysdate where q_num=#q_num#
+	</update>
+	
+	<delete id="qnadelete" parameterClass="int">
+		delete from question where q_num=#q_num#
+	</delete>
+	
+	<delete id="qnadelete1" parameterClass="int">
+		delete from question where q_num=#q_num#
+	</delete>
+	
+	<select id="checkAdmin" resultClass="int" parameterClass="String">
+		select u_type from userinfo where u_id=#u_id#
+	</select>
+	
+	<select parameterClass="String" resultClass="int" id="studentStats">
+		select count(*) from userinfo	where u_type=0 and u_flag=0
+	</select>
+	<select parameterClass="String" resultClass="int" id="blackStats">
+		select count(*) from userinfo	where u_type=2 and u_flag=0
+	</select>
+	<select parameterClass="String" resultClass="int" id="teacherStats">
+		select count(*) from userinfo	where u_type=1 and u_flag=0
+	</select>
+	
+</sqlMap>

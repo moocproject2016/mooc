@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias alias="sgbdto" type="_dto.StudygroupBoardDTO"/>
+
+<select id="stgboardAll" resultClass="sgbdto" parameterClass="sgbdto">
+	select * from studygroup_board where stg_code=#stg_code# 
+		<dynamic prepend="and">
+        		<isNotEqual property="searchBType" compareValue="0" >
+        		    stg_b_type = #searchBType# 
+        		</isNotEqual>
+        </dynamic>
+        <dynamic prepend="and">
+        		<isNotNull property="searchBType1" prepend="and">
+	        		<isEqual property="searchBType1" compareValue="stg_b_subject">stg_b_subject like '%'||#searchBValue1#||'%' </isEqual>
+        			<isEqual property="searchBType1" compareValue="u_id">u_id like '%'||#searchBValue1#||'%' </isEqual>
+
+        		</isNotNull>
+        </dynamic>
+        order by stg_b_num desc
+</select>
+<insert id="insertStudyBoard" parameterClass="sgbdto">
+		insert into studygroup_board values(
+			STUDYGROUP_BOARD_seq.nextval,#stg_code#,#stg_b_type#,#stg_b_subject#,#stg_b_content#,#stg_b_data#,#u_id#,sysdate
+		)
+	</insert>
+	
+	<select id="seqStudyBoard" parameterClass="int" resultClass="int">
+		select nvl(max(stg_b_num),0) from STUDYGROUP_BOARD
+	</select>
+	
+	<select id="resultStudyBoard" parameterClass="int" resultClass="sgbdto">
+		select * from studygroup_board where stg_b_num=#stg_b_num#
+	</select>
+	
+	<update id="updateStgBoard" parameterClass="sgbdto">
+		update STUDYGROUP_BOARD set
+			stg_b_subject=#stg_b_subject#,
+			stg_b_type=#stg_b_type#,
+			stg_b_content=#stg_b_content#,
+			stg_b_data=#stg_b_data#
+		where stg_b_num=#stg_b_num#
+	</update>
+	
+	<delete id="deleteStgboard" parameterClass="int">
+		delete from STUDYGROUP_BOARD where stg_b_num=#stg_b_num#
+	</delete>
+	
+
+</sqlMap>
+	
