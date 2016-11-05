@@ -26,7 +26,7 @@ html{background:#fbfbfb;}
 
 .theadtop{background:#f0f0f0;}
 .tableHead{padding-top:25px; height:100px; text-align: left}
-.tableWrap{padding-top:25px; width:100%; height:100%; valign:middle; background:#fbfbfb;}
+.tableWrap{padding-top:25px; width:100%; height:100%; valign:middle; background:transparent;}
 
 .rightTab{text-align:right;}
 

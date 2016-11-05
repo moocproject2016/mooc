@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+	<sqlMap>
+		<typeAlias type="_dto.LectureDTO" alias="LectureDTO"/>
+		
+		<!-- 통합검색 -->
+		
+		<select id="live_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+			select * from (select a.*,b.u_name, (select main_lec_subject from main_lecture where main_lec_code=a.main_lec_code) main_lec_subject, (select count(*) from like_lecture where main_lec_code=a.main_lec_code) LikeLectureCount, (select count(*) from lecture_review where main_lec_code=a.main_lec_code) ReviewLecCount, (select count(*) from like_teacher where t_id=a.t_id) LikeTeacherCount, (select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a,(select * from userinfo) b where a.t_id=b.u_id) where u_name like '%'|| #mainSearchValue# ||'%' or sub_lec_subject like '%'|| #mainSearchValue# ||'%'
+			<dynamic prepend="order by">
+				<isNotNull property="popularLikeList">
+				    LikeLectureCount desc
+				</isNotNull>
+				<isNotNull property="popularTeacherList">
+				    LikeTeacherCount desc
+				</isNotNull>
+				<isNotNull property="sizeReviewList">
+					ReviewLecCount desc
+				</isNotNull>
+				<isNotNull property="recentlyList">
+					live_lec_date desc
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+		<select id="main_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+		select * from(select a.*,b.u_name, (select count(*) from lecture_review where main_lec_code=a.main_lec_code) ReviewLecCount, (select count(*) from like_teacher where t_id=a.t_id) LikeTeacherCount, (select count(*) from like_lecture where main_lec_code=a.main_lec_code) LikeLectureCount,(select count(*) from sub_lecture where main_lec_code=a.main_lec_code) main_sub_count from (select * from main_lecture NATURAL JOIN sub_category) a,
+		(select * from userinfo) b where a.t_id=b.u_id) where u_name like '%'|| #mainSearchValue# ||'%' or main_lec_subject like '%'|| #mainSearchValue# ||'%'
+			<dynamic prepend="order by">
+				<isNotNull property="popularLikeList">
+				    LikeLectureCount desc
+				</isNotNull>
+				<isNotNull property="popularTeacherList">
+				    LikeTeacherCount desc
+				</isNotNull>
+				<isNotNull property="sizeReviewList">
+				    ReviewLecCount desc
+				</isNotNull>
+				<isNotNull property="recentlyList">
+					main_lec_regdate desc
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+		<select id="sub_search_List" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+			select * from(select a.*, b.u_name, (select sub_lec_code from sub_lecture where sub_lec_chapter=1 and main_lec_code=a.main_lec_code)ot_link,(select count(*) from lecture_review where main_lec_code=a.main_lec_code) ReviewLecCount, (select count(*) from like_teacher where t_id=a.t_id) LikeTeacherCount, (select count(*) from like_lecture where main_lec_code=a.main_lec_code) LikeLectureCount,
+			(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code) main_lec_image,(select main_lec_subject from main_lecture where main_lec_code=a.main_lec_code) main_lec_subject from (select * from sub_lecture) a, (select * from userinfo) b where a.t_id=b.u_id) where u_name like '%'|| #mainSearchValue# ||'%' or sub_lec_subject like '%'|| #mainSearchValue# ||'%' or sub_lec_content like '%'|| #mainSearchValue# ||'%'
+			<dynamic prepend="order by">
+				<isNotNull property="popularLikeList">
+				    LikeLectureCount desc
+				</isNotNull>
+				<isNotNull property="popularTeacherList">
+				    LikeTeacherCount desc
+				</isNotNull>
+				<isNotNull property="sizeReviewList">
+				    ReviewLecCount desc
+				</isNotNull>
+				<isNotNull property="recentlyList">
+					sub_lec_regdate desc
+				</isNotNull>
+			</dynamic>
+		</select>
+		
+
+		
+		<!-- 메인 리스트 -->
+		
+		<select id="main_liveLecture_List" resultClass="LectureDTO">
+			select * from (select a.*,rownum r,(select main_lec_image from main_lecture where main_lec_code=a.main_lec_code)main_lec_image from(select * from sub_lecture natural join live_lecture where live_lec_flag=1 order by live_lec_date desc) a) where r between 1 and 3
+		</select>
+		<select id="main_bestLecture_List" resultClass="LectureDTO">
+			select * from(select c.*,rownum r from(select * from (select a.*, (select sum(lec_r_score) from lecture_review where main_lec_code=a.main_lec_code)like_lec_count from (select * from main_lecture) a) where like_lec_count is not null order by like_lec_count desc)c )where r between 1 and 3
+		</select>
+		<select id="main_popularLectureList" resultClass="LectureDTO">
+			select*from(select b.*, rownum r from(select a.*,(select count(*) from register_lecture where main_lec_code = a.main_lec_code) register_count from (select * from main_lecture)a order by register_count desc)b ) where r between 1 and 3
+		</select>
+		
+		
+	</sqlMap>

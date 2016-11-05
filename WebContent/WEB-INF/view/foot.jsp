@@ -12,13 +12,7 @@
 			<ul>고객센터
 				<li>&nbsp;</li>
 				<li><a href="/mooc/notice.mooc">공지사항</a></li>
-				<li><a href="/mooc/help.mooc">도움말</a></li>
 				<li><a href="/mooc/qna.mooc">문의</a></li>
-			</ul>
-			<ul>CONNECT
-				<li>&nbsp;</li>
-				<li><a href="#" target="_blank">Facebook</a></li>
-				<li><a href="#" target="_blank">Google+</a></li>
 			</ul>
 			<ul>
 				<li><a href="/mooc/siteMap.mooc">사이트맵</a></li>
