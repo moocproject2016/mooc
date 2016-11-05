@@ -3,7 +3,6 @@
 <!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
 	<sqlMap>
 		<typeAlias type="_dto.studyNoteDTO" alias="NoteDTO"/>
-		<typeAlias type="_dto.mainlectureDTO" alias="mainLec"/>
 		<typeAlias type="_dto.ChoiceLectureDTO" alias="registrationDTO"/>
 		<typeAlias type="_dto.LectureDTO" alias="LectureDTO"/>
 		
@@ -19,15 +18,15 @@
 			select main_lec_subject from main_lecture where main_lec_code=#main_lec_code#
 		</select>
 		
-		<select id="sub_ctgList" parameterClass="int" resultClass="mainLec">
+		<select id="sub_ctgList" parameterClass="int" resultClass="LectureDTO">
 			select * from main_lecture where sub_ctg_code=#sub_ctg_code#   order by main_lec_regdate desc
 		</select>
 		
-		<select id="sub_ctgSubjectList" parameterClass="mainLec" resultClass="mainLec">
+		<select id="sub_ctgSubjectList" parameterClass="LectureDTO" resultClass="LectureDTO">
 			select * from main_lecture where sub_ctg_code=#sub_ctg_code# and main_lec_subject like '%'||#main_lec_subject#||'%'   order by main_lec_regdate desc
 		</select>
 		
-		<select id="sub_ctgIdList" parameterClass="mainLec" resultClass="mainLec">
+		<select id="sub_ctgIdList" parameterClass="LectureDTO" resultClass="LectureDTO">
 			select * from main_lecture where sub_ctg_code=#sub_ctg_code# and t_id like '%'||#t_id#||'%'   order by main_lec_regdate desc
 		</select>
 		
@@ -39,12 +38,12 @@
 			insert into register_lecture values(#main_lec_code#,#u_id#,sysdate)
 		</insert>
 		
-		<insert id="interastTeacher" parameterClass="mainLec" >
+		<insert id="interastTeacher" parameterClass="LectureDTO" >
 			insert into like_teacher values(#u_id#,#t_id#)
 		</insert>
 		
 		
-		<insert id="interastLecture" parameterClass="mainLec" >
+		<insert id="interastLecture" parameterClass="LectureDTO" >
 			insert into like_lecture values(#u_id#,#main_lec_code#)
 		</insert>
 		
@@ -60,17 +59,25 @@
 			select count(*) from register_lecture where u_id=#u_id# and main_lec_code=#main_lec_code#
 		</select>
 		
-		<select id="userlecture" parameterClass="String" resultClass="mainLec">
-			select * from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
-			where register_lecture.u_id=#id#
+		<select id="userlecture" parameterClass="String" resultClass="LectureDTO">
+			select a.*,coalesce(b.subLec_count,0) as subLec_count from 
+			(select a.*, coalesce(b.lecView_count,0) as lecView_count from
+			(select a.* from main_lecture a join register_lecture b
+			on a.main_lec_code=b.main_lec_code 
+			where b.u_id=#id#) a 
+			left join 
+			(select main_lec_code, count(*) as lecView_count from STUDY_SUBLEC_PROCESS where u_id=#id# group by main_lec_code) b
+			on a.main_lec_code=b.main_lec_code ) a join 
+			(select main_lec_code,count(*) as subLec_count from sub_lecture group by main_lec_code) b
+			on a.main_lec_code=b.main_lec_code
 		</select>
-		
+			
 		<select id="userlectureCount" parameterClass="String" resultClass="int">
 			select count(*) from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
 			where register_lecture.u_id=#id#
 		</select>
 		
-		<select id="userCtglecture" parameterClass="java.util.HashMap" resultClass="mainLec">
+		<select id="userCtglecture" parameterClass="java.util.HashMap" resultClass="LectureDTO">
 			select * from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
 			where register_lecture.u_id=#u_id# and main_lecture.sub_ctg_code=#sub_ctg_code#   order by main_lecture.main_lec_regdate desc
 		</select>
@@ -88,19 +95,19 @@
 			select count(*) from report where t_id=#t_id# and u_id=#u_id# and sub_lec_code=#sub_lec_code#
 		</select>
 		
-		<select id="likeLectureList" parameterClass="String" resultClass="mainLec">
+		<select id="likeLectureList" parameterClass="String" resultClass="LectureDTO">
 			select * from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#u_id# 
 		</select>
 		
-		<select id="likeTeacherList" parameterClass="String" resultClass="mainLec">
+		<select id="likeTeacherList" parameterClass="String" resultClass="LectureDTO">
 			select * from like_teacher where u_id=#u_id#
 		</select>
 		
-		<select id="TeacherLecList" parameterClass="String" resultClass="mainLec">
+		<select id="TeacherLecList" parameterClass="String" resultClass="LectureDTO">
 			select * from main_lecture where t_id=#t_id# order by main_lec_regdate desc
 		</select>
 		
-		<select id="teacherUpdate" parameterClass="String" resultClass="mainLec">
+		<select id="teacherUpdate" parameterClass="String" resultClass="LectureDTO">
 			select * from main_lecture where t_id=#t_id# order by main_lec_regdate desc
 		</select>
 		
@@ -108,10 +115,10 @@
 			select t_flag from teacher where t_id=#t_id#
 		</select>
 		
-		<select id="main_lecT_id" parameterClass="String" resultClass="mainLec">
+		<select id="main_lecT_id" parameterClass="String" resultClass="LectureDTO">
 			select * from main_lecture where t_id=#id#
 		</select>
-		<select id="main_lecStudentList" parameterClass="int" resultClass="mainLec">
+		<select id="main_lecStudentList" parameterClass="int" resultClass="LectureDTO">
 			select * from register_lecture where main_lec_code=#main_lec_code#
 		</select>		
 		

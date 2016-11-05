@@ -37,8 +37,8 @@
 			강사:${dto.t_id}
 			<a href="/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}"><br/>
 			강의:${dto.main_lec_subject}</a><br/>
-			comment:${dto.main_lec_content}<br />
-			(학습 진도 : ${std_percent}%)
+			comment:${dto.main_lec_content}<br />${dto.lecView_count}/${dto.subLec_count }
+			(학습 진도 : ${dto.lecView_count/dto.subLec_count*100}%)
 			</center>
 	</td>
 	
