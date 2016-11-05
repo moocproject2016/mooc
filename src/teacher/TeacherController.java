@@ -66,7 +66,7 @@ public class TeacherController {
 	}
 	@RequestMapping("/teacher/teacherDelete.mooc")
 	//강사 탈퇴하기
-		public String teacherDelete(HttpServletRequest request){
+		public String teacherDelete_main(HttpServletRequest request){
 			String myClass_main = "teacher/myClass/_teacher_myClass_main.jsp"; //myStudy의 main페이지
 			content = "/WEB-INF/view/teacher/teacher_delete.jsp";
 			request.setAttribute("main_content", myClass_main);
@@ -77,7 +77,7 @@ public class TeacherController {
 	
 	@RequestMapping("/teacher/teacherModify.mooc")
 	//강사 정보 수정 
-		public String teacherModify(HttpServletRequest request){
+		public String teacherModify_main(HttpServletRequest request){
 			String content = "teacher/teacher_modify.jsp";
 			request.setAttribute("main_content", content);
 			return main;
