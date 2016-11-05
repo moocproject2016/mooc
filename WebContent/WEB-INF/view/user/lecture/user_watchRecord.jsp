@@ -5,6 +5,18 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
 	$(document).ready(function() {
+		$("#lectureVideo").bind("ended", function() {
+			alert("종료");
+			 $.ajax({        
+	             	url : '/mooc/user_progress_ajax.mooc',
+	     		 	type: "post",
+	                 data: {  // url 페이지도 전달할 파라미터                                    
+	             	    sub_lec_code: '${sub_lec_dto.sub_lec_code}',
+	    		 		main_lec_code: '${sub_lec_dto.main_lec_code}'
+	                 }	                      
+	           });
+		});
+	$(document).ready(function() {
 		
    		 $("#report").click(function() {
    			var comment=prompt("신고내용","");
@@ -68,8 +80,8 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<video controls poster="demo.jpg" width="900" height="500">
-					<source src="${sub_lec_dto.sub_lec_media }" type="video/mp4" />
+				<video controls poster="demo.jpg" width="700" height="400" id="lectureVideo">
+					<source src="\mooc\files${sub_lec_dto.sub_lec_media }" type="video/mp4" />
 					<source src="${sub_lec_dto.sub_lec_media }" type="video/webm"/>
 					<source src="${sub_lec_dto.sub_lec_media }" type="video/ogg"/>     
 					<object>
