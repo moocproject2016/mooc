@@ -44,7 +44,9 @@ public class MyStudyController {
 			String pageNum=request.getParameter("pageNum");
 			HttpSession session=request.getSession();
 			String id=(String)session.getAttribute("memId");
-			List AllList=(ArrayList)sqlMap.queryForList("userlecture",id);
+			System.out.println(id);
+			List AllList=sqlMap.queryForList("userlecture",id);
+			System.out.println(AllList.size());
 			pageAction pageing=new pageAction();
 			List list=pageing.pageList(pageNum,AllList, 12);
 			int subCount=(int)sqlMap.queryForObject("userlectureCount", id);
@@ -60,7 +62,8 @@ public class MyStudyController {
 			request.setAttribute("currentPage", pageing.current());
 			request.setAttribute("pageSize", pageing.size());
 			request.setAttribute("list", list);
-		
+			
+			
 		
 			content = "user_lectureList.jsp";
 			request.setAttribute("main_content", myStudy_main);

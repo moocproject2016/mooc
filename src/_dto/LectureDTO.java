@@ -1,7 +1,6 @@
 package _dto;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class LectureDTO {
 	//메인 강의
@@ -9,6 +8,7 @@ public class LectureDTO {
 	private int sub_ctg_code;
 	private String sub_ctg_name;
 	private String t_id;
+	private String u_id;
 	private String main_lec_subject;
 	private String main_lec_image;
 	private String main_lec_content;
@@ -41,50 +41,9 @@ public class LectureDTO {
 	private int live_lec_state;
 	
 	
-	
-
-	public String getLive_lec_date() {
-		return live_lec_date;
-	}
-	public void setLive_lec_date(String live_lec_date) {
-		this.live_lec_date = live_lec_date;
-	}
-	public int getOt_link() {
-		return ot_link;
-	}
-	public void setOt_link(int ot_link) {
-		this.ot_link = ot_link;
-	}
-	public int getMain_sub_count() {
-		return main_sub_count;
-	}
-	public void setMain_sub_count(int main_sub_count) {
-		this.main_sub_count = main_sub_count;
-	}
-	public int getLikeTeacherCount() {
-		return LikeTeacherCount;
-	}
-	public void setLikeTeacherCount(int likeTeacherCount) {
-		LikeTeacherCount = likeTeacherCount;
-	}
-	public int getLikeLectureCount() {
-		return LikeLectureCount;
-	}
-	public void setLikeLectureCount(int likeLectureCount) {
-		LikeLectureCount = likeLectureCount;
-	}
-	public int getReviewLecCount() {
-		return ReviewLecCount;
-	}
-	public void setReviewLecCount(int reviewLecCount) {
-		ReviewLecCount = reviewLecCount;
-	}
-	public String getU_name() {
-		return u_name;
-	}
-	public void setU_name(String u_name) {
-		this.u_name = u_name;
-	}
+	//카운트
+	private int lecView_count;
+	private int subLec_count;
 	public int getMain_lec_code() {
 		return main_lec_code;
 	}
@@ -96,6 +55,9 @@ public class LectureDTO {
 	}
 	public String getT_id() {
 		return t_id;
+	}
+	public String getU_id() {
+		return u_id;
 	}
 	public String getMain_lec_subject() {
 		return main_lec_subject;
@@ -114,6 +76,24 @@ public class LectureDTO {
 	}
 	public Timestamp getMain_lec_deldate() {
 		return main_lec_deldate;
+	}
+	public String getU_name() {
+		return u_name;
+	}
+	public int getLikeTeacherCount() {
+		return LikeTeacherCount;
+	}
+	public int getLikeLectureCount() {
+		return LikeLectureCount;
+	}
+	public int getReviewLecCount() {
+		return ReviewLecCount;
+	}
+	public int getMain_sub_count() {
+		return main_sub_count;
+	}
+	public int getOt_link() {
+		return ot_link;
 	}
 	public int getSub_lec_code() {
 		return sub_lec_code;
@@ -142,12 +122,20 @@ public class LectureDTO {
 	public Timestamp getSub_lec_deldate() {
 		return sub_lec_deldate;
 	}
-	
+	public String getLive_lec_date() {
+		return live_lec_date;
+	}
 	public String getLive_lec_chat() {
 		return live_lec_chat;
 	}
 	public int getLive_lec_state() {
 		return live_lec_state;
+	}
+	public int getLecView_count() {
+		return lecView_count;
+	}
+	public int getSubLec_count() {
+		return subLec_count;
 	}
 	public void setMain_lec_code(int main_lec_code) {
 		this.main_lec_code = main_lec_code;
@@ -160,6 +148,9 @@ public class LectureDTO {
 	}
 	public void setT_id(String t_id) {
 		this.t_id = t_id;
+	}
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
 	}
 	public void setMain_lec_subject(String main_lec_subject) {
 		this.main_lec_subject = main_lec_subject;
@@ -178,6 +169,24 @@ public class LectureDTO {
 	}
 	public void setMain_lec_deldate(Timestamp main_lec_deldate) {
 		this.main_lec_deldate = main_lec_deldate;
+	}
+	public void setU_name(String u_name) {
+		this.u_name = u_name;
+	}
+	public void setLikeTeacherCount(int likeTeacherCount) {
+		LikeTeacherCount = likeTeacherCount;
+	}
+	public void setLikeLectureCount(int likeLectureCount) {
+		LikeLectureCount = likeLectureCount;
+	}
+	public void setReviewLecCount(int reviewLecCount) {
+		ReviewLecCount = reviewLecCount;
+	}
+	public void setMain_sub_count(int main_sub_count) {
+		this.main_sub_count = main_sub_count;
+	}
+	public void setOt_link(int ot_link) {
+		this.ot_link = ot_link;
 	}
 	public void setSub_lec_code(int sub_lec_code) {
 		this.sub_lec_code = sub_lec_code;
@@ -206,12 +215,20 @@ public class LectureDTO {
 	public void setSub_lec_deldate(Timestamp sub_lec_deldate) {
 		this.sub_lec_deldate = sub_lec_deldate;
 	}
-	
-	public void setLive_lec_chat(String real_lec_chat) {
-		this.live_lec_chat = real_lec_chat;
+	public void setLive_lec_date(String live_lec_date) {
+		this.live_lec_date = live_lec_date;
 	}
-	public void setLive_lec_state(int real_lec_state) {
-		this.live_lec_state = real_lec_state;
+	public void setLive_lec_chat(String live_lec_chat) {
+		this.live_lec_chat = live_lec_chat;
+	}
+	public void setLive_lec_state(int live_lec_state) {
+		this.live_lec_state = live_lec_state;
+	}
+	public void setLecView_count(int lecView_count) {
+		this.lecView_count = lecView_count;
+	}
+	public void setSubLec_count(int subLec_count) {
+		this.subLec_count = subLec_count;
 	}
 	
 	

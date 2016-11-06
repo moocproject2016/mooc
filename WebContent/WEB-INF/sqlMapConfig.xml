@@ -18,6 +18,6 @@
 	<sqlMap resource="/_sql/userBoardSQL.xml"/>
 	<sqlMap resource="/_sql/scheduleSQL.xml"/>
 	<sqlMap resource="/_sql/doLiveSQL.xml"/>
+	<sqlMap resource="/_sql/processSQL.xml"/>
 	<sqlMap resource="/_sql/mainSQL.xml"/>
-	
 </sqlMapConfig>
