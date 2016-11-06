@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 	<script>
 		
@@ -73,7 +74,7 @@
 		<table class="table" align="center">
 			<tr>
 				<td>
-					<h1>내가 쓴 게시글<small>&nbsp;&nbsp;&nbsp;&nbsp;관리자 문의 / 답변</small></h1>
+					<h1>내가 쓴 게시글<small>&nbsp;&nbsp;&nbsp;&nbsp;강의 질문/ 답변</small></h1>
 					<div class="page-header"></div>
 				</td>
 			</tr>
@@ -82,11 +83,10 @@
 			<thead>
 				<tr class="theadtop">
 					<th><input type="checkbox" name="allcheck" onclick="allCheck()"/></th>
-					<th>문의번호</th>
-					<th>게시판</th>
-					<th>아이디</th>
+					<th>번호</th>
+					<th>강의</th>
 					<th>제목</th>
-					<th>문의날짜</th>
+					<th>날짜</th>
 				</tr>
 			</thead>
 			
@@ -99,11 +99,13 @@
 						<input type="hidden" name="index" value="${index}"/>
 					</td>
 					<td align="center">강의 질문</td>
-					<td align="center">${lecture_question.u_id}</td>
 					<td align="center" onclick="displaySwitch('${i.count}re2');">
 						<b>${lecture_question.lec_q_subject}</b>
 					</td>
-					<td align="center">${lecture_question.lec_q_regdate}</td>
+					<td align="center">
+						<c:set var="date" value="${fn:split(lecture_question.lec_q_regdate, ' ')}"/>
+						${date[0]}
+					</td>
 				</tr>
 				<c:if test="${lecture_question.lec_q_content!=null}">
 					<tr>
