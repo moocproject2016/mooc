@@ -21,6 +21,7 @@ public class ProcessController {
 		String id=(String)session.getAttribute("memId");
 		int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
 		int sub_lec_code=Integer.parseInt(request.getParameter("sub_lec_code"));
+		System.out.println(main_lec_code+"/"+sub_lec_code);
 		ProcessDTO processDTO=new ProcessDTO();
 		processDTO.setSub_lec_code(sub_lec_code);
 		processDTO.setMain_lec_code(main_lec_code);

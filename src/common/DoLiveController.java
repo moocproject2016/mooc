@@ -68,6 +68,7 @@ public class DoLiveController {
 			System.out.println("null¿”"+lecDTO.getSub_lec_media());
 			sqlMap.update("updateSubLecMedia", lecDTO);
 		}
+
 		return "doLive.jsp";
 	}
 }

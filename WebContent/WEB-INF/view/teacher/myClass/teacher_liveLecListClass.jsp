@@ -9,7 +9,7 @@ function myFunction(i,x) {
 	var u_type=1; //학생은 0, 선생은 1
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://172.16.8.27:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://172.16.8.27:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 	}
 </script>
 

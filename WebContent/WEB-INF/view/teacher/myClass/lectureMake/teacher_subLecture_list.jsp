@@ -33,7 +33,7 @@
 					<td width="10%">
 						<c:if test="${lectureDTO.sub_lec_type==0}">녹화</c:if>
 						<c:if test="${lectureDTO.sub_lec_type==1}">실시간</c:if>
-						<c:if test="${lectureDTO.sub_lec_type==2}">실시간(완료)</c:if>
+						<c:if test="${lectureDTO.sub_lec_type==2}">실시간(종료)</c:if>
 					</td>
 				</tr>
 			</c:forEach>
