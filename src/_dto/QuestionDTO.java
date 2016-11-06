@@ -10,6 +10,23 @@ public class QuestionDTO {
 	private Timestamp q_regdate;
 	private String c_content;
 	private Timestamp c_regdate;
+	private String search;
+	private String select;
+	
+	
+	
+	public String getSearch() {
+		return search;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
 	public int getQ_num() {
 		return q_num;
 	}

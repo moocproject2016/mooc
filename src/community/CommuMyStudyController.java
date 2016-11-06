@@ -27,13 +27,21 @@ public class CommuMyStudyController {
 		public String myStudyList_main(HttpServletRequest request){
 			HttpSession session=request.getSession();
 			String u_id=(String) session.getAttribute("memId");
-			List mystudylist = sqlMap.queryForList("myselectlist", u_id); //카테고리코드 넘겨주기
+			List mystudylist;
+			if (request.getParameter("state")!=null){	
+				mystudylist = sqlMap.queryForList("myselectlist1", u_id);	
+				System.out.println(mystudylist.size());
+			}else{	
+				System.out.println("AA");
+				mystudylist = sqlMap.queryForList("myselectlist", u_id);  
+			}
+			request.setAttribute("list", mystudylist);
 			
-			request.setAttribute("list",mystudylist);
 			content = "commu_myStudyList.jsp";
 			request.setAttribute("community_main_content", content);
 			return main;
 		}
+	
 	
 	@RequestMapping("/study/myStudyRoomMain.mooc")
 	//나의 스터디룸 메인

@@ -11,6 +11,23 @@ public class LectureReviewDTO {
 	private float lec_r_score;
 	private Timestamp lec_r_regdate;
 	private String t_id;
+	private String search;
+	private String select;
+	
+	
+	
+	public String getSearch() {
+		return search;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
 	
 	public int getMain_lec_code() {
 		return main_lec_code;

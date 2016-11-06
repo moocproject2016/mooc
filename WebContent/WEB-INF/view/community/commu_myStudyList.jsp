@@ -5,23 +5,19 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="tableWrap">
-
 <form name="inform">
 
  	<table class="table" align="center"> 
 	    <tr valign="middle" class="tableHead">
 		    <td colspan="5">
 				<h4>나의 SturdyRoom 목록입니다.</h4>
-		        <form action="/mooc/study/myStudylist.mooc?sub_ctg_code=${sub_ctg_code}"  method="post">
-					<select  name="searchType" style="width: 200px;">
-					    <option value="stg_name">방 제목</option>
-						<option value="u_id">그룹장ID</option>
-					</select>
-					<input type="text" name="searchValue">
-					<input type="submit" value="검색"  />
-				</form>
 		    </td>
-	    </tr>
+		  </tr>
+		  <tr>
+		  <td colspan="5">
+		 <a href="/mooc/study/myStudyList.mooc?state=1">내가 생성한 그룹 목록보기</a>
+		  </td>
+		  <tr>
 	    <tr height="30" bgcolor="#e7e7e7" >  
 	      <th width="250px">제목</th> 
 	      <th>인원</th>
@@ -38,7 +34,7 @@
 			</tr>
 		</c:if>
 
-		<c:forEach var="stglist" items="${mystudylist}" varStatus="i">
+		<c:forEach var="stglist" items="${list}" varStatus="i">
 			<tr height="30">
 				<td align="center">
 					<a href="/mooc/study/myStudyRoomMain.mooc?stg_code=${stglist.stg_code}">${stglist.stg_name} </a>
@@ -47,7 +43,7 @@
 					${stglist.stg_count}/${stglist.stg_limit}
 				</td>
 				<td align="center"> 
-					${stglist.u_id}
+					${stglist.u_name}
 				</td>
 				<td align="center">
 			      <fmt:formatDate value="${stglist.stg_regdate}" pattern="yyyy-MM-dd" />

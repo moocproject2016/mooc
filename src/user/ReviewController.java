@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import _dto.LectureQuestionDTO;
 import _dto.LectureReviewDTO;
 import _dto.QuestionDTO;
+import _dto.StgBoardDTO;
 import _dto.pageAction;
 
 @Controller
@@ -87,9 +90,10 @@ public class ReviewController {
 	public String questionList_main(HttpServletRequest request, HttpSession session, QuestionDTO q_dto){
 		
 		String id = (String)session.getAttribute("memId");
-			
+		q_dto.setU_id(id);
 		String pageNum=request.getParameter("pageNum");
-		List AllList=(ArrayList)sqlMap.queryForList("question", id);
+		List AllList=(ArrayList)sqlMap.queryForList("question",q_dto);
+		
 		pageAction pageing=new pageAction();
 		List question=pageing.pageList(pageNum,AllList, 10);
 			
@@ -104,11 +108,12 @@ public class ReviewController {
 		
 	}
 	@RequestMapping("user/myLecture_review.mooc")
-	public String myLecture_reviewList_main(HttpServletRequest request, HttpSession session){
+	public String myLecture_reviewList_main(HttpServletRequest request, HttpSession session, LectureReviewDTO l_dto){
 		
 		String id = (String)session.getAttribute("memId");
+		l_dto.setU_id(id);
 		String pageNum=request.getParameter("pageNum");
-		List AllList=(ArrayList)sqlMap.queryForList("lec_review",id);
+		List AllList=(ArrayList)sqlMap.queryForList("lec_review",l_dto);
 		pageAction pageing=new pageAction();
 		List lec_review = pageing.pageList(pageNum,AllList, 7);
 		
@@ -123,11 +128,12 @@ public class ReviewController {
 		return main;
 	}
 	@RequestMapping("user/myStgWriter.mooc")
-	public String myStgWriterList_main(HttpServletRequest request, HttpSession session){
+	public String myStgWriterList_main(HttpServletRequest request, HttpSession session,StgBoardDTO stgbDto){
 		
 		String id = (String)session.getAttribute("memId");
+		stgbDto.setU_id(id);
 		String pageNum=request.getParameter("pageNum");
-		List AllList=(ArrayList)sqlMap.queryForList("stg_b", id);
+		List AllList=(ArrayList)sqlMap.queryForList("stg_b", stgbDto);
 		pageAction pageing=new pageAction();
 		List stg_b = pageing.pageList(pageNum,AllList, 7);
 		
@@ -142,11 +148,13 @@ public class ReviewController {
 			
 	}
 	@RequestMapping("user/myLec_questionList.mooc")
-	public String myLecQuestionList_main(HttpServletRequest request, HttpSession session){
+	public String myLecQuestionList_main(HttpServletRequest request, HttpSession session, LectureQuestionDTO lqDto){
 		
 		String id = (String)session.getAttribute("memId");
+		lqDto.setU_id(id);
+		
 		String pageNum=request.getParameter("pageNum");
-		List AllList=(ArrayList)sqlMap.queryForList("lec_question", id);
+		List AllList=(ArrayList)sqlMap.queryForList("lec_question", lqDto);
 		pageAction pageing=new pageAction();
 		List lecture_question = pageing.pageList(pageNum,AllList, 7);
 		
@@ -159,7 +167,6 @@ public class ReviewController {
 		request.setAttribute("user_myStudy_content", content);
 		return main;
 		}
-
 	
 	@RequestMapping("user/myQuestionDelete.mooc")
 	public String myQuestionDelete(HttpServletRequest request, int[] q_num, HttpSession session){

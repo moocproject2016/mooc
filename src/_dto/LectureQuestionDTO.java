@@ -12,6 +12,28 @@ public class LectureQuestionDTO {
 	private String lec_c_content;
 	private Timestamp lec_c_regdate;
 	private String t_id;
+	private String search;
+	private String select;
+	
+	
+	
+	public String getSearch() {
+		return search;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
+	
+	
+	
+	
+	
 	
 	public int getLec_q_num() {
 		return lec_q_num;

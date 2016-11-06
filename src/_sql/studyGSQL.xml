@@ -67,17 +67,19 @@
       #stg_code#,#u_id#
       )
     </insert>
-    <select id="myselectlist" resultClass="sgdto" parameterClass="String">
-		select a.*, b.stg_count 
-		from (
-	        select a.stg_code,a.stg_name,a.stg_regdate,a.stg_limit,a.u_id u_id,b.u_id bid
-	        from studygroup a,studygroup_list b 
-	        where a.stg_code=b.stg_code and b.u_id = #u_id#
-		) a
-		left join (
-        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
-		) b
-		on a.stg_code = b.stg_code
+   <select id="myselectlist" resultClass="sgdto" parameterClass="String">
+		select a.*,b.u_name from 
+		(select a.*, b.stg_count 
+			from (
+		        select a.stg_code,a.stg_name,a.stg_regdate,a.stg_limit,a.u_id u_id,b.u_id bid
+		        from studygroup a,studygroup_list b 
+		        where a.stg_code=b.stg_code and b.u_id = #u_id#
+			) a
+			left join (
+	        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
+			) b
+			on a.stg_code = b.stg_code
+		) a, userinfo b where a.u_id = b.u_id
     </select>
     
     <delete id="mydeletelist" parameterClass="sgdto">
@@ -88,6 +90,18 @@
     		DELETE FROM studygroup WHERE stg_code = #stg_code# AND (SELECT COUNT(stg_code) FROM studygroup_list WHERE stg_code=#stg_code#) = 0;
     	end
     }
-    </delete>	
+    </delete>
+     <select id="myselectlist1" resultClass="sgdto" parameterClass="String">
+		select a.*,b.u_name from 
+		(select a.*, b.stg_count 
+			from (
+		        select * from studygroup where u_id=#u_id#
+			) a
+			left join (
+	        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
+			) b
+			on a.stg_code = b.stg_code
+		) a, userinfo b where a.u_id = b.u_id
+    </select>	
     
 </sqlMap>

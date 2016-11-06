@@ -11,6 +11,28 @@ public class StgBoardDTO {
 	private String stg_b_data;
 	private String u_id;
 	private Timestamp stg_b_regdate;
+	private String search;
+	private String select;
+	
+	
+	
+	public String getSearch() {
+		return search;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
+	
+	
+	
+	
+	
 	public int getStg_b_num() {
 		return stg_b_num;
 	}

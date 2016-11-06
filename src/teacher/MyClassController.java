@@ -318,8 +318,7 @@ public class MyClassController {
 		
 	@RequestMapping("/teacher/qnaList.mooc")
 	//질문 답변
-	public String qnaList_main(HttpServletRequest request){
-		LectureQuestionDTO lecQueDTO=new LectureQuestionDTO();
+	public String qnaList_main(HttpServletRequest request,LectureQuestionDTO lecQueDTO){
 		int main_lec_code=0;
 		if(request.getAttribute("main_lec_code")!=null){
 			main_lec_code=(int) request.getAttribute("main_lec_code");	
@@ -366,43 +365,43 @@ public class MyClassController {
 			return "redirect:/teacher/qnaList.mooc";
 		}
 		
-	@RequestMapping("/teacher/reviewList.mooc")
-	//강의 후기목록
-	public String classReviewList_main(HttpServletRequest request){
-		LectureReviewDTO lecReviewDTO = new LectureReviewDTO();
-		if(request.getParameter("main_lec_code")!=null){
-			lecReviewDTO.setMain_lec_code(Integer.parseInt(request.getParameter("main_lec_code")));
+		@RequestMapping("/teacher/reviewList.mooc")
+		//강의 후기목록
+		public String classReviewList_main(HttpServletRequest request, LectureReviewDTO lecReviewDTO){
+			
+			if(request.getParameter("main_lec_code")!=null){
+				lecReviewDTO.setMain_lec_code(Integer.parseInt(request.getParameter("main_lec_code")));
+			}
+			
+			HttpSession session=request.getSession();
+			String t_id = (String)session.getAttribute("memId");
+			lecReviewDTO.setT_id(t_id);
+			
+			String pageNum=request.getParameter("pageNum");
+			if(pageNum==null){ pageNum="1"; }
+			
+			// 강사의 메인강의 목록 뽑아오기
+			List main_lec_list=sqlMap.queryForList("selectMainLecListForTID",t_id);
+			System.out.println("메인강의 개수"+main_lec_list.size());
+			request.setAttribute("main_lec_list", main_lec_list);
+			request.setAttribute("main_lec_code", lecReviewDTO.getMain_lec_code());
+			
+			// 강의후기 뽑아오기
+			List AllList=sqlMap.queryForList("myreviewlistForT",lecReviewDTO);
+			pageAction pageing=new pageAction();
+			List member = pageing.pageList(pageNum,AllList, 10);
+			request.setAttribute("all_count", AllList.size());
+			
+			request.setAttribute("count",pageing.count());
+			request.setAttribute("currentPage", pageing.current());
+			request.setAttribute("pageSize", pageing.size());
+			request.setAttribute("member", member);
+			
+			content = "board/teacher_reviewList.jsp";
+			request.setAttribute("main_content", myClass_main);
+			request.setAttribute("teacher_myClass_content", content);
+			return main;
 		}
-		
-		HttpSession session=request.getSession();
-		String t_id = (String)session.getAttribute("memId");
-		lecReviewDTO.setT_id(t_id);
-		
-		String pageNum=request.getParameter("pageNum");
-		if(pageNum==null){ pageNum="1"; }
-		
-		// 강사의 메인강의 목록 뽑아오기
-		List main_lec_list=sqlMap.queryForList("selectMainLecListForTID",t_id);
-		System.out.println("메인강의 개수"+main_lec_list.size());
-		request.setAttribute("main_lec_list", main_lec_list);
-		request.setAttribute("main_lec_code", lecReviewDTO.getMain_lec_code());
-		
-		// 강의후기 뽑아오기
-		List AllList=sqlMap.queryForList("myreviewlistForT",lecReviewDTO);
-		pageAction pageing=new pageAction();
-		List member = pageing.pageList(pageNum,AllList, 10);
-		request.setAttribute("all_count", AllList.size());
-		
-		request.setAttribute("count",pageing.count());
-		request.setAttribute("currentPage", pageing.current());
-		request.setAttribute("pageSize", pageing.size());
-		request.setAttribute("member", member);
-		
-		content = "board/teacher_reviewList.jsp";
-		request.setAttribute("main_content", myClass_main);
-		request.setAttribute("teacher_myClass_content", content);
-		return main;
-	}
 	
 	
 	
