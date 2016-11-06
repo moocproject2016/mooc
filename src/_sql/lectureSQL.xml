@@ -13,10 +13,11 @@
 		select * from main_lecture where t_id=#t_id# order by main_lec_code asc
 	</select>
 	
-	<select id="selectAllSubLectureForMain" parameterClass="int" resultClass="lectureDTO">
-		select a.sub_lec_code,a.main_lec_code,a.t_id,a.sub_lec_chapter,a.sub_lec_subject,a.sub_lec_content,a.sub_lec_media,a.sub_lec_type,a.sub_lec_flag,to_char(b.live_lec_date,'yyyy/mm/dd hh24:mi') live_lec_date from 
+	<select id="selectAllSubLectureForMain" parameterClass="lectureDTO" resultClass="lectureDTO">
+		select a.*,coalesce(b.w_lec_state,0) as w_lec_state,coalesce(b.w_lec_date,sysdate) as w_lec_date from (select a.sub_lec_code,a.main_lec_code,a.t_id,a.sub_lec_chapter,a.sub_lec_subject,a.sub_lec_content,a.sub_lec_media,a.sub_lec_type,a.sub_lec_flag,to_char(b.live_lec_date,'yyyy/mm/dd hh24:mi') live_lec_date from 
 		(select * from sub_lecture where main_lec_code=#main_lec_code# order by sub_lec_chapter asc) a,live_lecture b 
-		where a.sub_lec_code=b.sub_lec_code(+)
+		where a.sub_lec_code=b.sub_lec_code(+)) a left join (select * from STUDY_SUBLEC_PROCESS where u_id=#u_id#) b
+		on a.sub_lec_code=b.sub_lec_code
 	</select>
 	
 	<select id="selectAllSubLecture" parameterClass="int" resultClass="lectureDTO">

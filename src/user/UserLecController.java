@@ -26,7 +26,7 @@ public class UserLecController {
 	public String viewMainLec_main(HttpServletRequest request, LectureReviewDTO dto){
 		int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
 		LectureDTO main_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneMainLecture", main_lec_code);
-		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_code);
+		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_dto);
 		int sub_lec_count=sub_lec_list.size();
 		
 		String t_id = request.getParameter("t_id");
@@ -69,16 +69,7 @@ public class UserLecController {
 		request.setAttribute("lec_data_list", lec_data_list);
 		request.setAttribute("beforePage", currentPage);
 		
-		if(sub_lec_dto.getSub_lec_type()==0){ // 녹화 강의
-			content = "user/lecture/user_watchRecord.jsp";
-		}else{ // 실시간 강의
-			content = "user/lecture/user_watchLive.jsp";
-			sqlMap.queryForObject("", sub_lec_code);
-		}
-		
-		
-		request.setAttribute("main_content", content);
-		return main;
+		return "user/lecture/user_watchRecord.jsp";
 	}
 	
 	@RequestMapping("/report.mooc")

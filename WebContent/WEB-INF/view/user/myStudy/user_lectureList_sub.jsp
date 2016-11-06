@@ -2,24 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <script>
+function myFunction(i) {
+	 cw=screen.availWidth;
+	 ch=screen.availHeight;
+	 test=window.open('https://172.16.8.27:9001/doLive.html?sub_lec_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	}
+</script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/> 
-
 	<table class="table" align="center">
 		<tr><td colspan="2">
-			<h4>${main_lec_dto.main_lec_subject }
-			<table >
-				<tr>
-					<c:if test="${count2==1}"><td style="color:#FF0000;font-size:17px">수강중&nbsp;</td>
-					</c:if>
-					<c:if test="${count1==1}"><td style="color:#FF0000;font-size:17px">관심강의&nbsp;</td>
-					</c:if>
-					<c:if test="${count==1}"><td style="color:#FF0000;font-size:17px">관심강사&nbsp;</td>
-					</c:if>
-				</tr>
-			</table>
-			
-			<input type="hidden" name="main_lec_code" value="${main_lec_dto.main_lec_code}"/>
-			</h4>
+				<h4>${main_lec_dto.main_lec_subject }
+				<table >
+					<tr>
+						<c:if test="${count2==1}"><td style="color:#FF0000;font-size:17px">수강중&nbsp;</td>
+						</c:if>
+						<c:if test="${count1==1}"><td style="color:#FF0000;font-size:17px">관심강의&nbsp;</td>
+						</c:if>
+						<c:if test="${count==1}"><td style="color:#FF0000;font-size:17px">관심강사&nbsp;</td>
+						</c:if>
+					</tr>
+				</table>
+				
+				<input type="hidden" name="main_lec_code" value="${main_lec_dto.main_lec_code}"/>
+				</h4>
 			</td>
 			<td align="right">
 			<button type="button" class="btn btn-default" onclick="window.history.back()" ><span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span> 뒤로가기</button>
@@ -64,14 +70,15 @@
 	<table class="table" align="center">
 		<c:forEach var="lectureDTO" items="${sub_lec_list}">
 			<tr>
-				<td width="30%">
+				<td width="10%">
 					${lectureDTO.sub_lec_chapter}강
 					<input type="hidden" name="sub_lec_code" value="${lectureDTO.sub_lec_code }"/>
 				</td>
-				<td width="60%">
+				<td width="45%">
 					<c:if test="${lectureDTO.sub_lec_chapter==1||count2==1&&sessionScope.memId!=null}">
 						<c:if test="${lectureDTO.sub_lec_type==0||lectureDTO.sub_lec_type==2 }"><a href="/mooc/watchLec.mooc?sub_lec_code=${lectureDTO.sub_lec_code }&currentPage=${currentPage}" target="_blank"></c:if>
 						<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code })"></c:if>
+						${lectureDTO.sub_lec_subject }</a>
 						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
 					</c:if>
 					<c:if test="${count2!=1&&lectureDTO.sub_lec_chapter!=1}">
@@ -79,9 +86,13 @@
 						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
 					</c:if>
 				</td>
-				<td width="10%">
+				<td width="15%">
 					<c:if test="${lectureDTO.sub_lec_type==0}">녹화</c:if>
 					<c:if test="${lectureDTO.sub_lec_type==1}">실시간</c:if>
+					<c:if test="${lectureDTO.sub_lec_type==2}">실시간(완료)</c:if>
+				</td>
+				<td width="30%">
+					<c:if test="${lectureDTO.w_lec_state==1}"><font color="red"><b>학습완료(<fmt:formatDate value="${lectureDTO.w_lec_date }" pattern="yyyy-MM-dd HH:mm"/>)</b></font></c:if>
 				</td>
 				</tr>
 			

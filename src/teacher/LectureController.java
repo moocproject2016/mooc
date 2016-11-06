@@ -187,7 +187,7 @@ public class LectureController {
 	public String subLecture_list_main(HttpServletRequest request){
 		int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
 		LectureDTO main_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneMainLecture", main_lec_code);
-		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_code);
+		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_dto);
 		request.setAttribute("sub_lec_list", sub_lec_list);
 		request.setAttribute("main_lec_dto", main_lec_dto);
 		

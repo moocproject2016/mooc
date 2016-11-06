@@ -4,7 +4,7 @@
 function myFunction(i) {
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://192.168.30.100:9001/doConference.html?stg_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://172.16.8.27:9001/doConference.html?stg_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 	}
 </script>
 

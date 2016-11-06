@@ -44,6 +44,11 @@ public class LectureDTO {
 	//카운트
 	private int lecView_count;
 	private int subLec_count;
+	
+	//진도 
+	private int w_lec_state;
+	private Timestamp w_lec_date;
+	
 	public int getMain_lec_code() {
 		return main_lec_code;
 	}
@@ -229,6 +234,18 @@ public class LectureDTO {
 	}
 	public void setSubLec_count(int subLec_count) {
 		this.subLec_count = subLec_count;
+	}
+	public int getW_lec_state() {
+		return w_lec_state;
+	}
+	public Timestamp getW_lec_date() {
+		return w_lec_date;
+	}
+	public void setW_lec_state(int w_lec_state) {
+		this.w_lec_state = w_lec_state;
+	}
+	public void setW_lec_date(Timestamp w_lec_date) {
+		this.w_lec_date = w_lec_date;
 	}
 	
 	

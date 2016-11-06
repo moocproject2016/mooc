@@ -60,7 +60,6 @@
  
 	
 </script>
-	<input type="button" class="btn btn-default" value="뒤로" onclick="javascript:location.href='${beforePage}'"/>
 	<c:if test="${sessionScope.memId!=null}">
 		<input type="button" value="신고하기" class="btn btn-default" id="report"/>
 		<input type="button" class="btn btn-default" value="필기노트">

@@ -12,6 +12,9 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import _dto.LectureDTO;
+import _dto.LectureReviewDTO;
+import _dto.UserDTO;
 import _dto.mainlectureDTO;
 import _dto.pageAction;
 import _dto.studyNoteDTO;
@@ -66,6 +69,44 @@ public class MyStudyController {
 			
 		
 			content = "user_lectureList.jsp";
+			request.setAttribute("main_content", myStudy_main);
+			request.setAttribute("user_myStudy_content", content);
+			return main;
+	}
+	@RequestMapping("/user/lectureList_sub.mooc")
+	//강의목록
+		public String myLectureList_sub_main(HttpServletRequest request){
+			int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
+			HttpSession session=request.getSession();
+			String id=(String)session.getAttribute("memId");
+			LectureDTO main_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneMainLecture", main_lec_code);
+			main_lec_dto.setU_id(id);
+			List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_dto);
+			int sub_lec_count=sub_lec_list.size();
+			
+			request.setAttribute("t_id", main_lec_dto.getT_id());
+			HashMap a=new HashMap();
+			
+			a.put("t_id",main_lec_dto.getT_id());
+			a.put("u_id",id);
+			a.put("main_lec_code",main_lec_code);
+			int count=(Integer)sqlMap.queryForObject("checkT_id",a);
+			int count1=(Integer)sqlMap.queryForObject("checkMain_lec_code",a);
+			int count2=(Integer)sqlMap.queryForObject("checkLecture",a);
+			
+			request.setAttribute("count", count);
+			request.setAttribute("count1", count1);
+			request.setAttribute("count2", count2);
+			request.setAttribute("sub_lec_list", sub_lec_list);
+			request.setAttribute("main_lec_dto", main_lec_dto);
+			request.setAttribute("sub_lec_count", sub_lec_count);
+			if((String)session.getAttribute("memId") != null){
+			UserDTO check = (UserDTO)sqlMap.queryForObject("selectUser", id);
+			int u_type = check.getU_type();
+			request.setAttribute("u_type", u_type);
+			System.out.println(u_type);
+			}
+			content = "user_lectureList_sub.jsp";
 			request.setAttribute("main_content", myStudy_main);
 			request.setAttribute("user_myStudy_content", content);
 			return main;
