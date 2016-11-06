@@ -3,16 +3,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import _dto.mainlectureDTO;
+import _dto.LectureDTO;
 import _dto.pageAction;
 import _dto.studyNoteDTO;
 
@@ -154,9 +151,6 @@ public class MyStudyController {
        		request.setAttribute("count", paging.count());		
 			request.setAttribute("list", list);
 			
-			
-			
-			
 			content = "user_likeLectureList.jsp";
 			request.setAttribute("main_content", myStudy_main);
 			request.setAttribute("user_myStudy_content", content);
@@ -177,7 +171,6 @@ public class MyStudyController {
 			request.setAttribute("count", paging.count());		
 			request.setAttribute("list", list);
 			
-			
 			content = "user_likeTeacherList.jsp";
 			request.setAttribute("main_content", myStudy_main);
 			request.setAttribute("user_myStudy_content", content);
@@ -190,7 +183,7 @@ public class MyStudyController {
 		
 			String t_id=request.getParameter("t_id");
 			List AllList=sqlMap.queryForList("TeacherLecList",t_id);
-			mainlectureDTO dto=(mainlectureDTO)AllList.get(0);
+			LectureDTO dto=(LectureDTO)AllList.get(0);
 			
 			request.setAttribute("list", AllList);
 			return "/user/myStudy/user_likeTeacherListAjax.jsp";

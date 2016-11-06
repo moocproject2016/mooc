@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<script>
 		
 		function searchId(){
@@ -84,11 +85,9 @@
 			<thead>
 				<tr class="theadtop">
 					<th><input type="checkbox" name="allcheck" onclick="allCheck()"/></th>
-					<th>문의번호</th>
-					<th>게시판</th>
-					<th>아이디</th>
+					<th>번호</th>
 					<th>제목</th>
-					<th>문의날짜</th>
+					<th>날짜</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,12 +95,13 @@
 				<tr>
 					<td align="center"><input type="checkbox" name="checkbox" value="0"/></td>							
 					<td align="center">${stg_b.stg_b_num}<input type="hidden" name="stg_b_num" value="${stg_b.stg_b_num}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
-					<td align="center">스터디</td>
-					<td align="center">${stg_b.u_id}</td>
 					<td align="center" onclick="displaySwitch('${i.count}re1');">
 						<b>${stg_b.stg_b_subject}</b>
 					</td>
-					<td align="center">${stg_b.stg_b_regdate}</td>
+					<td align="center">
+						<c:set var="date" value="${fn:split(stg_b.stg_b_regdate, ' ')}"/>
+						${date[0]}
+					</td>
 				</tr>
 				<c:if test="${stg_b.stg_b_content!=null}">
 					<tr>

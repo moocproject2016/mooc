@@ -10,7 +10,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import _dto.TeacherDTO;
-import _dto.mainlectureDTO;
+import _dto.LectureDTO;
 import _dto.memberDTO;
 import _dto.pageAction;
 
@@ -116,7 +116,7 @@ public class UserController {
 	
 	@RequestMapping("user/user_lectureListSerch.mooc")
 	//강의리스트 검색
-	public String lectureListSerch_main(HttpServletRequest request,mainlectureDTO dto){
+	public String lectureListSerch_main(HttpServletRequest request,LectureDTO dto){
 		String pageNum=request.getParameter("pageNum");
 		List AllList=null;
 		if(dto.getMain_lec_subject()!=null){

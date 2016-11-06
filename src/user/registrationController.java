@@ -1,15 +1,11 @@
 package user;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import _dto.ChoiceLectureDTO;
-import _dto.mainlectureDTO;
+import _dto.LectureDTO;
 
 @Controller
 public class registrationController {
@@ -29,7 +25,7 @@ public class registrationController {
 		return "redirect:/viewMainLec.mooc?main_lec_code="+dto.getMain_lec_code();
 	}
 	@RequestMapping("/user_interestTeacher.mooc")
-	public String user_interestTeacher(HttpSession session,mainlectureDTO dto){
+	public String user_interestTeacher(HttpSession session,LectureDTO dto){
 		dto.setU_id((String)session.getAttribute("memId"));
 		if((String)session.getAttribute("memId")!=null){
 		sqlMap.insert("interastTeacher",dto);
@@ -37,7 +33,7 @@ public class registrationController {
 		return "redirect:/viewMainLec.mooc?main_lec_code="+dto.getMain_lec_code();
 	}
 	@RequestMapping("/user_interestLecture.mooc")
-	public String user_interestLecture(HttpSession session,mainlectureDTO dto){
+	public String user_interestLecture(HttpSession session,LectureDTO dto){
 		dto.setU_id((String)session.getAttribute("memId"));//session으로 가입 막기
 		if((String)session.getAttribute("memId")!=null){
 			sqlMap.insert("interastLecture",dto);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script>
 		
@@ -83,11 +84,10 @@
 				
 				<tr class="theadtop">
 					<th><input type="checkbox" name="allcheck" onclick="allCheck()"/></th>
-					<th>문의번호</th>
-					<th>게시판</th>
-					<th>아이디</th>
+					<th>번호</th>
+					<th>강의</th>
 					<th>제목</th>
-					<th>문의날짜</th>
+					<th>날짜</th>
 				</tr>
 			</thead>
 				<tbody>
@@ -96,11 +96,13 @@
 					<td align="center"><input type="checkbox" name="checkbox" value="${lec_review.main_lec_code}"/></td>							
 					<td align="center">${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
 					<td align="center">강의 후기</td>
-					<td align="center">${lec_review.u_id}</td>
 					<td align="center" onclick="displaySwitch('${i.count}re');">
 						<b>${lec_review.lec_r_subject}</b>
 					</td>
-					<td align="center">${lec_review.lec_r_regdate}</td>
+					<td align="center">
+						<c:set var="date" value="${fn:split(lec_review.lec_r_regdate, ' ')}"/>
+						${date[0]}
+					</td>
 				</tr>
 				<c:if test="${lec_review.lec_r_content!=null}">
 					<tr>

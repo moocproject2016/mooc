@@ -5,7 +5,7 @@
 function myFunction(i) {
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://192.168.30.100:9001/doLive.html?sub_lec_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://192.168.0.4:9001/doLive.html?sub_lec_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 	}
 </script>
 
