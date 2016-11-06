@@ -335,6 +335,7 @@ public class LectureController {
 				File deleteFile=new File(realPath+filePath);
 				if(deleteFile.exists()){  System.out.println("파일 삭제"); deleteFile.delete(); }
 				sqlMap.delete("deleteLecData", Integer.parseInt(deleteData[i]));
+				sqlMap.delete("deletePPTImage", lectureDTO.getSub_lec_code());
 			}
 		}
 		

@@ -127,4 +127,7 @@
 	<delete id="deleteLecData" parameterClass="int">
 		delete from lecture_data where lec_data_code=#lec_data_code#
 	</delete>
+	<delete id="deletePPTImage" parameterClass="int">
+		delete from ppt_image where sub_lec_code=#sub_lec_code#
+	</delete>
 </sqlMap>

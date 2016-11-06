@@ -10,6 +10,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import _dto.memberDTO;
+import _dto.pageAction;
 
 @Controller
 public class MainController {
@@ -24,19 +25,18 @@ public class MainController {
 	@RequestMapping("/main.mooc")
 	//user 메인 페이지 
 		public String _main(HttpServletRequest request){
-		
-		List main_liveLecture_List = null;
-		List main_bestLecture_List = null;
-		List main_popularLecture_List = null;
-		
-		main_liveLecture_List = sqlMap.queryForList("main_liveLecture_List", null); //곧 시작하는 실시간 강의
-		main_bestLecture_List = sqlMap.queryForList("main_bestLecture_List", null); //베스트 강의 목록 - 강의 평점 총점 기준
-		main_popularLecture_List = sqlMap.queryForList("main_popularLecture_List", null); // 인기 강의 목록 - 수강신청 기준 
-		
-		request.setAttribute("main_popularLecture_List", main_popularLecture_List);
-		request.setAttribute("main_bestLecture_List", main_bestLecture_List);
-		request.setAttribute("main_liveLecture_List", main_liveLecture_List);
-		
+			List main_liveLecture_List = null;
+			List main_bestLecture_List = null;
+			List main_popularLecture_List = null;
+			
+			main_liveLecture_List = sqlMap.queryForList("main_liveLecture_List", null); //곧 시작하는 실시간 강의
+			main_bestLecture_List = sqlMap.queryForList("main_bestLecture_List", null); //베스트 강의 목록 - 강의 평점 총점 기준
+			main_popularLecture_List = sqlMap.queryForList("main_popularLecture_List", null); // 인기 강의 목록 - 수강신청 기준 
+			
+			request.setAttribute("main_popularLecture_List", main_popularLecture_List);
+			request.setAttribute("main_bestLecture_List", main_bestLecture_List);
+			request.setAttribute("main_liveLecture_List", main_liveLecture_List);
+			
 			content="container.jsp";
 			request.setAttribute("main_content", content);
 			return main;
