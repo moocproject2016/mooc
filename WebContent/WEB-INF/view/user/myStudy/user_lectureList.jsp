@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="fixedMenu">
 		<div class="dropdown"  alian="right">
 			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -38,7 +38,7 @@
 			<a href="/mooc/user/lectureList_sub.mooc?main_lec_code=${dto.main_lec_code}"><br/>
 			강의:${dto.main_lec_subject}</a><br/>
 			comment:${dto.main_lec_content}<br />${dto.lecView_count}/${dto.subLec_count }
-			(학습 진도 : ${dto.lecView_count/dto.subLec_count*100}%)
+			(학습 진도 : <fmt:formatNumber type="number"  pattern="0.0" value="${dto.lecView_count/dto.subLec_count*100}"/>%)
 			</center>
 	</td>
 	
