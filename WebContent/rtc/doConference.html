@@ -6,8 +6,8 @@
     <script src="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
     <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    
     <link rel="stylesheet" href="css/webrtc.css">
-
 	
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
@@ -16,14 +16,7 @@
     <script src="js/jquery.js"></script>
 	<script src="js/scripts.js"></script>
 	<script src="js/bootstrap.js"></script>
-	<script>
-	   function loadPageVar(sVar) {
-	      return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-	   }
-	   $( document ).ready(function() {
-	       $('#room-id').val(loadPageVar('sub_lec_code'))
-	   });
-	</script>
+
 </head>
 <div id="wrap"> 
 <!--header -->
@@ -36,12 +29,10 @@
 				<div class="github-stargazers"></div>
 
 	      		<div class="make-center">
-	      			방번호 : <input type="text" id="room-id" size="5" value="114">
-	            	이름 :  <input type = "text" id ="user_id" value="aa" size = "8">
-	            	<button id="open-room">강의 준비</button>
-	                <button id="join-room">강의 참여</button>
-	                <button id="start-record" disabled>강의 시작</button>
-					<button id="stop-record" disabled>강의 중지</button>
+	      			방번호 : <input type="text" id="room-id" size="5" value="${sub_lec_dto.sub_lec_code }">
+	            	이름 :  <input type = "text" id ="user_id" size = "8">
+	            	<button id="open-room">회의 시작</button>
+	                <button id="join-room">회의 참여</button>
 					<div id="saveDIV" style="text-align: center; display: none;">
                			<button id="save-to-disk1">Save Video</button>
                			<button id="save-to-disk2">Save Screen</button>
@@ -53,24 +44,35 @@
 	<div id="container">
             <div class="content">
             	<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#home">영상1</a></li>
-					<li><a data-toggle="tab" href="#menu1">영상2</a></li>
+					<li class="active"><a data-toggle="tab" href="#home">내 화면 공유</a></li>
+					<li><a data-toggle="tab" href="#menu1">화상 회의</a></li>
+					<li><a data-toggle="tab" href="#menu2">공유 칠판</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="home" class="tab-pane fade in active">
 						<div id="videos-container"></div>
 					</div>
 					<div id="menu1" class="tab-pane fade">
-						<div id="videos-container2">aaa</div>
+						<div id="videos-container2">화상회의방입니다</div>
+		     		</div>
+		     		<div id="menu2" class="tab-pane fade">
+						<div id="videos-container2">
+							<table width="100%" height="700px">
+								<tr>
+									<td>
+										<iframe src="https://192.168.0.4:9001" width="100%" height="100%"></iframe>
+									</td>
+								</tr>
+							</table>
+						</div>
 		     		</div>
 		     	</div>
-	
-	            <br><br>
-	            <div  class="rtc_bottom">
+		     	<div  class="rtc_bottom">
 		            <div>강의 내용 : ${sub_lec_dto.sub_lec_content}</div>
 		            	(Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension) 
 					</div>
 				</div>
+				
 			 <!-- 채팅구역 -->
 			<div class="aside">
 				<section style="height:auto; width:395px;">
@@ -176,77 +178,7 @@
                 alert("연결 끊김");
             };
 
-            
-            //녹화
-            document.getElementById('start-record').onclick = function() {
-                alert("녹화시작");
-                record_video.startRecording();
-                record_screen.startRecording();
-                document.getElementById('start-record').disabled=true;
-                document.getElementById('stop-record').disabled=false;
-            };
-            document.getElementById('stop-record').onclick = function() {
-            	document.getElementById('stop-record').disabled=true;
-                record_video.stopRecording(function(videoURL) {
-                    var recordedBlob = record_video.getBlob();
-                    alert(recordedBlob);
-                    record_video.getDataURL(function(dataURL) { });
-                    var fileType = 'video'; // or "audio"
-                    var fileName = document.getElementById('room-id').value+'_video.webm';  // or "wav"
-
-                    var formData = new FormData();
-                    formData.append('sub_lec_code',document.getElementById('room-id').value);
-                    formData.append(fileType + '-filename', fileName);
-                    formData.append(fileType + '-blob', recordedBlob);
-                    $.ajax({
-                    	url: 'https://172.16.8.27:8443/mooc/doLive_ajax.mooc',
-                    	 processData : false,
-                         contentType : false,
-                         data : formData,
-                         type : "post",
-                         success : function(data){
-                          	alert('ajax 전송 성공');
-                         }
-                    })
-                    document.getElementById('saveDIV').style.display = 'block';
-                    document.getElementById('save-to-disk1').onclick = function() {
-                        if(!record_video) return alert('No recording found.');
-                        record_video.save();
-                    };
-
-                });
-                record_screen.stopRecording(function(videoURL) {
-                    var recordedBlob = record_screen.getBlob();
-                    alert(recordedBlob);
-                    record_screen.getDataURL(function(dataURL) { });
-                    var fileType = 'video'; // or "audio"
-                    var fileName = document.getElementById('room-id').value+'_screen.webm';  // or "wav"
-
-                    var formData = new FormData();
-                    formData.append('sub_lec_code',document.getElementById('room-id').value);
-                    formData.append(fileType + '-filename', fileName);
-                    formData.append(fileType + '-blob', recordedBlob);
-					
-                    $.ajax({
-                    	url: 'https://172.16.8.27:8443/mooc/doLive_ajax.mooc',
-                    	 processData : false,
-                         contentType : false,
-                         data : formData,
-                         type : "post",
-                         success : function(data){
-                          	alert('ajax 전송 성공');
-                         }
-                    })
-                    document.getElementById('saveDIV').style.display = 'block';
-                    document.getElementById('save-to-disk2').onclick = function() {
-                        if(!record_screen) return alert('No recording found.');
-                        record_screen.save();
-                    };
-                });
-               	connection.close();
-            };
-            // Using getScreenId.js to capture screen from any domain
-            // You do NOT need to deploy Chrome Extension YOUR-Self!!
+                    
             connection.getScreenConstraints = function(callback) {
 				alert("getScreenConstraints");
                 getScreenConstraints(function(error, screen_constraints) {
@@ -281,7 +213,6 @@
                 document.getElementById('join-room').disabled = true;
                 document.getElementById('room-id').disabled = true;
                 document.getElementById('chatinput').disabled = false;
-                document.getElementById('start-record').disabled=false;
             }
             
             //----------------------파일업로드 기능----------------------

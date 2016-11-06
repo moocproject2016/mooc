@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -16,21 +16,21 @@
 						+'<td rowspan="3"><input type="text" name="sub_lec_chapter" size=1 value='+index+' style="border:0px" readonly>'
 						+'<input type="hidden" name="sub_lec_code"/></td>'
 						+'<td colspan="2"><select id="type" name="sub_lec_type" onclick="selType(this)">'
-							+'<option>°­ÀÇÀ¯Çü</option><option value="0">³ìÈ­</option><option value="1">½Ç½Ã°£</option>'
+							+'<option>ê°•ì˜ìœ í˜•</option><option value="0">ë…¹í™”</option><option value="1">ì‹¤ì‹œê°„</option>'
 						+'</select>'
-						+'<input type="text" name="sub_lec_subject" size="55" placeholder="¼­ºê °­ÀÇ Á¦¸ñ ÀÔ·Â."/></td>'
+						+'<input type="text" name="sub_lec_subject" size="55" placeholder="ì„œë¸Œ ê°•ì˜ ì œëª© ì…ë ¥."/></td>'
 						
-						+'<td rowspan="3"><input type="button" value="»èÁ¦" name="del_btn" onclick="delTb(this)"></td>'
+						+'<td rowspan="3"><input type="button" value="ì‚­ì œ" name="del_btn" onclick="delTb(this)"></td>'
 					+'</tr>'
 					+'<tr>'
 						+'<td colspan="2">'
 							+'<div name="fileDIV" style="display:none;"><input type="hidden" name="fileState" value="new">'
 							+'<input type="file" name="after_file"/><input type="hidden" name="before_file"/></div>'
-							+'<div name="dateDIV" style="display:none;"><input type="text" name="live_lec_date" class="DatePicker" size="25" placeholder="°­ÀÇ³¯Â¥(2016/01/01 20:00)"/></div>'
+							+'<div name="dateDIV" style="display:none;"><input type="text" name="live_lec_date" class="DatePicker" size="25" placeholder="ê°•ì˜ë‚ ì§œ(2016/01/01 20:00)"/></div>'
 						+'</td>'
 					+'</tr>'
 					+'<tr>'
-						+'<td colspan="2"><textArea name="sub_lec_content" cols="70" rows="3" placeholder="¼­ºê °­ÀÇ ³»¿ë ÀÔ·Â"></textArea></td>'
+						+'<td colspan="2"><textArea name="sub_lec_content" cols="70" rows="3" placeholder="ì„œë¸Œ ê°•ì˜ ë‚´ìš© ì…ë ¥"></textArea></td>'
 					+'</tr></td></tr></table><br />');
 			$(".DatePicker").appendDtpicker();
 		});
@@ -53,16 +53,16 @@
 		var live_lec_date=document.getElementsByName("live_lec_date");
 		var after_file=document.getElementsByName("after_file");
 		var index;
-		//ÇöÀç ÀÎµ¦½º Ã£±â
+		//í˜„ì¬ ì¸ë±ìŠ¤ ì°¾ê¸°
 		for(var i=0;i<sub_lec_type.length;i++){
 			if(sub_lec_type[i].value==subType.value){ index=i;}
 		}
-		if(subType.value==0){ //³ìÈ­°­ÀÇ
+		if(subType.value==0){ //ë…¹í™”ê°•ì˜
 			document.getElementsByName("fileDIV")[index].style.display="block";
 			document.getElementsByName("dateDIV")[index].style.display="none";
 			document.getElementsByName("live_lec_date")[index].value="";
 				
-		}else if(subType.value==1){ //½Ç½Ã°£°­ÀÇ
+		}else if(subType.value==1){ //ì‹¤ì‹œê°„ê°•ì˜
 			document.getElementsByName("fileDIV")[index].style.display="none";
 			document.getElementsByName("dateDIV")[index].style.display="block";
 			document.getElementsByName("before_file")[index].value="";
@@ -92,27 +92,26 @@
 		document.getElementsByName("fileState")[i].value="old";
 	}
 	
-	
 </script>
 
 <form name="inform" action="/mooc/teacher/classModifyPro.mooc" method="post" encType="multipart/form-data" onsubmit="return submitCheck()">
-	<input type="button" value="µÚ·Î" onclick="javascript:location.href='/mooc/teacher/classList.mooc'">
-	<input type="reset" value="´Ù½ÃÀÔ·Â">
-	<input type="submit" value="¼öÁ¤"><br />
-	°­ÀÇÄÚµå : <input type="text" name="main_lec_code" value="${main_lec_dto.main_lec_code}"/><br />
-	°­ÀÇ¸í : <input type="text"  name="main_lec_subject" value="${main_lec_dto.main_lec_subject}"/><br />
+	<input type="button" value="ë’¤ë¡œ" onclick="javascript:location.href='/mooc/teacher/classList.mooc'">
+	<input type="reset" value="ë‹¤ì‹œì…ë ¥">
+	<input type="submit" value="ìˆ˜ì •"><br />
+	ê°•ì˜ì½”ë“œ : <input type="text" name="main_lec_code" value="${main_lec_dto.main_lec_code}"/><br />
+	ê°•ì˜ëª… : <input type="text"  name="main_lec_subject" value="${main_lec_dto.main_lec_subject}"/><br />
 	<div id="before_div" style='display:block;'>
-		°­ÀÇÀÌ¹ÌÁö :<input type="button"  id="newImgBtn"  value="»õ ÀÌ¹ÌÁö µî·Ï"/>
+		ê°•ì˜ì´ë¯¸ì§€ :<input type="button"  id="newImgBtn"  value="ìƒˆ ì´ë¯¸ì§€ ë“±ë¡"/>
 		<input type="text" name="before_img" value="${main_lec_dto.main_lec_image}" size="50" style="border: 0px;" readonly/>
 	</div>
 	<div id="after_div" style='display:none;'>
-		°­ÀÇÀÌ¹ÌÁö :<input type="button"  id="originImgBtn" value="±âÁ¸ ÀÌ¹ÌÁö·Î º¯°æ" />
+		ê°•ì˜ì´ë¯¸ì§€ :<input type="button"  id="originImgBtn" value="ê¸°ì¡´ ì´ë¯¸ì§€ë¡œ ë³€ê²½" />
 		<input type="file" name="after_img" id="after" style="valign:left;"/>
 	</div>
-	°­ÀÇ³»¿ë : <br />
+	ê°•ì˜ë‚´ìš© : <br />
 	<textArea name="main_lec_content"  rows="6" cols="60">${main_lec_dto.main_lec_content}</textArea><br />
 	
-	<input type="button" id="add_btn" value="°­ÀÇÃß°¡"/>
+	<input type="button" id="add_btn" value="ê°•ì˜ì¶”ê°€"/>
 	
 	<input type="hidden" name="init_count" value="${fn:length(sub_lec_list)}"/>
 	<c:forEach var="sub_lec_dto" items="${sub_lec_list}" varStatus="i">
@@ -125,18 +124,18 @@
 					<td colspan="2">
 						<select id="type" name="sub_lec_type" onclick="selType(this)">
 							<c:if test="${sub_lec_dto.sub_lec_type!=2}">
-								<option>°­ÀÇÀ¯Çü</option>
-								<option value="0" <c:if test="${sub_lec_dto.sub_lec_type==0}">selected</c:if>>³ìÈ­</option>
-								<option value="1" <c:if test="${sub_lec_dto.sub_lec_type==1}">selected</c:if>>½Ç½Ã°£</option>
+								<option>ê°•ì˜ìœ í˜•</option>
+								<option value="0" <c:if test="${sub_lec_dto.sub_lec_type==0}">selected</c:if>>ë…¹í™”</option>
+								<option value="1" <c:if test="${sub_lec_dto.sub_lec_type==1}">selected</c:if>>ì‹¤ì‹œê°„</option>
 							</c:if>
 							<c:if test="${sub_lec_dto.sub_lec_type==2}">
-								<option value="2" <c:if test="${sub_lec_dto.sub_lec_type==2}">selected</c:if>>½Ç½Ã°£(¿Ï·á)</option>
+								<option value="2" <c:if test="${sub_lec_dto.sub_lec_type==2}">selected</c:if>>ì‹¤ì‹œê°„(ì™„ë£Œ)</option>
 							</c:if>
 						</select>
-						<input type="text" name="sub_lec_subject" value="${sub_lec_dto.sub_lec_subject}" size="55" placeholder="¼­ºê °­ÀÇ Á¦¸ñ ÀÔ·Â."/>
+						<input type="text" name="sub_lec_subject" value="${sub_lec_dto.sub_lec_subject}" size="55" placeholder="ì„œë¸Œ ê°•ì˜ ì œëª© ì…ë ¥."/>
 					</td>
 								
-					<td rowspan="3"><input type="button" value="»èÁ¦" name="del_btn" onclick="delTb(this)"></td>
+					<td rowspan="3"><input type="button" value="ì‚­ì œ" name="del_btn" onclick="delTb(this)"></td>
 					
 				</tr>
 				<tr>
@@ -146,25 +145,25 @@
 						<c:if test="${sub_lec_dto.sub_lec_type==1}"><div name="fileDIV"style='display:none;'></c:if>
 							<input type="hidden" name="fileState" value="origin">
 							<div id="before_fdiv_${sub_lec_dto.sub_lec_code}" style='display:block;'>
-								<c:if test="${sub_lec_dto.sub_lec_type==0}"><input type="button" name="newFileBtn" value="µ¿¿µ»ó º¯°æ" onclick="modifyNewFile('${sub_lec_dto.sub_lec_code}','${i.index}')"/></c:if> 
-								<c:if test="${sub_lec_dto.sub_lec_type==2}">µ¿¿µ»ó: </c:if>
+								<c:if test="${sub_lec_dto.sub_lec_type==0}"><input type="button" name="newFileBtn" value="ë™ì˜ìƒ ë³€ê²½" onclick="modifyNewFile('${sub_lec_dto.sub_lec_code}','${i.index}')"/></c:if> 
+								<c:if test="${sub_lec_dto.sub_lec_type==2}">ë™ì˜ìƒ: </c:if>
 								<input type="text" name="before_file" value="${sub_lec_dto.sub_lec_media }" size="50" style="border:0px;" readonly/>
 							</div>
 							<div id="after_fdiv_${sub_lec_dto.sub_lec_code}" style='display:none;'>
-								<input type="button" name="originFileBtn" value="±âÁ¸ µ¿¿µ»óÀ¸·Î º¯°æ" onclick="modifyFile('${sub_lec_dto.sub_lec_code}','${i.index}')"/>
+								<input type="button" name="originFileBtn" value="ê¸°ì¡´ ë™ì˜ìƒìœ¼ë¡œ ë³€ê²½" onclick="modifyFile('${sub_lec_dto.sub_lec_code}','${i.index}')"/>
 								<input type="file" name="after_file"/>
 							</div>
 						</div>
 						<c:if test="${sub_lec_dto.sub_lec_type==0}"><div name="dateDIV" style='display:none;'></c:if>
 						<c:if test="${sub_lec_dto.sub_lec_type==1||sub_lec_dto.sub_lec_type==2}"><div name="dateDIV" style='display:block;'></c:if>
-								<c:if test="${sub_lec_dto.sub_lec_type==2}">°­ÀÇ ³¯Â¥: </c:if>
-								<input type="text" name="live_lec_date" class="DatePicker" value="${sub_lec_dto.live_lec_date }" placeholder="°­ÀÇ³¯Â¥(ex_2016/01/01 20:00)" <c:if test="${sub_lec_dto.sub_lec_type==2}">style="border:0px;" readonly </c:if> />
+								<c:if test="${sub_lec_dto.sub_lec_type==2}">ê°•ì˜ ë‚ ì§œ: </c:if>
+								<input type="text" name="live_lec_date" class="DatePicker" value="${sub_lec_dto.live_lec_date }" placeholder="ê°•ì˜ë‚ ì§œ(ex_2016/01/01 20:00)" <c:if test="${sub_lec_dto.sub_lec_type==2}">style="border:0px;" readonly </c:if> />
 						</div>	
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textArea name="sub_lec_content" cols="70" rows="3" placeholder="¼­ºê °­ÀÇ ³»¿ë ÀÔ·Â">${sub_lec_dto.sub_lec_content}</textArea>
+						<textArea name="sub_lec_content" cols="70" rows="3" placeholder="ì„œë¸Œ ê°•ì˜ ë‚´ìš© ì…ë ¥">${sub_lec_dto.sub_lec_content}</textArea>
 					</td>
 				</tr>
 			</table>

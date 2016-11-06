@@ -14,4 +14,7 @@
 			<script src="/mooc/js/jquery.js"></script>
 		    <script src="/mooc/js/bootstrap.js"></script>
 		    <script src="/mooc/js/scripts.js"></script>
+		    
 	</body>
+	<script src="/mooc/js/jquery.simple-dtpicker.js"></script>
+	<link type="text/css" href="/mooc/css/jquery.simple-dtpicker.css" rel="stylesheet" />

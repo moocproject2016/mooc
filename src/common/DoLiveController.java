@@ -37,13 +37,14 @@ public class DoLiveController {
 		request.setAttribute("lec_data_list", lec_data_list);
 		return "doLive.jsp";
 	}
-	
 	@RequestMapping("/doLive_ajax.mooc")
 	public String doLive_ajax(MultipartHttpServletRequest multi){
+		System.out.println("doLive_ajax");
 		String video_fileName=multi.getParameter("video-filename");
 		MultipartFile video_file=multi.getFile("video-blob");
 		String realPath=multi.getRealPath("files")+"\\teacher\\";
 		String savePath=realPath+video_fileName;
+		System.out.println(savePath);
 		File copy=new File(savePath); // 이름이 동일한 빈 파일 생성
 		try {
 			video_file.transferTo(copy);
@@ -67,7 +68,6 @@ public class DoLiveController {
 			System.out.println("null임"+lecDTO.getSub_lec_media());
 			sqlMap.update("updateSubLecMedia", lecDTO);
 		}
-		
 		return "doLive.jsp";
 	}
 }
