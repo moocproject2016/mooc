@@ -117,6 +117,9 @@ public class MainController {
 		{
 			session.setAttribute("memId", dto.getU_id());
 			sqlMap.update("access", dto.getU_id());
+			String name=(String) sqlMap.queryForObject("getU_name", dto.getU_id());
+			session.setAttribute("memName", name);
+			
 		}else{
 			content ="/user/userSign.mooc";
 			request.setAttribute("checked1", check);

@@ -2,8 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script>
+function myFunction(i,x) {
+	var u_name=document.getElementById("u_name").value;
+	var sub_lec_subject=document.getElementsByName("sub_lec_subject")[x].value;
+	var sub_lec_chapter=document.getElementsByName("sub_lec_chapter")[x].value;
+	var u_type=0; //학생은 0, 선생은 1
+	 cw=screen.availWidth;
+	 ch=screen.availHeight;
+	 test=window.open('https://172.16.8.27:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	}
+</script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/> 
-
+	<input type="hidden" id="u_name" value="${sessionScope.memName}"/>
 	<table class="table" align="center">
 		<tr><td colspan="2">
 			<h4>${main_lec_dto.main_lec_subject }
@@ -62,16 +73,18 @@
 	</table>
 	
 	<table class="table" align="center">
-		<c:forEach var="lectureDTO" items="${sub_lec_list}">
+		<c:forEach var="lectureDTO" items="${sub_lec_list}" varStatus="i">
 			<tr>
 				<td width="30%">
-					${lectureDTO.sub_lec_chapter}강
+					<input type="hidden" name="sub_lec_chapter" value="${lectureDTO.sub_lec_chapter}"/>${lectureDTO.sub_lec_chapter}강
 					<input type="hidden" name="sub_lec_code" value="${lectureDTO.sub_lec_code }"/>
 				</td>
-				<td width="60%">
+				<td width="55%">
+					<input type="hidden" name="sub_lec_subject" value="${lectureDTO.sub_lec_subject}"/>
 					<c:if test="${lectureDTO.sub_lec_chapter==1||count2==1&&sessionScope.memId!=null}">
 						<c:if test="${lectureDTO.sub_lec_type==0||lectureDTO.sub_lec_type==2 }"><a href="/mooc/watchLec.mooc?sub_lec_code=${lectureDTO.sub_lec_code }&currentPage=${currentPage}" target="_blank"></c:if>
-						<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code })"></c:if>
+						<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code },'${i.index }')"></c:if>
+						${lectureDTO.sub_lec_subject }
 						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
 					</c:if>
 					<c:if test="${count2!=1&&lectureDTO.sub_lec_chapter!=1}">
@@ -79,9 +92,10 @@
 						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
 					</c:if>
 				</td>
-				<td width="10%">
+				<td width="15%">
 					<c:if test="${lectureDTO.sub_lec_type==0}">녹화</c:if>
 					<c:if test="${lectureDTO.sub_lec_type==1}">실시간</c:if>
+					<c:if test="${lectureDTO.sub_lec_type==2}">실시간(완료)</c:if>
 				</td>
 				</tr>
 			

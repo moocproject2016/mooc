@@ -13,7 +13,7 @@ function myFunction(i) {
 	<table class="table" align="center">
 		<tr><td colspan="2">
 				<h4>${main_lec_dto.main_lec_subject }
-				<table >
+				<table>
 					<tr>
 						<c:if test="${count2==1}"><td style="color:#FF0000;font-size:17px">수강중&nbsp;</td>
 						</c:if>
