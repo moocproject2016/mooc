@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script>  
-		function displaySwitch(num){
+		function displaySwitch(num){ 
 			content = document.getElementById("content"+num)
 			if(content.style.display=="none"){
 				content.style.display="block";
