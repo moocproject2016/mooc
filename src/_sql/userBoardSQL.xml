@@ -64,7 +64,7 @@
         			<isEqual property="search" compareValue="subject">q_subject like '%'||#select#||'%' </isEqual>
         			<isEqual property="search" compareValue="id">u_id like '%'||#select#||'%' </isEqual>
         			<isEqual property="search" compareValue="content">q_content like '%'||#select#||'%' </isEqual>
-        		</isNotNull>
+        		</isNotNull>  
 			</dynamic>
 		order by q_regdate desc
 	</select>
