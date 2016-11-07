@@ -57,7 +57,7 @@
 		}
 	}
 	function noteOpen(){
-		window.open("/mooc/user/user_image.mooc?sub_lec_code="+${sub_lec_dto.sub_lec_code}, "window", "width=700,height=1000");
+		window.open("/mooc/user/user_image.mooc?sub_lec_code="+${sub_lec_dto.sub_lec_code}, "window", "width=600,height=700,scrollbars=no,location=no");
 	}
 
 	

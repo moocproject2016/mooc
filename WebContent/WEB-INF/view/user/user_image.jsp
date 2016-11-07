@@ -65,7 +65,7 @@
    <div id="aa"></div>
 
    <center>
-      <canvas id='myCanvas' style="width:80%;height:90%;">
+      <canvas id='myCanvas' style="width:90%;height:80%;">
       </canvas>
 	</center>
 	
