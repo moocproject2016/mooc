@@ -66,7 +66,7 @@
 									
 						<c:if test="${startPage > 10}">
 						<li>
-      						<a href="/mooc/user/lectureListCategory.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage - 10 }" aria-label="Previous">
+      						<a href="/mooc/user/user_lectureList.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage - 10 }" aria-label="Previous">
         					<span aria-hidden="true">&laquo;</span>
       						</a>
     					</li>
@@ -74,16 +74,16 @@
 				
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${currentPage==i}">
-								<li class="active"><a href="/moo/user/lectureListCategory.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
+								<li class="active"><a href="/mooc/user/user_lectureList.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
 							</c:if>
 							<c:if test="${currentPage!=i}">							
-								<li><a href="/mooc/user/lectureListCategory.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
+								<li><a href="/mooc/user/user_lectureList.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 					
 						<c:if test="${endPage < pageCount}">
 						<li>
-						<a href="/mooc/user/lectureListCategory.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage + 10}" aria-label="Next">
+						<a href="/mooc/user/user_lectureList.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage + 10}" aria-label="Next">
         					<span aria-hidden="true">&raquo;</span>
       					</a>
       					</li>
@@ -91,7 +91,7 @@
 						</nav>
 					</c:if>
 				</td>
-			</tr>
+			</tr>`
 	</table>
 	
 	<script>
