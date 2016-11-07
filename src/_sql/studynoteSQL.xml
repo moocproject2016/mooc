@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+		<typeAlias alias="NotePathDTO" type="_dto.LectureNote"/>
+		<select id="notePath" resultClass="NotePathDTO" parameterClass="int">
+			select * from lecture_data where sub_lec_code=#sub_lec_code# and lec_data_type='PPT'
+		</select>
+		<select id="noteImageData" resultClass="NotePathDTO" parameterClass="int">
+			select * from ppt_image where sub_lec_code=#sub_lec_code#
+		</select>
+		<insert id="Image_insert" parameterClass="NotePathDTO">
+			insert into ppt_image values(#sub_lec_code#,#page_size#,#lec_data_code#)
+		</insert>
+		<insert id="noteinsert" parameterClass="java.util.HashMap">
+			insert into study_note values(#sub_lec_code#,#id#,#type#,#pageNum#,#canvas#,sysdate)
+		</insert>
+		<select id="selectNote" resultClass="String" parameterClass="java.util.HashMap">
+			select note_image from study_note where sub_lec_code=#sub_lec_code# and u_id=#id# and page_num=#pageNum#
+		</select>
+		<update id="noteUpdate"  parameterClass="java.util.HashMap">
+			update study_note set note_image=#canvas# where sub_lec_code=#sub_lec_code# and u_id=#id# and page_num=#pageNum#
+		</update>
+</sqlMap>

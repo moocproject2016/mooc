@@ -56,7 +56,9 @@
 			open(url,"PPT");
 		}
 	}
-
+	function noteOpen(){
+		window.open("/mooc/user/user_image.mooc?sub_lec_code="+${sub_lec_dto.sub_lec_code}, "window", "width=700,height=1000");
+	}
 
 	
 
@@ -65,7 +67,7 @@
 </script>
 	<c:if test="${sessionScope.memId!=null}">
 		<input type="button" value="신고하기" class="btn btn-default" id="report"/>
-		<input type="button" class="btn btn-default" value="필기노트">
+		<input type="button" class="btn btn-default" value="필기노트"  onclick="noteOpen();">
 	</c:if>
 	<form name="inform">
 		<table class="table" align="center">
