@@ -23,7 +23,7 @@ function myFunction(i,x) {
    });
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://172.16.8.27:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://192.168.30.107:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 }
 </script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/> 
