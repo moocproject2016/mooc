@@ -31,6 +31,20 @@ public class MyStudyController {
 	@RequestMapping("/user/myStudy.mooc")
 	//myStudy 메인
 		public String myStudy_main(HttpServletRequest request){
+
+			HttpSession session=request.getSession();
+			
+			//최근 강의 질문답변
+			String u_id = (String)session.getAttribute("memId");
+			String pageNum=request.getParameter("pageNum");
+			List AllList=(ArrayList)sqlMap.queryForList("lec_question_recent", u_id); 
+			
+			request.setAttribute("lecture_question", AllList);
+			
+			//최근 홈페이지 질문답변
+			List AllList2=(ArrayList)sqlMap.queryForList("question", u_id);
+			request.setAttribute("question", AllList2);
+		
 			content = "_user_myStudy_container.jsp";
 			request.setAttribute("main_content", myStudy_main);
 			request.setAttribute("user_myStudy_content", content);
