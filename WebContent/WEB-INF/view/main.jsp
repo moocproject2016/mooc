@@ -7,7 +7,7 @@
 			<div id="MainContainer">
 				<jsp:include page="${main_content}" flush="false"/>
 			</div>	
-			<div id="MainFoot">
+			<div id="MainFoot">  
 				<jsp:include page="foot.jsp" flush="false"/>
 			</div>
 		</div>
