@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 function myFunction(i,x) {
+	var u_id=document.getElementById("u_id").value;
 	var u_name=document.getElementById("u_name").value;
 	var sub_lec_code=document.getElementsByName("sub_lec_code")[x].value;
 	var sub_lec_subject=document.getElementsByName("sub_lec_subject")[x].value;
@@ -12,7 +13,6 @@ function myFunction(i,x) {
 	var u_type=0; //학생은 0, 선생은 1
 	
 	//진도업데이트
-	alert("ajax");
 	 $.ajax({        
      	url : '/mooc/user_progress_ajax.mooc',
 		type: "post",
@@ -23,11 +23,12 @@ function myFunction(i,x) {
    });
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://192.168.30.107:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://192.168.219.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 }
 </script>
-<c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/> 
-	<input type="hidden" id="u_name" value="${sessionScope.memName}"/>
+<c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/>
+	<input type="hidden" id="u_id" name="u_id" value="${sessionScope.memId}"/>
+	<input type="hidden" id="u_name" name="u_name" value="${sessionScope.memName}"/>
 	<table class="table" align="center">
 		<tr><td colspan="2">
 			<h4>${main_lec_dto.main_lec_subject }
@@ -41,7 +42,6 @@ function myFunction(i,x) {
 					</c:if>
 				</tr>
 			</table>
-			
 			<input type="hidden" name="main_lec_code" value="${main_lec_dto.main_lec_code}"/>
 			</h4>
 			</td>

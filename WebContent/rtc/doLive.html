@@ -22,8 +22,8 @@
 <div id="wrap"> 
 <!--header -->
 	<div id="header">
-			<c:if test="${sessionScope.memId!=t_id}"><input type="button" value="필기노트"/></c:if>
-			<header style="text-align: center;">
+			<input type="button" id="noteBtn" value="필기노트" style="display:none;"/>
+			<header style="text-align: center;" >
 				<h4><input type="text" id="sub_lec_chapter" size=1 style="border:0px;" readonly />강 <input type="text" id="sub_lec_subject"  style="border:0px;" readonly /></h4>
 				
 				<div class="github-stargazers"></div>
@@ -33,10 +33,10 @@
 	      			유저타입 : <input type="text" id="u_type" size=1/>
 	      			방번호 : <input type="text" id="room-id" size="5" value="114">
 	            	이름 :  <input type = "text" id ="user_id" value="aa" size ="8">
-	            	<button id="open-room">강의 준비</button>
-	                <button id="join-room">강의 참여</button>
-	                <button id="start-record" disabled>강의 시작</button>
-					<button id="stop-record" disabled>강의 중지</button>
+	                <button id="join-room" style="display:none;">강의 참여</button>
+		            <button id="open-room" style="display:none;">강의 준비</button>
+		            <button id="start-record" style="display:none;">강의 시작</button>
+					<button id="stop-record" style="display:none;">강의 중지</button>
 					<div id="saveDIV" style="text-align: center; display: none;">
                			<button id="save-to-disk1">Save Video</button>
                			<button id="save-to-disk2">Save Screen</button>
@@ -56,7 +56,7 @@
 						<div id="videos-container"></div>
 					</div>
 					<div id="menu1" class="tab-pane fade">
-						<div id="videos-container2">aaa</div>
+						<div id="videos-container2"></div>
 		     		</div>
 		     	</div>
 	
@@ -96,6 +96,12 @@
 		    	   document.getElementById('u_id').value=unescape(keyValues[1]);
 		       }
 		    }
+		    if(document.getElementById('u_type').value==1){ //선생인 경우
+		    	document.getElementById("open-room").style.display="block";
+		    }else if(document.getElementById('u_type').value==0){//학생인 경우
+		    	document.getElementById("noteBtn").style.display="block";
+		    	document.getElementById("join-room").style.display="block";
+		    }
 	</script>
         <script>
         	
@@ -126,16 +132,15 @@
                 OfferToReceiveVideo: true
             };
             document.getElementById('open-room').onclick = function() {
-                disableInputButtons();
                 connection.userid=document.getElementById('user_id').value;
                 connection.open(document.getElementById('room-id').value,true);
-				alert(connection.sessionid);
+    		    document.getElementById("open-room").style.display="none";
             };
             document.getElementById('join-room').onclick = function() {
-                disableInputButtons();
                 connection.userid=document.getElementById('user_id').value;
                 connection.extra= {'username': connection.userid || 'Anonymous'}
                 connection.join(document.getElementById('room-id').value);
+                document.getElementById("join-room").style.display="none";
             };
             
             
@@ -143,7 +148,6 @@
             connection.videosContainer2 = document.getElementById('videos-container2');
             connection.onstream = function(event) {
 				alert("onstream");
-				
 				
                 var width = event.mediaElement.clientWidth || connection.videosContainer.clientWidth;
                 var mediaElement = getMediaElement(event.mediaElement, {
@@ -186,16 +190,15 @@
             //녹화
             document.getElementById('start-record').onclick = function() {
                 alert("녹화시작");
+                document.getElementById("start-record").style.display="none";
+                document.getElementById("stop-record").style.display="block";
                 record_video.startRecording();
                 record_screen.startRecording();
-                document.getElementById('start-record').disabled=true;
-                document.getElementById('stop-record').disabled=false;
             };
             document.getElementById('stop-record').onclick = function() {
-            	document.getElementById('stop-record').disabled=true;
+            	document.getElementById("stop-record").style.display="none";
                 record_video.stopRecording(function(videoURL) {
                     var recordedBlob = record_video.getBlob();
-                    alert(recordedBlob);
                     record_video.getDataURL(function(dataURL) { });
                     var fileType = 'video'; // or "audio"
                     var fileName = document.getElementById('room-id').value+'_video.webm';  // or "wav"
@@ -203,8 +206,10 @@
                     formData.append('sub_lec_code',document.getElementById('room-id').value);
                     formData.append(fileType + '-filename', fileName);
                     formData.append(fileType + '-blob', recordedBlob);
+                    formData.append('u_id', document.getElementById('u_id').value);
+                    formData.append('u_type', document.getElementById('u_type').value);
                     $.ajax({
-                    	url: 'https://192.168.30.107:8443/mooc/doLive_ajax.mooc',
+                    	url: 'https://192.168.219.107:8443/mooc/doLive_ajax.mooc',
                     	 processData : false,
                          contentType : false,
                          data : formData,
@@ -229,9 +234,10 @@
                     formData.append('sub_lec_code',document.getElementById('room-id').value);
                     formData.append(fileType + '-filename', fileName);
                     formData.append(fileType + '-blob', recordedBlob);
-					
+                    formData.append('u_id', document.getElementById('u_id').value);
+                    formData.append('u_type', document.getElementById('u_type').value);
                     $.ajax({
-                    	url: 'https://192.168.30.107:8443/mooc/doLive_ajax.mooc',
+                    	url: 'https://192.168.219.107:8443/mooc/doLive_ajax.mooc',
                     	 processData : false,
                          contentType : false,
                          data : formData,
@@ -267,8 +273,16 @@
             //시작할때 활성화시킬 것을 결정한다.
             connection.onopen = function() {
             	alert("onopen");
+            	if(document.getElementById('u_type').value==1){ //선생인 경우
+       		    	document.getElementById("start-record").style.display="block";
+            	}
                 if (document.getElementById('chatinput')) document.getElementById('chatinput').disabled = false;
                 if (document.getElementById('file')) document.getElementById('file').disabled = false;
+                if(document.getElementById('u_type').value==0){ //학생인 경우
+	                var new_message = connection.userid + "님  입장하셨습니다. "+'\r'+'\n';
+	    			connection.send(new_message);
+	    			appendDIV(connection.userid + "님  입장하셨습니다. ");
+                }
             };
             
             connection.onmessage = function(event){
@@ -277,14 +291,6 @@
                 messages.appendChild(div);
             }
             
-            
-            function disableInputButtons() {
-            	document.getElementById('open-room').disabled = true;
-                document.getElementById('join-room').disabled = true;
-                document.getElementById('room-id').disabled = true;
-                document.getElementById('chatinput').disabled = false;
-                document.getElementById('start-record').disabled=false;
-            }
             
             //----------------------파일업로드 기능----------------------
             var progressHelper = {};
