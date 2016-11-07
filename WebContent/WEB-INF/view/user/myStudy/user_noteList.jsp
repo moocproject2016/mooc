@@ -7,6 +7,12 @@
         <link href="/mooc/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script src="/mooc/js/bootstrap.min.js"></script>
+        <script>
+    	function noteOpen(a){
+    		window.open("/mooc/user/user_image.mooc?sub_lec_code="+a, "window", "width=600,height=700,scrollbars=no,location=no");
+    	}
+
+        </script>
 <table class="table" align="center">
 	<tr class="theadtop">
 		<th>타입</th>
@@ -18,7 +24,7 @@
 		<c:forEach items="${list}" var="dto">
 			<tr>
 				<td align="center">${dto.note_type}</td><td>${dto.main_lec_subject} </td>
-				<td align="center"><a href="#?u_id=${dto.u_id}&sub_lec_code=${dto.sub_lec_code}">chapter ${dto.sub_lec_chapter} :${dto.sub_lec_subject}</a></td>
+				<td align="center"><a onclick="noteOpen(${dto.sub_lec_code})">chapter ${dto.sub_lec_chapter} :${dto.sub_lec_subject}</a></td>
 				<td align="center"><fmt:formatDate value="${dto.note_date}" type="date"/></td>
 			</tr>
 	</c:forEach>

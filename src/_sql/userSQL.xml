@@ -9,7 +9,7 @@
 		<select id="NoteList" parameterClass="String" resultClass="NoteDTO">
 			select sub_lecture.main_lec_code,sub_lecture.sub_lec_chapter,sub_lecture.sub_lec_subject,study_note.note_type,study_note.note_date,
 			study_note.sub_lec_code,study_note.u_id from sub_lecture join study_note on sub_lecture.sub_lec_code=study_note.sub_lec_code 
-			where study_note.u_id=#id# order by note_date desc
+			where study_note.u_id=#id# and study_note.page_num=1 order by note_date desc
 		</select>
 		<select id="getU_name" parameterClass="String" resultClass="String">
 			select u_name from userinfo where u_id=#u_id#
