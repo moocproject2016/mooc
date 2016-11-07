@@ -16,19 +16,9 @@
     <script src="js/jquery.js"></script>
 	<script src="js/scripts.js"></script>
 	<script src="js/bootstrap.js"></script>
-	<script>
-	   function loadPageVar(sVar) {
-	      return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-	   }
-	   $( document ).ready(function() {
-	       $('#room-id').val(loadPageVar('sub_lec_code')),
-	       $('#user_id').val(loadPageVar('u_name')),
-	       $('#sub_lec_chapter').val(loadPageVar('sub_lec_chapter')),
-	       $('#sub_lec_subject').val(loadPageVar('sub_lec_subject')),
-	       $('#u_type').val(loadPageVar('u_type'))
-	   });
-	</script>
+	
 </head>
+
 <div id="wrap"> 
 <!--header -->
 	<div id="header">
@@ -39,9 +29,10 @@
 				<div class="github-stargazers"></div>
 
 	      		<div class="make-center">
+	      			유저아이디: <input type="text" id="u_id"/>
 	      			유저타입 : <input type="text" id="u_type" size=1/>
 	      			방번호 : <input type="text" id="room-id" size="5" value="114">
-	            	이름 :  <input type = "text" id ="user_id" value="aa" size = "8">
+	            	이름 :  <input type = "text" id ="user_id" value="aa" size ="8">
 	            	<button id="open-room">강의 준비</button>
 	                <button id="join-room">강의 참여</button>
 	                <button id="start-record" disabled>강의 시작</button>
@@ -70,7 +61,7 @@
 		     	</div>
 	
 	            <br><br>
-	            <div  class="rtc_bottom">
+	   		<div  class="rtc_bottom">
 		            <div>강의 내용 : ${sub_lec_dto.sub_lec_content}</div>
 		            	(Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension) 
 					</div>
@@ -86,14 +77,32 @@
 			
 	</div>
 </div>
+	<script>
+		   var allcookies = document.cookie;
+		    var cookies = allcookies.split("; ");
+		    for (var i = 0; i < cookies.length; i++) {
+		       var keyValues = cookies[i].split("=");
+		       if (keyValues[0] == "u_name") {
+		    	   document.getElementById('user_id').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "sub_lec_code") {
+		    	   document.getElementById('room-id').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "u_type") {
+		    	   document.getElementById('u_type').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "sub_lec_chapter") {
+		    	   document.getElementById('sub_lec_chapter').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "sub_lec_subject") {
+		    	   document.getElementById('sub_lec_subject').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "u_id") {
+		    	   document.getElementById('u_id').value=unescape(keyValues[1]);
+		       }
+		    }
+	</script>
         <script>
         	
             // ......................................................
             // .......................UI Code........................
             // ......................................................
-
            
-
             // ......................................................
             // ..................RTCMultiConnection Code.............
             // ......................................................
@@ -102,12 +111,9 @@
 			var record_video,record_screen;
             // by default, socket.io server is assumed to be deployed on your own URL
             //connection.socketURL = '/';
-
             // comment-out below line if you do not have your own socket.io server
             connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
             connection.socketMessageEvent = 'screen-sharing-demo';
-
             connection.session = {
             	video: 'one-way',
             	audio: 'two-way',        
@@ -115,19 +121,16 @@
                 oneway: true,
                 data: true
             };
-
             connection.sdpConstraints.mandatory = {
                 OfferToReceiveAudio: true,
                 OfferToReceiveVideo: true
             };
-
             document.getElementById('open-room').onclick = function() {
                 disableInputButtons();
                 connection.userid=document.getElementById('user_id').value;
                 connection.open(document.getElementById('room-id').value,true);
 				alert(connection.sessionid);
             };
-
             document.getElementById('join-room').onclick = function() {
                 disableInputButtons();
                 connection.userid=document.getElementById('user_id').value;
@@ -138,7 +141,6 @@
             
             connection.videosContainer = document.getElementById('videos-container');
             connection.videosContainer2 = document.getElementById('videos-container2');
-
             connection.onstream = function(event) {
 				alert("onstream");
 				
@@ -170,7 +172,6 @@
                 	connection.videosContainer2.appendChild(mediaElement);
                 }
                 mediaElement.id = event.streamid;
-
             };
             connection.onstreamended = function(event) {
                 var mediaElement = document.getElementById(event.streamid);
@@ -181,7 +182,6 @@
                 if(u_type==0){ alert("학습 완료");}
                 else{ alert("강의 완료");}
             };
-
             
             //녹화
             document.getElementById('start-record').onclick = function() {
@@ -199,7 +199,6 @@
                     record_video.getDataURL(function(dataURL) { });
                     var fileType = 'video'; // or "audio"
                     var fileName = document.getElementById('room-id').value+'_video.webm';  // or "wav"
-
                     var formData = new FormData();
                     formData.append('sub_lec_code',document.getElementById('room-id').value);
                     formData.append(fileType + '-filename', fileName);
@@ -219,7 +218,6 @@
                         if(!record_video) return alert('No recording found.');
                         record_video.save();
                     };
-
                 });
                 record_screen.stopRecording(function(videoURL) {
                     var recordedBlob = record_screen.getBlob();
@@ -227,7 +225,6 @@
                     record_screen.getDataURL(function(dataURL) { });
                     var fileType = 'video'; // or "audio"
                     var fileName = document.getElementById('room-id').value+'_screen.webm';  // or "wav"
-
                     var formData = new FormData();
                     formData.append('sub_lec_code',document.getElementById('room-id').value);
                     formData.append(fileType + '-filename', fileName);
@@ -267,8 +264,6 @@
                     throw error;
                 });
             };
-
-
             //시작할때 활성화시킬 것을 결정한다.
             connection.onopen = function() {
             	alert("onopen");
@@ -293,7 +288,6 @@
             
             //----------------------파일업로드 기능----------------------
             var progressHelper = {};
-
             connection.autoSaveToDisk = false;
             
     		//파일을 업로드 할때의 처리의 함수 
@@ -329,7 +323,6 @@
                 var position = +progress.position.toFixed(2).split('.')[1] || 100;
                 label.innerHTML = position + '%';
             }
-
             //업로드가 진행된 컨텐츠를 div를 생성하여 채팅창에 붙이는 과정
             function appendDIV(div, parent) {
                 if (typeof div === 'string') {

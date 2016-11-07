@@ -3,19 +3,23 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <script>
 function myFunction(i,x) {
+	var u_id=document.getElementById("u_id").value;
 	var u_name=document.getElementById("u_name").value;
 	var sub_lec_subject=document.getElementsByName("sub_lec_subject")[x].value;
 	var sub_lec_chapter=document.getElementsByName("sub_lec_chapter")[x].value;
 	var u_type=1; //학생은 0, 선생은 1
-	 cw=screen.availWidth;
-	 ch=screen.availHeight;
-	 test=window.open('https://192.168.30.107:9001/doLive.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
-	}
+	cw=screen.availWidth;
+	ch=screen.availHeight;   
+	test=window.open('https://192.168.30.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	
+}
 </script>
 
 <c:set var="currentPage" value="/mooc/teacher/liveLecListClass.mooc"/>
 <div class="tableWrap">
-	<input type="hidden" id="u_name" value="${sessionScope.memName}"/>
+<form name="pay">
+	<input type="hidden" id="u_id" name="u_id" value="${sessionScope.memId}"/>
+	<input type="hidden" id="u_name" name="u_name" value="${sessionScope.memName}"/>
 	<table class="table">
 		<thead>
 			<tr>
@@ -32,4 +36,5 @@ function myFunction(i,x) {
 			</tr>
 		</c:forEach>
 	</table>
+	</form>
 </div>

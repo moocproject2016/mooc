@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.webrtc-experiment.com/getMediaElement.min.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/webrtc.css">
+
+	
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <script src="js/jquery.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script>
+		function loadPageVar(sVar) {
+		     return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+		}
+		u_id = loadPageVar('u_id');
+        document.cookie = "u_id="+ escape(u_id);
+		u_name = loadPageVar('u_name');
+        document.cookie ="u_name="+ escape(u_name);
+        sub_lec_code = loadPageVar('sub_lec_code');
+        document.cookie = "sub_lec_code="+ escape(sub_lec_code);
+        sub_lec_chapter = loadPageVar('sub_lec_chapter');
+        document.cookie = "sub_lec_chapter="+ escape(sub_lec_chapter);
+        sub_lec_subject = loadPageVar('sub_lec_subject');
+        document.cookie = "sub_lec_subject="+ escape(sub_lec_subject);
+        u_type = loadPageVar('u_type');
+        document.cookie = "u_type="+ escape(u_type);
+        
+        window.location="/doLive.html";
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>
