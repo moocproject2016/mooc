@@ -158,9 +158,7 @@
         				});
         		   }
         	   }else{
-        		   alert("공개방");
-       
-        		   window.location='/mooc/study/studyJoin.mooc?AllstdJoin=&pageNum='+pageNum;
+        		   window.location='/mooc/study/studyJoin.mooc?AllstdJoin=&pageNum='+pageNum+'&stg_code='+stg_code;
        			}
 			}
  }
