@@ -40,7 +40,7 @@
 						<ul class="dropdown-subTap" role="menu">
 						<ul class="dropdown-menu-menu">
 						<p><b>스터디 바로가기</b></p>
-							<c:forEach var="stglist" items="${mystudylist}" varStatus="i">
+							<c:forEach var="stglist" items="${mystudylist_main}" varStatus="i">
 								<li><a href="/mooc/study/myStudyRoomMain.mooc?stg_code=${stglist.stg_code}">${stglist.stg_name}</a></li>
 							</c:forEach>
 						</ul>

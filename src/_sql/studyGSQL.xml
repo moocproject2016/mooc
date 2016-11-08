@@ -116,6 +116,9 @@
 			) b
 			on a.stg_code = b.stg_code
 		) a, userinfo b where a.u_id = b.u_id
-    </select>	
-    
+    </select>
+    	
+    <select id="selectStgPassword" resultClass="String" parameterClass="int" >
+    	select stg_password from studygroup where stg_code=#stg_code#
+    </select>
 </sqlMap>

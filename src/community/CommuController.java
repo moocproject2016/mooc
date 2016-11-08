@@ -1,9 +1,9 @@
 package community;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
@@ -55,7 +55,7 @@ public class CommuController {
 	
 			//페이징
 			String pageNum = request.getParameter("pageNum");
-			if(pageNum==null){pageNum = "1";}
+			if(pageNum==null){pageNum = "1";};
 			
 			pageAction pageing=new pageAction();
 			List list=pageing.pageList(pageNum,stdlist, 10);
@@ -138,10 +138,18 @@ public class CommuController {
 		String pageNum = request.getParameter("pageNum");
 		String reJsp = null;
 		
+		if(pageNum==null){pageNum = "1";}
+		
 		stgDto.setU_id(u_id);
 		
 		int stgJoinCheck = (int) sqlMap.queryForObject("stgJoinCheck", stgDto);
+		
+		
+		System.out.println(stgDto.getU_id()+"////"+stgDto.getStg_code());
+		
 		int stgJoinReadyCheck = (int) sqlMap.queryForObject("stgJoinReadyCheck", stgDto);
+		
+		
 		
 		System.out.println(stgJoinReadyCheck+"/////"+stgJoinCheck);
 		
@@ -155,7 +163,6 @@ public class CommuController {
 			reJsp = "/community/commu_Error.jsp";
 		}
 		
-		
 		if(stgJoinCheck!=1 && stgJoinReadyCheck!=1){
 			sqlMap.insert("insertJoin", stgDto);
 			
@@ -166,8 +173,35 @@ public class CommuController {
 				reJsp = "redirect:studylist.mooc?pageNum="+pageNum+"&sub_ctg_code="+sub_ctg_code;
 			}
 		}
+		
 		return reJsp;
 	}
+	
+	@RequestMapping("study/studyJoin_ajax.mooc")
+	//스터디 가입하기
+		public void studyJoin_ajax(HttpServletRequest request,HttpServletResponse response) throws IOException{
+			// 순수 Text로 응답을 해주겠다.
+	        response.setContentType("text/plain");
+	        
+	        // 응답하는 Text의 Encoding을 설정한다.
+	        response.setCharacterEncoding("UTF-8");
+	        
+	        // Response Body에 응답을 싣기 위해서 Writer 객체를 하나 가져온다.
+	        PrintWriter writer = response.getWriter();
+			String stg_password=request.getParameter("stg_password");
+			int stg_code=Integer.parseInt(request.getParameter("stg_code"));
+			String real_password=(String) sqlMap.queryForObject("selectStgPassword", stg_code);
+			String text="";
+			if(!stg_password.equals(real_password)){
+		        // 가져온 Write 객체에 응답할 Text를 작성한다.
+		        writer.write("fail");
+			}
+			
+	        // 응답을 보낸다.
+	        writer.flush();
+	        writer.close();
+			System.out.println("dd");
+		}
 	
 	@RequestMapping("study/myStudydelete.mooc")
 	//스터디 탈퇴

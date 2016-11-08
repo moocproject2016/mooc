@@ -36,14 +36,14 @@ public class Advice {
 		System.out.println("after");
 		
 		
-		HttpServletRequest request=(HttpServletRequest)jp.getArgs()[0]; // °íÁ¤ ´ëºÐ·ù ¸®½ºÆ®
+		HttpServletRequest request=(HttpServletRequest)jp.getArgs()[0]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð·ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		
 		List topCtgList=sqlMap.queryForList("selectAllTopCtg",null);
 		List subCtgList=sqlMap.queryForList("selectAllSubCtg",null);
 		request.setAttribute("topCtgList", topCtgList);
 		request.setAttribute("subCtgList", subCtgList);
 		
-		HttpSession session=request.getSession(); // ³ªÀÇ ½ºÅÍµð ¸®½ºÆ®
+		HttpSession session=request.getSession(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		if(session!=null){
 			String u_id=(String) session.getAttribute("memId");
 			
@@ -53,7 +53,7 @@ public class Advice {
 			
 			request.setAttribute("u_id",u_id);
 			request.setAttribute("u_name",u_name);
-			request.setAttribute("mystudylist",mystudylist);
+			request.setAttribute("mystudylist_main",mystudylist);
 		}
 		
 	}	
