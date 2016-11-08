@@ -72,6 +72,7 @@ function myFunction(i,x) {
 			<td colspan="2"></td>
 			<td colspan="2" align="right"><input type="button" class="btn btn-default" value="질문 게시판" onclick="window.location='/mooc/user/user_viewQnaList.mooc?main_lec_code=${main_lec_dto.main_lec_code}'" />&nbsp;&nbsp;&nbsp;
 										<input type="button" class="btn btn-default" value="강의 후기" onclick="window.location='/mooc/user/user_viewReview.mooc?main_lec_code=${main_lec_dto.main_lec_code}&main_lec_subject=${main_lec_dto.main_lec_subject}'" />
+												<input type="button" class="btn btn-default" value="강의 공지" onclick="window.location='/mooc/user/user_notice.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>				
 			</td>
 		</tr>
 		

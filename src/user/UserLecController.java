@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import _dto.LecNoticeDTO;
 import _dto.LectureDTO;
 import _dto.LectureQuestionDTO;
 import _dto.LectureReviewDTO;
@@ -17,7 +19,7 @@ import _dto.pageAction;
 @Controller
 public class UserLecController {
 	String main = "main.jsp";
-	String content; // °¢ main ÆäÀÌÁöÀÇ container ºÎºÐ¿¡ µé¾î°¥ content Á¤ÀÇ
+	String content; // ï¿½ï¿½ main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ container ï¿½ÎºÐ¿ï¿½ ï¿½ï¿½î°¥ content ï¿½ï¿½ï¿½ï¿½
 	
 	@Autowired
 	SqlMapClientTemplate sqlMap;
@@ -62,7 +64,7 @@ public class UserLecController {
 	public String watchLec_main(HttpServletRequest request,int sub_lec_code,String currentPage){
 		LectureDTO sub_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneSubLecture", sub_lec_code);
 		
-		//ÀÚ·á ¸®½ºÆ® °¡Á®¿À±â
+		//ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List lec_data_list=sqlMap.queryForList("selectAllLecData", sub_lec_code);
 		
 		request.setAttribute("sub_lec_dto", sub_lec_dto);
@@ -187,7 +189,7 @@ public class UserLecController {
 		String id = request.getParameter("u_id");
 		int q1_code = Integer.parseInt((String)request.getParameter("main_lec_code"));
 		sqlMap.insert("insertQnA", q_dto);
-		return "redirect:/viewMainLec.mooc?main_lec_code="+q1_code; //ÇÒ²¨ CODE ¹Þ¾Æ¿Í¼­ REDIRECT ½ÃÅ°±â, ¸®½ºÆ® ¹Þ¾Æ¿Í¼­ ´äº¯±â´É±îÁö ÇÏ±â(ÀÌ°Ç ÄÁÆ®·Ñ·¯ Áú¹®°Ô½ÃÆÇ »õ·Î¸¸µé¾î¼­  Áú¹®°Ô½ÃÆÇ ÆûÀ¸·Î ¿¬°á °Å±â¼­ °ª¹Þ¾Æ¼­ »Ñ¸®±â
+		return "redirect:/viewMainLec.mooc?main_lec_code="+q1_code; //ï¿½Ò²ï¿½ CODE ï¿½Þ¾Æ¿Í¼ï¿½ REDIRECT ï¿½ï¿½Å°ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½äº¯ï¿½ï¿½É±ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½(ï¿½Ì°ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ï¿½ï¿½î¼­  ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å±â¼­ ï¿½ï¿½ï¿½Þ¾Æ¼ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½
 	}
 	
 	@RequestMapping("user/user_viewQnaList.mooc")
@@ -198,10 +200,10 @@ public class UserLecController {
 				pageNum="1";
 			}
 			List array=(List)sqlMap.queryForList("qnalist2", qna_dto);
-			int pageSize = 10;//ÇÑ ÆäÀÌÁöÀÇ ±ÛÀÇ °³¼ö
+			int pageSize = 10;//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	        int currentPage = Integer.parseInt(pageNum);
-	        int startRow = (currentPage - 1) * pageSize ;//ÇÑ ÆäÀÌÁöÀÇ ½ÃÀÛ±Û ¹øÈ£
-	        int endRow = currentPage * pageSize-1;//ÇÑ ÆäÀÌÁöÀÇ ¸¶Áö¸· ±Û¹øÈ£
+	        int startRow = (currentPage - 1) * pageSize ;//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û±ï¿½ ï¿½ï¿½È£
+	        int endRow = currentPage * pageSize-1;//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¹ï¿½È£
 	        int count = array.size();
 	        if(count<endRow){
 	        	endRow=count;
@@ -248,6 +250,74 @@ public class UserLecController {
 		//return main;
 		return "redirect:/viewMainLec.mooc?main_lec_code="+number;
 	}
+	@RequestMapping("user/user_notice.mooc")
+	public String user_notice_main(HttpServletRequest request){
+		
+		List All=sqlMap.queryForList("user_noticeListImportant",Integer.parseInt(request.getParameter("main_lec_code")));
+		pageAction pageing=new pageAction();
+		List list_1=pageing.pageList("1",All, 3);
+		
+		String pageNum=request.getParameter("pageNum");
+		if(pageNum==null){
+			pageNum="1";
+		}
+		
+		HashMap map=new HashMap();
+		String searchKey=request.getParameter("searchKey");
+		map.put("main_lec_code",Integer.parseInt(request.getParameter("main_lec_code")));
+		List Alllist=null;
+		if(searchKey!=null&&!searchKey.equals("ì„ íƒ")){
+			if(request.getParameter("searchKey").equals("lec_n_subject")){
+				map.put("lec_n_subject",request.getParameter("searchValue"));
+				System.out.println(request.getParameter("searchValue"));
+				Alllist=sqlMap.queryForList("user_noticeListSubject",map);
+			}
+			if(request.getParameter("searchKey").equals("lec_n_content")){
+				map.put("lec_n_content", request.getParameter("searchValue"));
+				Alllist=sqlMap.queryForList("user_noticeListContent",map);
+			}
+		}
+		if(searchKey==null){
+			map.put("main_lec_code", Integer.parseInt(request.getParameter("main_lec_code")));
+			Alllist=sqlMap.queryForList("user_noticeList",map);
+		}
+		int all_count=Alllist.size();
+		List list=pageing.pageList(pageNum,Alllist, 7);		
+		request.setAttribute("count",pageing.count());
+		request.setAttribute("currentPage", pageing.current());
+		request.setAttribute("pageSize", pageing.size());
+		request.setAttribute("list", list);
+		request.setAttribute("list_1", list_1);
+		request.setAttribute("pageNum",pageNum);
+		request.setAttribute("all_count", all_count);
+		request.setAttribute("main_lec_code", request.getParameter("main_lec_code"));
+
+		content = "user/lecture/user_notice.jsp";
+		request.setAttribute("main_content", content);
+		return main;	
+	}
+	@RequestMapping("user/user_noticeView.mooc")
+	public String user_noticeView_main(HttpServletRequest request){
+		String pageNum="1";
+		if(request.getParameter("pageNum")!=null){  System.out.println("nullì•„ë‹˜"); pageNum=request.getParameter("pageNum");}
+		
+		int lec_n_num=0;
+		if(request.getParameter("lec_n_num")!=null){
+			lec_n_num=Integer.parseInt(request.getParameter("lec_n_num"));
+		}else{
+			lec_n_num=(int) request.getAttribute("lec_n_num");
+		}
+		LecNoticeDTO lecNotice_dto=(LecNoticeDTO) sqlMap.queryForObject("selectOneLecNotice", lec_n_num);
+		
+		request.setAttribute("lecNotice_dto", lecNotice_dto);
+		request.setAttribute("pageNum", pageNum);
+		
+		request.setAttribute("check", request.getParameter("check"));
+		content = "user/lecture/user_noticeView.jsp";
+		request.setAttribute("main_content", content);
+		return main;	
+	}
+	
 	
 }
 	

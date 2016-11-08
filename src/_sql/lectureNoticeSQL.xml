@@ -63,4 +63,20 @@
 	<delete id="deleteLecNotice"  parameterClass="int">
 		delete from lecture_notice where lec_n_num=#lec_n_num#
 	</delete>
+	<select id="user_noticeList" parameterClass="java.util.HashMap" resultClass="LecNoticeDTO">
+		select * from lecture_notice where main_lec_code=#main_lec_code# order by lec_n_regdate desc
+	</select>
+		<select id="user_noticeListImportant" parameterClass="int" resultClass="LecNoticeDTO">
+		select * from lecture_notice where main_lec_code=#main_lec_code# and lec_n_type=1 order by lec_n_regdate desc
+	</select >
+	<select id="user_noticeListSubject" parameterClass="java.util.HashMap" resultClass="LecNoticeDTO">
+		select * from lecture_notice where main_lec_code=#main_lec_code# and lec_n_subject  like '%'|| #lec_n_subject#||'%' order by lec_n_regdate desc
+	</select>
+	<select id="user_noticeListContent" parameterClass="java.util.HashMap" resultClass="LecNoticeDTO">
+		select * from lecture_notice where main_lec_code=#main_lec_code# and lec_n_content  like  '%'||#lec_n_content#||'%' order by lec_n_regdate desc
+	</select>
+	<select id="user_noticeListAll" parameterClass="String" resultClass="LecNoticeDTO">
+		select * from (select lecture_notice.main_lec_code,lecture_notice.lec_n_subject,lecture_notice.lec_n_regdate,lecture_notice.lec_n_num from register_lecture inner join lecture_notice on register_lecture.main_lec_code=lecture_notice.main_lec_code where register_lecture.u_id=#u_id# order by lecture_notice.lec_n_regdate asc)
+		b inner join  main_lecture on b.main_lec_code=main_lecture.main_lec_code order by b.lec_n_regdate desc
+	</select> 
 </sqlMap>
