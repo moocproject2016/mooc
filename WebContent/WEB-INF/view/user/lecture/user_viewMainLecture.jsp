@@ -24,7 +24,7 @@ function myFunction(i,x) {
    });
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://192.168.30.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&sub_lec_content='+sub_lec_content+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://192.168.30.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+encodeURI(encodeURIComponent(u_name))+'&sub_lec_subject='+encodeURI(encodeURIComponent(sub_lec_subject))+'&sub_lec_chapter='+sub_lec_chapter+'&sub_lec_content='+encodeURI(encodeURIComponent(sub_lec_content))+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 }
 </script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/>

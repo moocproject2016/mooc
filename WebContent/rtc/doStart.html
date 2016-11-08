@@ -21,17 +21,17 @@
 		}
 		u_id = loadPageVar('u_id');
         document.cookie = "u_id="+ escape(u_id);
-		u_name = loadPageVar('u_name');
+		u_name = decodeURIComponent(decodeURI(loadPageVar('u_name')));
         document.cookie ="u_name="+ escape(u_name);
         sub_lec_code = loadPageVar('sub_lec_code');
         document.cookie = "sub_lec_code="+ escape(sub_lec_code);
         sub_lec_chapter = loadPageVar('sub_lec_chapter');
         document.cookie = "sub_lec_chapter="+ escape(sub_lec_chapter);
-        sub_lec_subject = loadPageVar('sub_lec_subject');
+        sub_lec_subject = decodeURIComponent(decodeURI(loadPageVar('sub_lec_subject')));
         document.cookie = "sub_lec_subject="+ escape(sub_lec_subject);
         u_type = loadPageVar('u_type');
         document.cookie = "u_type="+ escape(u_type);
-        sub_lec_content = loadPageVar('sub_lec_content');
+        sub_lec_content = decodeURIComponent(decodeURI(loadPageVar('sub_lec_content')));
         document.cookie = "sub_lec_content="+ escape(sub_lec_content);
         window.location="/doLive.html";
 		
