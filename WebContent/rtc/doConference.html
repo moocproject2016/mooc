@@ -18,269 +18,388 @@
 	<script src="js/bootstrap.js"></script>
 
 </head>
+<body>
+<!--ui object -->
 <div id="wrap"> 
 <!--header -->
 	<div id="header">
-			<c:if test="${sessionScope.memId!=t_id}"><input type="button" value="필기노트"/></c:if>
-			<header style="text-align: center;">
-				<h4>${sub_lec_dto.sub_lec_chapter}강 ${sub_lec_dto.sub_lec_subject}</h4>
-				<input type="hidden" name="sub_lec_code" value="${sub_lec_dto.sub_lec_code}"/>
-
-				<div class="github-stargazers"></div>
-
-	      		<div class="make-center">
-	      			방번호 : <input type="text" id="room-id" size="5" value="${sub_lec_dto.sub_lec_code }">
-	            	이름 :  <input type = "text" id ="user_id" size = "8">
-	            	<button id="open-room">회의 시작</button>
-	                <button id="join-room">회의 참여</button>
-					<div id="saveDIV" style="text-align: center; display: none;">
-               			<button id="save-to-disk1">Save Video</button>
-               			<button id="save-to-disk2">Save Screen</button>
-          			</div>
-	                <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-	       	 	</div>
-	       	 </header>
+		<header style="text-align: center;">
+			<h1>회의방</h1>
+		<input type="hidden" id="session" value="audio+video+data">
+		<input type="hidden"  id="direction" value="many-to-many">
+		<input type="hidden" id="u_id"/>
+		room name : <input type="text" id="room-id" size="8">
+		user name :  <input type = "text" id = "user_id"  size = "8">
+		<input type="button"  id="open-room" value="회의시작"></a></li>
+		<input type="button"  id="join-room" value="회의참여"></a></li>
+		<input type="button"  id="stop-audio-video" value="회의나가기" ></a></li>
+		<input type="button" id="recordMeeting" value="회의기록"/>
+		
+		</header>
 	</div>
+<!--//header -->
+<!--container -->
 	<div id="container">
-            <div class="content">
-            	<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#home">내 화면 공유</a></li>
-					<li><a data-toggle="tab" href="#menu1">화상 회의</a></li>
-					<li><a data-toggle="tab" href="#menu2">공유 칠판</a></li>
-				</ul>
-				<div class="tab-content">
-					<div id="home" class="tab-pane fade in active">
+	<!--content -->
+		<div class="content">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#home">화상</a></li>
+				<li><a data-toggle="tab" href="#menu1">칠판</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="home" class="tab-pane fade in active">
+					<!-- remote(상대방) 비디오 -->
 						<div id="videos-container"></div>
-					</div>
-					<div id="menu1" class="tab-pane fade">
-						<div id="videos-container2">화상회의방입니다</div>
-		     		</div>
-		     		<div id="menu2" class="tab-pane fade">
-						<div id="videos-container2">
-							<table width="100%" height="700px">
-								<tr>
-									<td>
-										<iframe src="https://192.168.0.4:9001" width="100%" height="100%"></iframe>
-									</td>
-								</tr>
-							</table>
-						</div>
-		     		</div>
-		     	</div>
-		     	<div  class="rtc_bottom">
-		            <div>강의 내용 : ${sub_lec_dto.sub_lec_content}</div>
-		            	(Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension) 
-					</div>
+						<div id="log"></div>
 				</div>
-				
-			 <!-- 채팅구역 -->
-			<div class="aside">
-				<section style="height:auto; width:395px;">
-					<div id="messages"></div>
-					<input type="file" id="file" disabled><br/>
-					<input id="chatinput" type="text" placeholder="Message:" disabled/>
-				</section>
+				<div id="menu1" class="tab-pane fade">
+					<table width="100%" height="700px">
+						<tr>
+							<td>
+								<iframe src="https://192.168.30.107:9001" width="100%" height="100%"></iframe>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			
+		</div>
+	<!--//content -->
+	<!--aside -->
+		
+		<div class="aside">
+			<!-- 로컬 비디오 -->
+	        <div id="local-container"></div>
+	        <input type="button" id="switchScreen" value="스크린 전환"/>
+	        <!-- 채팅구역 -->
+	        <section class="experiment data-box" style="width:395px;">
+				<div id="messages"></div>
+				<input type="file" id="file"><br/>
+				<input type="button" id="chatrecord" value="채팅기록"/><br/>
+				<input type="hidden" id="inputFileNameToSaveAs"/>
+				<input id="chatinput" type="text" placeholder="Message:"/>
+			</section>
+	            
+		</div>
+		<!--//aside -->
 	</div>
+	<!--//container -->
 </div>
-        <script>
-        	
-            // ......................................................
-            // .......................UI Code........................
-            // ......................................................
+	<script>
+		   var allcookies = document.cookie;
+		    var cookies = allcookies.split("; ");
+		    for (var i = 0; i < cookies.length; i++) {
+		       var keyValues = cookies[i].split("=");
+		       if (keyValues[0] == "u_name") {
+		    	   document.getElementById('user_id').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "stg_code") {
+		    	   document.getElementById('room-id').value=unescape(keyValues[1]);
+		       }else if (keyValues[0] == "u_id") {
+		    	   document.getElementById('u_id').value=unescape(keyValues[1]);
+		       }
+		    }
+		    if(document.getElementById('u_type').value==1){ //선생인 경우
+		    	document.getElementById("open-room").style.display="block";
+		    }else if(document.getElementById('u_type').value==0){//학생인 경우
+		    	document.getElementById("noteBtn").style.display="block";
+		    	document.getElementById("join-room").style.display="block";
+		    }
+	</script>
 
+	<script>
+		//connection을 새롭게 생성
+        var connection = new RTCMultiConnection();
+    	
+		//초기 설정값 : 연결시 작동되는 부분
+        connection.session = {
+			audio: true,
+            video: true
+        };
+		//---------------------방 만들기 기능-----------------------
+		document.getElementById('open-room').onclick = function() {
+			var sessionName = document.getElementById('room-id').value;
+        	alert(sessionName);
+            var _session = document.getElementById('session').value;
+            var splittedSession = _session.split('+');
+
+            var session = {};
+            for (var i = 0; i < splittedSession.length; i++) {
+                session[splittedSession[i]] = true;
+            }
+            var maxParticipantsAllowed = 256;
+            //방의 참가자의 수를 256명으로 제한
+            
            
-
-            // ......................................................
-            // ..................RTCMultiConnection Code.............
-            // ......................................................
-			var state=0;
-            var connection = new RTCMultiConnection();
-			var record_video,record_screen;
-            // by default, socket.io server is assumed to be deployed on your own URL
-            //connection.socketURL = '/';
-
-            // comment-out below line if you do not have your own socket.io server
-            connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
-            connection.socketMessageEvent = 'screen-sharing-demo';
-
-            connection.session = {
-            	video: 'one-way',
-            	audio: 'two-way',        
-	            screen: true,
-                oneway: true,
-                data: true
+            connection.extra = {
+                'room-id': sessionName || 'Anonymous'
             };
 
-            connection.sdpConstraints.mandatory = {
-                OfferToReceiveAudio: true,
-                OfferToReceiveVideo: true
-            };
+            connection.userid=document.getElementById('user_id').value;
+            connection.session = session; // 다중 미디어세션과 방향을 설정할 수 있는 공간
+            connection.maxParticipantsAllowed = maxParticipantsAllowed;  //방 참가자수 설정
 
-            document.getElementById('open-room').onclick = function() {
-                disableInputButtons();
-                connection.userid=document.getElementById('user_id').value;
-                connection.open(document.getElementById('room-id').value,true);
-				alert(connection.sessionid);
-            };
-
-            document.getElementById('join-room').onclick = function() {
-                disableInputButtons();
+          	//생성한 사람의 세션아이디
+            connection.sessionid = sessionName || 'Anonymous';
+            alert("방생성");
+            connection.open(); //방 생성
+		}
+		
+        var setupNewSession = document.getElementById('setup-new-session');
+		
+        //----------------------방 들어가기 기능----------------------
+        var sessions = {};
+        connection.onNewSession = function(session) {
+        	if(session){ alert("세션 있음");}else{ alert("세션 없음");}
+            if (sessions[session.sessionid]) return; 
+            sessions[session.sessionid] = session; //sessions[방이름]=session
+            document.getElementById('join-room').setAttribute('data-sessionid', session.sessionid);  //join-room에 data-sessionid속성을 방이름으로 변경
+            document.getElementById('join-room').onclick = function() {  //방들어가기 클릭시
+                session = sessions[this.getAttribute('data-sessionid')]; //session에 sessions[data-sessionid로 들어가있는 방이름](즉,세션)을 대입
+                if (!session) alert('방이 존재하지 않습니다.');
                 connection.userid=document.getElementById('user_id').value;
                 connection.extra= {'username': connection.userid || 'Anonymous'}
-                connection.join(document.getElementById('room-id').value);
-            };
-            
-            
-            connection.videosContainer = document.getElementById('videos-container');
-            connection.videosContainer2 = document.getElementById('videos-container2');
+                connection.join(session);
+        	};
+        };
 
-            connection.onstream = function(event) {
-				alert("onstream");
-				
-				
-                var width = event.mediaElement.clientWidth || connection.videosContainer.clientWidth;
-                var mediaElement = getMediaElement(event.mediaElement, {
-                    title: event.userid,
-                    buttons: ['full-screen'],
-                    width: width,
-                    showOnMouseEnter: false
-                });
-				
-                if(event.stream.isScreen) {
-                	alert(event.stream);
-                	var options = {
-                			   type: 'video',
-                			   //frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
-                			};
-                	record_screen=RecordRTC(event.stream,options);
-                	
-                	connection.videosContainer.appendChild(mediaElement);
-                }
-                else {
-                	var options = {
-             			   type: 'video',
-             			   //frameInterval: 20 // minimum time between pushing frames to Whammy (in milliseconds)
-             		};
-                	record_video=RecordRTC(event.stream,options);
-                	connection.videosContainer2.appendChild(mediaElement);
-                }
-                mediaElement.id = event.streamid;
+      //----------------------핵심 기능[HTML에 미디어를 붙이는 기능]----------------------
+        var videosContainer = document.getElementById('videos-container') || document.body;
+        var localContainer = document.getElementById('local-container') || document.body;
+		var screenType=0;
+        connection.onstream = function(e) {
+			var videocount = document.getElementsByTagName('video');
+            var buttons = ['full-screen', 'volume-slider']; //미디어쪽의 버튼을 설정한다.
 
-            };
-            connection.onstreamended = function(event) {
-                var mediaElement = document.getElementById(event.streamid);
-                if(mediaElement) {
-                    mediaElement.parentNode.removeChild(mediaElement);
-                }
-                alert("연결 끊김");
-            };
-
-                    
-            connection.getScreenConstraints = function(callback) {
-				alert("getScreenConstraints");
-                getScreenConstraints(function(error, screen_constraints) {
-					
-                    if (!error) {
-						
-                        screen_constraints = connection.modifyScreenConstraints(screen_constraints);
-                        callback(error, screen_constraints);
-                        return;
-                    }
-                    throw error;
-                });
-            };
-
-
-            //시작할때 활성화시킬 것을 결정한다.
-            connection.onopen = function() {
-            	alert("onopen");
-                if (document.getElementById('chatinput')) document.getElementById('chatinput').disabled = false;
-                if (document.getElementById('file')) document.getElementById('file').disabled = false;
-            };
-            
-            connection.onmessage = function(event){
-            	div = document.createElement('div');
-                div.innerHTML = event.data;
-                messages.appendChild(div);
+            if (connection.session.audio && !connection.session.video) {
+                buttons = ['mute-audio', 'full-screen', 'stop'];
             }
-            
-            
-            function disableInputButtons() {
-            	document.getElementById('open-room').disabled = true;
-                document.getElementById('join-room').disabled = true;
-                document.getElementById('room-id').disabled = true;
-                document.getElementById('chatinput').disabled = false;
+          	//미디어 변수를 지정하고, 그 크기와 이름, 버튼을 지정한다.
+            var mediaElement = getMediaElement(e.mediaElement, {	
+                width: (videosContainer.clientWidth / 2) - 50,
+                title: e.userid,
+                buttons: buttons
+			});
+          	
+            //local자리 구현과 리모트 자리 구현을 위한 코드
+ 			if(videocount.length == 0){
+    	        var buttons = ['full-screen', 'volume-slider'];
+	
+				if (connection.session.audio && !connection.session.video) {
+				buttons = ['mute-audio', 'full-screen', 'stop'];
+				}
+				//로컬 미디어의 사이즈를 조정하는 구문
+				var mediaElement1 = getMediaElement(e.mediaElement, {
+                       width: (videosContainer.clientWidth / 2) - 175,
+                       title: e.userid,
+                       buttons: buttons
+       			});
+				   //로컬(자신) 미디어를 출력함.(지정된 자리)
+            	   localContainer.insertBefore(mediaElement1, localContainer.firstChild);
+               }else{
+            	 //로컬이 아닌경우(리모트) 미디어를 출력함.(지정된 자리)
+            	   videosContainer.insertBefore(mediaElement, videosContainer.firstChild);
+               }
+			//연결되었을때의 로컬의 상태를 결정함.
+            if (e.type == 'local') {
+                mediaElement.media.muted = false;
+                mediaElement.media.volume = 0.7;
             }
-            
-            //----------------------파일업로드 기능----------------------
-            var progressHelper = {};
+			//연결되었을때 리모트(상대방)의 상태를 결정함. - 기존 disabled상태를 변경함.
+            if(e.type == 'remote'){
+            	document.getElementById('chatrecord').disabled = false;
+            }
+			
+          	//화면전환
+        	document.getElementById('switchScreen').onclick = function() {
+          		alert(screenType);
+        		if(screenType==0){ // 비디오일 때 스크린으로 전환
+        			document.getElementById('switchScreen').value="비디오 전환";
+        			localContainer.firstChild.remove();
+        			connection.session = {    
+        		            screen: true
+        	        };
+        			screenType=1;
+        		}else{ //스크린 일 떄 비디오로 전환
+        			document.getElementById('switchScreen').value="스크린 전환";
+        			localContainer.firstChild.remove();
+        			screenType=0;
+        		}
+        	}
+        };
+     	
+        
+        
+        //----------------------종료 기능(close완벽한 세션 종료 / leave단순 나가기)----------------------
+        document.querySelector('#stop-audio-video').onclick = function() {
+            this.disabled = true;
+            connection.close();
+            self.close();
+        };
+		//---------------------종료 기능 끝------------------------
+		
+		//----------------------스트림이 끝나면 진행되는 기능----------------------
+        connection.onstreamended = function(e) {
+            if (e.mediaElement.parentNode && e.mediaElement.parentNode.parentNode && e.mediaElement.parentNode.parentNode.parentNode) {
+                e.mediaElement.parentNode.parentNode.parentNode.removeChild(e.mediaElement.parentNode.parentNode);
+            }
+        };
+        
+	//채팅에 파일 업로드시 메시지 구현    
+        connection.onmessage = function(e) {
+            appendDIV(e.data);
 
-            connection.autoSaveToDisk = false;
+            console.debug(e.userid, 'posted', e.data);
+            console.log('latency:', e.latency, 'ms');
+        };
+        
+      	//채팅에 close시 메시지 출력
+        connection.onclose = function(e) {
+            appendDIV(e.userid+'과의 연결이 끊어졌습니다.');
+            localStorage.clear();
             
-    		//파일을 업로드 할때의 처리의 함수 
-            connection.onFileProgress = function(chunk) {
-                var helper = progressHelper[chunk.uuid];
-                helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
-                updateLabel(helper.progress, helper.label);
-            };
-            
-            //파일업로드가 시작될때 함수
-            connection.onFileStart = function(file) {
-                var div = document.createElement('div');
-                div.title = file.name;
-                div.innerHTML = '<label>0%</label> <progress></progress>';
-                appendDIV(div, fileProgress);
-                progressHelper[file.uuid] = {
-                    div: div,
-                    progress: div.querySelector('progress'),
-                    label: div.querySelector('label')
-                };
-                progressHelper[file.uuid].progress.max = file.maxChunks;
-            };
-    		
-            //파일 업로드가 종료되었을때 innerHTML로 링크로 바꿔준다.
-            connection.onFileEnd = function(file) {
-                progressHelper[file.uuid].div.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
-            };
-            
-            //----------------------업로드 진행 상황 기능----------------------
-            //업로드가 진행될때 %를 바꿔지는 함수
-            function updateLabel(progress, label) {
-                if (progress.position == -1) return;
-                var position = +progress.position.toFixed(2).split('.')[1] || 100;
-                label.innerHTML = position + '%';
-            }
+        };
+        
+      	//채팅에 leave시 메시지 출력
+        connection.onleave = function(e) {
+            appendDIV(e.userid + '님이 방을 나가셨습니다.');
+        };
 
-            //업로드가 진행된 컨텐츠를 div를 생성하여 채팅창에 붙이는 과정
-            function appendDIV(div, parent) {
-                if (typeof div === 'string') {
-                     var content = div;
-                    div = document.createElement('div');
-                    div.innerHTML = content;
-                }
-                if (!parent){ messages.appendChild(div); }
-                else { fileProgress.appendChild(div);}
-            }
-            //파일의 0번째, 첫번째로 바꿈.
-            document.getElementById('file').onchange = function() {
-                connection.send(this.files[0]);
+        //시작할때 활성화시킬 것을 결정한다.
+        connection.onopen = function() {
+        	alert("onopen");
+            if (document.getElementById('chatinput')) document.getElementById('chatinput').disabled = false;
+            if (document.getElementById('file')) document.getElementById('file').disabled = false;
+        };
+        
+        //----------------------파일업로드 기능----------------------
+        var progressHelper = {};
+
+        connection.autoSaveToDisk = false;
+        
+		//파일을 업로드 할때의 처리의 함수 
+        connection.onFileProgress = function(chunk) {
+            var helper = progressHelper[chunk.uuid];
+            helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
+            updateLabel(helper.progress, helper.label);
+        };
+        
+        //파일업로드가 시작될때 함수
+        connection.onFileStart = function(file) {
+            var div = document.createElement('div');
+            div.title = file.name;
+            div.innerHTML = '<label>0%</label> <progress></progress>';
+            appendDIV(div, fileProgress);
+            progressHelper[file.uuid] = {
+                div: div,
+                progress: div.querySelector('progress'),
+                label: div.querySelector('label')
             };
-            
-            var fileProgress = document.getElementById('messages');
-          	//채팅 메시지를 위한 함수구현
-	        document.getElementById('chatinput').onkeyup = send_chat_message;		
-	            
-	    	function send_chat_message(e) {
-	    		if(e.keyCode == 13) {
-	    			var new_message = connection.userid + "님 : " + this.value + '\r'+'\n';
-	    			connection.send(new_message);
-	    			appendDIV(connection.userid + "님 : " + this.value);
-	    			this.value="";
-	    			document.getElementById('chatinput').focus();
-	    		}
-	    	};
-	    	
-        </script>
+            progressHelper[file.uuid].progress.max = file.maxChunks;
+        };
+		
+        //파일 업로드가 종료되었을때 innerHTML로 링크로 바꿔준다.
+        connection.onFileEnd = function(file) {
+            progressHelper[file.uuid].div.innerHTML = '<a href="' + file.url + '" target="_blank" download="' + file.name + '">' + file.name + '</a>';
+        };
+        
+        //----------------------업로드 진행 상황 기능----------------------
+        //업로드가 진행될때 %를 바꿔지는 함수
+        function updateLabel(progress, label) {
+            if (progress.position == -1) return;
+            var position = +progress.position.toFixed(2).split('.')[1] || 100;
+            label.innerHTML = position + '%';
+        }
+
+        //업로드가 진행된 컨텐츠를 div를 생성하여 채팅창에 붙이는 과정
+        function appendDIV(div, parent) {
+            if (typeof div === 'string') {
+                 var content = div;
+                div = document.createElement('div');
+                div.innerHTML = content;
+            }
+            if (!parent){ messages.appendChild(div); }
+            else { fileProgress.appendChild(div);}
+        }
+        //파일의 0번째, 첫번째로 바꿈.
+        document.getElementById('file').onchange = function() {
+            connection.send(this.files[0]);
+        };
+	
+        //----------------------채팅창 기능 + 채팅 기록 저장----------------------
+       	var text;
+        var fileProgress = document.getElementById('messages');
+      	//채팅 메시지를 위한 함수구현
+        document.getElementById('chatinput').onkeyup = send_chat_message;		
+        
+	function send_chat_message(e) {
+			if(e.keyCode == 13) {
+				var new_message = connection.userid + "님 : " + this.value + '\r'+'\n';
+				connection.send(new_message);
+				appendDIV(connection.userid + "님 : " + this.value);
+				this.value="";
+				document.getElementById('chatinput').focus();
+				//---------------------
+		//채팅 기록을 위한 함수 구현
+				function chatrecord() {
+				    text = localStorage.getItem("inputLog") || "";		//데이터읽기
+				    text += new_message;
+				    localStorage.setItem("inputLog", text);
+				    document.getElementById('chatrecord').onclick = function() {
+				    	var textFileAsBlob = new Blob([text], {type:'text/plain', endings: 'transparent'});
+				    	var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+				    	var downloadLink = document.createElement("a");
+				    	downloadLink.download = fileNameToSaveAs;
+				    	downloadLink.innerHTML = "Download File";
+				    	if (window.webkitURL != null){
+				    		downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+				    	}else{
+				    		downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+				    		downloadLink.onclick = destroyClickedElement;
+				    		downloadLink.style.display = "none";
+				    		document.body.appendChild(downloadLink);
+				    	}
+				    	downloadLink.click();
+	               		alert("저장");
+				 };
+			    window.onstorage = function (e) {
+			        console.log("Storage event has occured");
+			        console.log(e);
+			    };
+			};		
+			chatrecord();
+		}			
+	};
+	
+	
+	//회의 저장(DB에 채팅 및 영상 저장)
+	 document.getElementById('recordMeeting').onclick = function() {
+		 alert("recordMeeting");
+		 var textFileAsBlob = new Blob([text], {type:'text/plain', endings: 'transparent'});
+		 var formData = new FormData();
+         formData.append('stg_code',document.getElementById('room-id').value);
+         formData.append('textblob', textFileAsBlob);
+         $.ajax({
+         	url: 'https://192.168.30.107:8443/mooc/conferenceRoomAjax.mooc',
+         	processData : false,
+            contentType : false,
+            data : formData,
+            type : 'post',
+            dataType: "text",
+            success : function(data){
+            	alert('성공');
+            }
+         })
+	}
+	
+	
+	//채팅기록저장 - 파일이름 지정에 하여 저장 
+	window.onload = function(){ 
+	    var d = new Date(); 
+		var date =  d.getFullYear() + '-' + (d.getMonth() + 1) + '-'+ d.getDate() + '채팅기록'; 
+	    document.getElementById("inputFileNameToSaveAs").value = date; 
+	 } 
+	
+	
+	//연결
+    connection.connect();
+</script>
+</body>

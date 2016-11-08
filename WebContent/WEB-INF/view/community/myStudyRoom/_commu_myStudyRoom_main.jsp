@@ -2,13 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <script>
 function myFunction(i) {
-	 cw=screen.availWidth;
-	 ch=screen.availHeight;
-	 test=window.open('https://192.168.0.4:9001/doConference.html?stg_code='+i,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
-	}
+	var u_id=document.getElementById("u_id").value;
+	var u_name=document.getElementById("u_name").value;
+	cw=screen.availWidth;
+	ch=screen.availHeight;
+	test=window.open('https://192.168.30.107:9001/doStartCon.html?stg_code='+i+'&u_id='+u_id+'&u_name='+encodeURI(encodeURIComponent(u_name)),'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+}
 </script>
 
-
+	
+	<input type="hidden" id="u_id" name="u_id" value="${sessionScope.memId}"/>
+	<input type="hidden" id="u_name" name="u_name" value="${sessionScope.memName}"/>
     <div id="wrapper">
         <div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
