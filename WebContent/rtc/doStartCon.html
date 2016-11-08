@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.webrtc-experiment.com/getMediaElement.min.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/webrtc.css">
+
+	
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <script src="js/jquery.js"></script>
+	<script src="js/scripts.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script>
+		function loadPageVar(sVar) {
+		     return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+		}
+		u_id = loadPageVar('u_id');
+        document.cookie = "u_id="+ escape(u_id);
+		u_name = decodeURIComponent(decodeURI(loadPageVar('u_name')));
+        document.cookie ="u_name="+ escape(u_name);
+        stg_code = loadPageVar('stg_code');
+        document.cookie = "stg_code="+ escape(stg_code);
+       window.location="/doConference.html";
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>
