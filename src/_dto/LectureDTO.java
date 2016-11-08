@@ -49,6 +49,8 @@ public class LectureDTO {
 	private int w_lec_state;
 	private Timestamp w_lec_date;
 	
+	//학생리스트
+	private Timestamp reg_lec_date; 
 	public int getMain_lec_code() {
 		return main_lec_code;
 	}
@@ -246,6 +248,12 @@ public class LectureDTO {
 	}
 	public void setW_lec_date(Timestamp w_lec_date) {
 		this.w_lec_date = w_lec_date;
+	}
+	public Timestamp getReg_lec_date() {
+		return reg_lec_date;
+	}
+	public void setReg_lec_date(Timestamp reg_lec_date) {
+		this.reg_lec_date = reg_lec_date;
 	}
 	
 	
