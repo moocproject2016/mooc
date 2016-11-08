@@ -19,17 +19,15 @@ import _dto.studyNoteDTO;
 public class MyStudyController {
 	
 	String main = "main.jsp";
-	String content; // �� main �������� container �κп� �� content ����
-	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudy�� main������
+	String content; 
+	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; 
 	pageAction paging=null;
 	
 	@Autowired
 	 SqlMapClientTemplate sqlMap;
 	
-	//----------------------------myStudy ����----------------------------//
 	
 	@RequestMapping("/user/myStudy.mooc")
-	//myStudy ����
 		public String myStudy_main(HttpServletRequest request){
 
 			HttpSession session=request.getSession();
@@ -53,7 +51,6 @@ public class MyStudyController {
 			dto.setU_id(u_id);
 			request.setAttribute("lecture_question", AllList);
 			
-			//�ֱ� Ȩ������ �����亯
 			List AllList2=(ArrayList)sqlMap.queryForList("question", dto);
 			request.setAttribute("question", AllList2);
 		
@@ -64,7 +61,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/lectureList.mooc")
-	//���Ǹ��
 		public String myLectureList_main(HttpServletRequest request){
 			String pageNum=request.getParameter("pageNum");
 			HttpSession session=request.getSession();
@@ -96,7 +92,6 @@ public class MyStudyController {
 			return main;
 	}
 	@RequestMapping("/user/lectureList_sub.mooc")
-	//���Ǹ��
 		public String myLectureList_sub_main(HttpServletRequest request){
 			int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
 			HttpSession session=request.getSession();
@@ -134,7 +129,6 @@ public class MyStudyController {
 			return main;
 	}
 	@RequestMapping("/user/lectureListCategory.mooc")
-	//���Ǹ��
 		public String myLectureListCategory_main(HttpServletRequest request){
 			int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
 			String pageNum=request.getParameter("pageNum");
@@ -168,7 +162,6 @@ public class MyStudyController {
 	}
 	
 	@RequestMapping("/user/noteList.mooc")
-	//�ʱ���
 		public String noteList_main(HttpServletRequest request){
 			HttpSession session=request.getSession();
 			String id=(String)session.getAttribute("memId");
@@ -195,7 +188,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/studyGroupList.mooc")
-	//���͵�׷�
 		public String studyGroupList(HttpServletRequest request){
 			content = "user_studyGroupList.jsp";
 			request.setAttribute("main_content", myStudy_main);
@@ -204,7 +196,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/likeLectureList.mooc")
-	//���ɰ���
 		public String likeLectureList_main(HttpServletRequest request){
 			HttpSession session=request.getSession();
 			String u_id=(String)session.getAttribute("memId");
@@ -224,7 +215,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/likeTeacherList.mooc")
-	//���ɰ���
 		public String likeTeacherList_main(HttpServletRequest request){
 			HttpSession session=request.getSession();
 			String u_id=(String)session.getAttribute("memId");
@@ -244,7 +234,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/likeTeacherList_Ajax.mooc")
-	//���ɰ���
 		public String likeTeacherList_Ajax(HttpServletRequest request){
 		
 			String t_id=request.getParameter("t_id");
@@ -261,13 +250,16 @@ public class MyStudyController {
 	
 	
 	@RequestMapping("/user/teacherSign.mooc")
-	//����Ǳ� 
 		public String teacherSign_main(HttpServletRequest request){
 			HttpSession session=request.getSession();
 			String id=(String)session.getAttribute("memId");
-			int check=0;
-			if((Integer)sqlMap.queryForObject("checkT_idflag", id)!=null)
+			int check=3;
+			if((Integer)sqlMap.queryForObject("checkT_idflag", id)!=null){
 				check=(Integer)sqlMap.queryForObject("checkT_idflag", id);
+				if(check==0){
+					return "redirect:/teacher/teacherProfile.mooc";
+				}
+			}
 
 			request.setAttribute("check", check);
 			String content = "/WEB-INF/view/teacher/teacher_sign.jsp";
@@ -284,7 +276,6 @@ public class MyStudyController {
 	
 	
 	@RequestMapping("/user/myStudyWrite.mooc")
-	//���͵� �����
 		public String studyWrite_main(HttpServletRequest request){
 		List ctglist =sqlMap.queryForList("selectAllTopCtg",null);
 		request.setAttribute("list",ctglist);
@@ -296,7 +287,6 @@ public class MyStudyController {
 		}
 	
 	@RequestMapping("/user/userDelete.mooc")
-	//ȸ��Ż�� 
 		public String userDelete_main(HttpServletRequest request){
 			content = "/WEB-INF/view/user/user_delete.jsp";
 			request.setAttribute("main_content", myStudy_main);
@@ -304,6 +294,6 @@ public class MyStudyController {
 			return main;
 		}
 
-	//----------------------------myStudy ��----------------------------//
+	
 }
 

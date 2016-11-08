@@ -22,12 +22,12 @@ public class UserController {
 	SqlMapClientTemplate sqlMap;
 	
 	String main = "main.jsp";
-	String content; // �� main �������� container �κп� �� content ����
-	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudy�� main������
+	String content; 
+	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; 
 	
 	
 	@RequestMapping("user/userProfile.mooc")
-	//���� ���� ����
+
 	public String user_modifyForm_main(HttpServletRequest request)
 	{	
 		HttpSession session=request.getSession();
@@ -50,11 +50,10 @@ public class UserController {
 			dto.setU_id(u_id);
 			sqlMap.update("modifyPro",dto);
 			
-			return "redirect:/main.mooc"; //��κ���
+			return "redirect:/main.mooc"; 
 		}
 	
 	@RequestMapping("user/user_delete.mooc")
-	//���� Ż��
 	public String user_delete(HttpServletRequest request){
 		return "/user/user_delete.jsp";
 	}
@@ -85,7 +84,6 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_finePw.mooc")
-	//���� ��й�ȣ ã��
 	public String user_finePw_main(HttpServletRequest request)
 	{	
 		content="user/user_finePw.jsp";
@@ -94,7 +92,6 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_lectureList.mooc")
-	//���� ���� ����Ʈ
 	public String lectureList_main(HttpServletRequest request){
 		String pageNum=request.getParameter("pageNum");
 		int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
@@ -116,7 +113,6 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_lectureListSerch.mooc")
-	//���Ǹ���Ʈ �˻�
 	public String lectureListSerch_main(HttpServletRequest request,LectureDTO dto){
 		String pageNum=request.getParameter("pageNum");
 		List AllList=null;
@@ -163,7 +159,6 @@ public class UserController {
 		return main;
 	}
 	
-	//�α��� ����
 	@RequestMapping("user/loginError.mooc")
 	public String user_loginError(){
 		return "/user/user_loginError.jsp";
@@ -177,11 +172,9 @@ public class UserController {
 		String canvasString=null;
 		LectureNote ppt_note=null;
 		int pageSize=0;
-		//��Ʈppt ��θ� �O�´�.
 		if(pageNum==null){
 			pageNum="1";
 		}
-	//sub_lec_code="65";//�ӽ� sub_lec_code
 		
 		if(sub_lec_code!=null){
 			LectureNote note=(LectureNote)sqlMap.queryForObject("notePath",Integer.parseInt(sub_lec_code));

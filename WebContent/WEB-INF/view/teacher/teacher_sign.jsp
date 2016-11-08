@@ -10,7 +10,7 @@
 	window.onload=function(){
 		var i=${check}
 		if(i==0){
-			
+			window.location='/mooc/teacher/teacherProfilePro.mooc?check=1';
 		}else if(i==1){
 			alert("정지당한강사입니다");
 			history.go(-1);
