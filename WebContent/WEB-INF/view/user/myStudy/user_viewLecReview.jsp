@@ -66,30 +66,28 @@
 <br />
 <br />
 <div class="tableWrap">
+
 	<form name="updateform" method="post" action="/mooc/admin/qnaWriteForm.mooc">
 	<c:set var="index" value="0" />
 		<table class="table" align="center">
 			<thead>
-				<tr>
-					<th>문의번호</th>
-					<th>강의명</th>
-					<th>아이디</th>
+				<tr class="theadtop">
+					<th>번호</th>
+					<th>작성자</th>
 					<th>평점</th>
 					<th>별점</th>
-					<th>문의날짜</th>
+					<th>작성일</th>
 				</tr>
 			</thead>
 				<tbody>
 				<c:forEach var="lec_review" items="${view_review}" varStatus="i">
-				<tr>
+				<tr onclick="displaySwitch('${i.count}re');">
+					<c:set var="main_lec_code" value="${lec_review.main_lec_code}" />
 					
-					<td>${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
-					<td onclick="displaySwitch('${i.count}re');">
-						<b>${lec_review.lec_r_subject}</b>
-					</td>
-					<td>${lec_review.u_id}</td>							
-					<td>평점 : ${lec_review.lec_r_score}</td>
-					<td>
+					<td align="center">${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
+					<td align="center">${lec_review.u_id}</td>							
+					<td align="center">평점 : ${lec_review.lec_r_score}</td>
+					<td align="center">
 					 	 <c:if test="${lec_review.lec_r_score<=5 && lec_review.lec_r_score>4}">★★★★★</c:if>
         			 	 <c:if test="${lec_review.lec_r_score<=4 && lec_review.lec_r_score>3}">★★★★☆</c:if>
       				  	 <c:if test="${lec_review.lec_r_score<=3 && lec_review.lec_r_score>2}">★★★☆☆</c:if>
@@ -97,13 +95,13 @@
          				 <c:if test="${lec_review.lec_r_score<=1 && lec_review.lec_r_score>0}">★☆☆☆☆</c:if>
 					</td>
 					
-					<td><fmt:formatDate value="${lec_review.lec_r_regdate}" pattern="yy-mm-dd hh:mm"/></td>
+					<td align="center"><fmt:formatDate value="${lec_review.lec_r_regdate}" pattern="YY-MM-dd"/></td>
 				</tr>
 				<c:if test="${lec_review.lec_r_content!=null}">
 					<tr>
 						<td colspan="7" align="left">
 							<div id="content${i.count}re" style="display:none; height:auto;">
-								후기 내용&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${lec_review.lec_r_content}<br /><br />
+								${lec_review.lec_r_content}<br /><br />
 								<hr>
 							</div>					
 						</td>
@@ -136,7 +134,7 @@
 									
 						<c:if test="${startPage > 10}">
 						<li>
-      						<a href="user_viewReview.mooc?pageNum=${startPage - 10 }" aria-label="Previous">
+      						<a href="user_viewReview.mooc?main_lec_code=${main_lec_code}&pageNum=${startPage - 10 }" aria-label="Previous">
         					<span aria-hidden="true">&laquo;</span>
       						</a>
     					</li>
@@ -144,16 +142,16 @@
 				
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${currentPage==i}">
-								<li class="active"><a href="user_viewReview.mooc?pageNum=${i}">${i}</a></li>
+								<li class="active"><a href="user_viewReview.mooc?main_lec_code=${main_lec_code}&pageNum=${i}">${i}</a></li>
 							</c:if>
 							<c:if test="${currentPage!=i}">							
-								<li><a href="user_viewReview.mooc?pageNum=${i}">${i}</a></li>
+								<li><a href="user_viewReview.mooc?main_lec_code=${main_lec_code}&pageNum=${i}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 					
 						<c:if test="${endPage < pageCount}">
 						<li>
-						<a href="user_viewReview.mooc?pageNum=${startPage + 10}" aria-label="Next">
+						<a href="user_viewReview.mooc?main_lec_code=${main_lec_code}&pageNum=${startPage + 10}" aria-label="Next">
         					<span aria-hidden="true">&raquo;</span>
       					</a>
       					</li>
@@ -162,5 +160,8 @@
 					</c:if>
 				</td>
 			</tr>
+			<tr><td><ul><li class="pull-right"><a href="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_code}">뒤로 가기</a></li></ul></td></tr>
 	</table>
+	
+		
 </div>

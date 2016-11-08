@@ -19,27 +19,32 @@
 		}
 	}
 </script>
-<c:if test="${sessionScope.memId==null }">
-	<script>
-		alert("로그인이 필요합니다.");
-		location.href="/mooc/user/userSign.mooc";
-	</script>
-</c:if>
+
 <c:if test="${sessionScope.memId!=null }">
 	<input type="hidden" id="currentPage"  name="pageNum" value="${currentPage}">
-	<h2>강의 공지<h5>총 공지글 수 : ${all_count}</h5></h2>
+	
 	<form action="/mooc/user/user_notice.mooc" method="post" onsubmit="return check();">
-		<table style="width: 100%;">
+		<table class="table" align="center">
 			<tr><td>
-				<select name="searchKey" id="searchKey">
-					<option>선택</option>
-					<option value="lec_n_subject">제목</option>
-					<option value="lec_n_content">내용</option>
-				</select>
-				<input type="hidden" name="main_lec_code" value="${main_lec_code}">
-				<input type="text" name="searchValue"/>
-				<input type="submit" value="검색" />
-			</td>
+			<c:if test="${sessionScope.memId==null }">
+				<script>
+					alert("로그인이 필요합니다.");
+					location.href="/mooc/user/userSign.mooc";
+				</script>
+			</c:if>
+			<h2>강의 공지<h5>총 공지글 수 : ${all_count}</h5></h2>
+			</td></tr>
+			<tr>
+				<td>
+					<select name="searchKey" id="searchKey">
+						<option>선택</option>
+						<option value="lec_n_subject">제목</option>
+						<option value="lec_n_content">내용</option>
+					</select>
+					<input type="hidden" name="main_lec_code" value="${main_lec_code}">
+					<input type="text" name="searchValue"/>
+					<input type="submit" value="검색" />
+				</td>
 			</tr>
 		</table>
 	</form>
@@ -52,28 +57,27 @@
 				</tr>
 			</thead>
 				<c:forEach var="lecNoticeDto" items="${list_1}" varStatus="i">
-				<tr bgcolor=#D8D8D8>
-					<td>
+				<tr bgcolor="#f0f0f0">
+					<td align="center">
 						중요
 					</td>
-
-					<td>
+					<td align="center">
 						<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
 					</td>
-					<td><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td align="center"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
 			</table>
 			<table class="table"  align="center">
 				<c:forEach var="lecNoticeDto" items="${list}" varStatus="i">
 				<tr bgcolor=ffffff>
-					<td width="10%">
+					<td align="center" width="10%">
 						${lecNoticeDto.lec_n_num}
 					</td>
-					<td width="45%">
+					<td align="center" width="45%">
 						<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
 					</td>
-					<td width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td align="center" width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				</c:forEach>
 			</table>

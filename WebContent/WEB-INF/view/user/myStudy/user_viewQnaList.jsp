@@ -83,12 +83,13 @@
 <br />
 <br />
 <br />
-<h2>질문게시판</h2>
+
 <div class="tableWrap">
 	
 		<%-- <c:set var="index" value="0" /> --%>
 		<table class="table" align="center">
 			<thead>
+			<tr><td colspan="5"><h2>질문게시판</h2></td></tr>
 				<tr>
 					<th>문의번호</th>
 					<th>아이디</th>

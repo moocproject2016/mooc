@@ -13,13 +13,14 @@ import _dto.LecNoticeDTO;
 import _dto.LectureDTO;
 import _dto.LectureQuestionDTO;
 import _dto.LectureReviewDTO;
+import _dto.TeacherDTO;
 import _dto.UserDTO;
 import _dto.pageAction;
 
 @Controller
 public class UserLecController {
 	String main = "main.jsp";
-	String content; // �� main �������� container �κп� �� content ����
+	String content; // 占쏙옙 main 占쏙옙占쏙옙占쏙옙占쏙옙 container 占싸분울옙 占쏙옙載� content 占쏙옙占쏙옙
 	
 	@Autowired
 	SqlMapClientTemplate sqlMap;
@@ -29,32 +30,54 @@ public class UserLecController {
 		int main_lec_code=Integer.parseInt(request.getParameter("main_lec_code"));
 		LectureDTO main_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneMainLecture", main_lec_code);
 		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_dto);
+		
+		String id = main_lec_dto.getT_id();
+		TeacherDTO main_lec_code_tInfo=(TeacherDTO) sqlMap.queryForObject("t_idfrofile", id);
+		
 		int sub_lec_count=sub_lec_list.size();
 		
 		String t_id = request.getParameter("t_id");
 		request.setAttribute("t_id", t_id);
 		HashMap a=new HashMap();
 		HttpSession session=request.getSession();
-		String id=(String)session.getAttribute("memId");
+		String u_id=(String)session.getAttribute("memId");
 		a.put("t_id",main_lec_dto.getT_id());
-		a.put("u_id",id);
+		a.put("u_id",u_id);
 		a.put("main_lec_code",main_lec_code);
 		int count=(Integer)sqlMap.queryForObject("checkT_id",a);
 		int count1=(Integer)sqlMap.queryForObject("checkMain_lec_code",a);
 		int count2=(Integer)sqlMap.queryForObject("checkLecture",a);
-		
+
 		request.setAttribute("count", count);
 		request.setAttribute("count1", count1);
 		request.setAttribute("count2", count2);
+		request.setAttribute("main_lec_code_tInfo", main_lec_code_tInfo);
 		request.setAttribute("sub_lec_list", sub_lec_list);
 		request.setAttribute("main_lec_dto", main_lec_dto);
 		request.setAttribute("sub_lec_count", sub_lec_count);
 		if((String)session.getAttribute("memId") != null){
-		UserDTO check = (UserDTO)sqlMap.queryForObject("selectUser", id);
+		UserDTO check = (UserDTO)sqlMap.queryForObject("selectUser", u_id);
 		int u_type = check.getU_type();
 		request.setAttribute("u_type", u_type);
-		System.out.println(u_type);
 		}
+		
+		List mainLecReviewList = (ArrayList)sqlMap.queryForList("view_review", main_lec_code);
+		String pageNum=request.getParameter("pageNum");
+		pageAction pageing=new pageAction();
+		List view_review = pageing.pageList(pageNum,mainLecReviewList, 7);
+		
+		List All=sqlMap.queryForList("user_noticeListImportant",Integer.parseInt(request.getParameter("main_lec_code")));
+		pageAction noticePageing=new pageAction();
+		List lecNoticeList=noticePageing.pageList("1",All, 5);
+		
+		request.setAttribute("lecNoticeList",lecNoticeList);
+		request.setAttribute("lecNoticeListCount",lecNoticeList.size());
+		request.setAttribute("reviewCheck",mainLecReviewList.size());
+		request.setAttribute("count",pageing.count());
+		request.setAttribute("currentPage", pageing.current());
+		request.setAttribute("pageSize", pageing.size());
+		request.setAttribute("view_review", view_review);
+		
 		content="user/lecture/user_viewMainLecture.jsp";
 		request.setAttribute("main_content", content);
 		return main;
@@ -64,7 +87,7 @@ public class UserLecController {
 	public String watchLec_main(HttpServletRequest request,int sub_lec_code,String currentPage){
 		LectureDTO sub_lec_dto=(LectureDTO) sqlMap.queryForObject("selectOneSubLecture", sub_lec_code);
 		
-		//�ڷ� ����Ʈ ��������
+		//占쌘뤄옙 占쏙옙占쏙옙트 占쏙옙占쏙옙占쏙옙占쏙옙
 		List lec_data_list=sqlMap.queryForList("selectAllLecData", sub_lec_code);
 		
 		request.setAttribute("sub_lec_dto", sub_lec_dto);
@@ -114,12 +137,10 @@ public class UserLecController {
 		return main;
 	}
 	@RequestMapping("user/user_viewReview.mooc")
-	public String userViewReview_main(HttpServletRequest request, HttpSession session){
+	//강의 후기
+	public String userViewReview_main(HttpServletRequest request, HttpSession session, int main_lec_code){
 		
-		String subject = (String)request.getParameter("main_lec_subject");
-		
-		
-		List AllList = (ArrayList)sqlMap.queryForList("view_review", subject);
+		List AllList = (ArrayList)sqlMap.queryForList("view_review", main_lec_code);
 		String pageNum=request.getParameter("pageNum");
 		pageAction pageing=new pageAction();
 		List view_review = pageing.pageList(pageNum,AllList, 7);
@@ -189,7 +210,7 @@ public class UserLecController {
 		String id = request.getParameter("u_id");
 		int q1_code = Integer.parseInt((String)request.getParameter("main_lec_code"));
 		sqlMap.insert("insertQnA", q_dto);
-		return "redirect:/viewMainLec.mooc?main_lec_code="+q1_code; //�Ҳ� CODE �޾ƿͼ� REDIRECT ��Ű��, ����Ʈ �޾ƿͼ� �亯��ɱ��� �ϱ�(�̰� ��Ʈ�ѷ� �����Խ��� ���θ���  �����Խ��� ������ ���� �ű⼭ ���޾Ƽ� �Ѹ���
+		return "redirect:/viewMainLec.mooc?main_lec_code="+q1_code; //占쌀뀐옙 CODE 占쌨아와쇽옙 REDIRECT 占쏙옙키占쏙옙, 占쏙옙占쏙옙트 占쌨아와쇽옙 占썰변占쏙옙�깍옙占쏙옙 占싹깍옙(占싱곤옙 占쏙옙트占싼뤄옙 占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쏙옙占싸몌옙占쏙옙底�  占쏙옙占쏙옙占쌉쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占신기서 占쏙옙占쌨아쇽옙 占싼몌옙占쏙옙
 	}
 	
 	@RequestMapping("user/user_viewQnaList.mooc")
@@ -200,10 +221,10 @@ public class UserLecController {
 				pageNum="1";
 			}
 			List array=(List)sqlMap.queryForList("qnalist2", qna_dto);
-			int pageSize = 10;//�� �������� ���� ����
+			int pageSize = 10;//占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 	        int currentPage = Integer.parseInt(pageNum);
-	        int startRow = (currentPage - 1) * pageSize ;//�� �������� ���۱� ��ȣ
-	        int endRow = currentPage * pageSize-1;//�� �������� ������ �۹�ȣ
+	        int startRow = (currentPage - 1) * pageSize ;//占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쌜깍옙 占쏙옙호
+	        int endRow = currentPage * pageSize-1;//占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쌜뱄옙호
 	        int count = array.size();
 	        if(count<endRow){
 	        	endRow=count;
@@ -266,7 +287,7 @@ public class UserLecController {
 		String searchKey=request.getParameter("searchKey");
 		map.put("main_lec_code",Integer.parseInt(request.getParameter("main_lec_code")));
 		List Alllist=null;
-		if(searchKey!=null&&!searchKey.equals("선택")){
+		if(searchKey!=null&&!searchKey.equals("����")){
 			if(request.getParameter("searchKey").equals("lec_n_subject")){
 				map.put("lec_n_subject",request.getParameter("searchValue"));
 				System.out.println(request.getParameter("searchValue"));
@@ -299,7 +320,7 @@ public class UserLecController {
 	@RequestMapping("user/user_noticeView.mooc")
 	public String user_noticeView_main(HttpServletRequest request){
 		String pageNum="1";
-		if(request.getParameter("pageNum")!=null){  System.out.println("null아님"); pageNum=request.getParameter("pageNum");}
+		if(request.getParameter("pageNum")!=null){  System.out.println("null����"); pageNum=request.getParameter("pageNum");}
 		
 		int lec_n_num=0;
 		if(request.getParameter("lec_n_num")!=null){

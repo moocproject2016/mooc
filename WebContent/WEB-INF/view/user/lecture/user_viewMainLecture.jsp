@@ -26,13 +26,24 @@ function myFunction(i,x) {
 	 ch=screen.availHeight;
 	 test=window.open('https://192.168.30.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+encodeURI(encodeURIComponent(u_name))+'&sub_lec_subject='+encodeURI(encodeURIComponent(sub_lec_subject))+'&sub_lec_chapter='+sub_lec_chapter+'&sub_lec_content='+encodeURI(encodeURIComponent(sub_lec_content))+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 }
+
+function displaySwitch(num){
+	content = document.getElementById("content"+num)
+	if(content.style.display=="none"){
+		content.style.display="block";
+	}else{
+		content.style.display="none";
+	}
+	
+}
+
 </script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/>
 	<input type="hidden" id="u_id" name="u_id" value="${sessionScope.memId}"/>
 	<input type="hidden" id="u_name" name="u_name" value="${sessionScope.memName}"/>
-	<table class="table" align="center">
+	<table class="table" align="center" style="width:1000px;">
 		<tr><td colspan="2">
-			<h4>${main_lec_dto.main_lec_subject }
+			<h2>${main_lec_dto.main_lec_subject}</h2>
 			<table >
 				<tr>
 					<c:if test="${count2==1}"><td style="color:#FF0000;font-size:17px">수강중&nbsp;</td>
@@ -47,7 +58,6 @@ function myFunction(i,x) {
 			</h4>
 			</td>
 			<td align="right">
-			<button type="button" class="btn btn-default" onclick="window.history.back()" ><span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span> 뒤로가기</button>
 				<c:if test="${count2==0&&sessionScope.memId!=null}">
 					<input type="button" class="btn btn-default" value="수강신청" onclick="window.location='/mooc/user_lectureRegister.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>
 				</c:if>
@@ -63,58 +73,200 @@ function myFunction(i,x) {
 			<td colspan="2"></td>
 			<td colspan="2" align="right">
 				<input type="button" class="btn btn-default" value="질문 하기" onclick="window.location='/mooc/user/user_qnaWrite.mooc?q_code=${main_lec_dto.main_lec_code}'"/>
-				&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-default" value="강의 후기 작성" onclick="window.location='/mooc/user/user_reviewContent.mooc?main_lec_code=${main_lec_dto.main_lec_code}&main_lec_subject=${main_lec_dto.main_lec_subject}'"/>
-				</td>				
+			</td>				
 		</tr>
 		</c:if>
 		<tr>
 			<td colspan="2"></td>
 			<td colspan="2" align="right"><input type="button" class="btn btn-default" value="질문 게시판" onclick="window.location='/mooc/user/user_viewQnaList.mooc?main_lec_code=${main_lec_dto.main_lec_code}'" />&nbsp;&nbsp;&nbsp;
-										<input type="button" class="btn btn-default" value="강의 후기" onclick="window.location='/mooc/user/user_viewReview.mooc?main_lec_code=${main_lec_dto.main_lec_code}&main_lec_subject=${main_lec_dto.main_lec_subject}'" />
-												<input type="button" class="btn btn-default" value="강의 공지" onclick="window.location='/mooc/user/user_notice.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>				
+					<input type="button" class="btn btn-default" value="강의 공지" onclick="window.location='/mooc/user/user_notice.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>				
 			</td>
 		</tr>
+		<tr>
+			<td rowspan="3" align="center"><img src="${main_lec_dto.main_lec_image }" width="300" height="200"/></td>
+			<td>강의 개요 </td><td>${main_lec_dto.main_lec_content }</td>
+		</tr>
+		<tr>
+			<td>구성</td><td>${sub_lec_count}강</td>
+		</tr>
+		<tr>
+			<td colspan="2"><fmt:formatDate value="${main_lec_dto.main_lec_regdate }" pattern="yyyy년  MM월 dd일"/>시작</td>
+		</tr>
+	</table>
+	<table align="center">
+		<tr>
+			<td align="center">
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#home">강의 보기</a></li>
+		<li><a data-toggle="tab" href="#menu1">강사 소개</a></li>
+		<li><a data-toggle="tab" href="#menu2">강의 후기</a></li>
+		<li><a data-toggle="tab" href="#menu3">강의 공지</a></li>
+	</ul>
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+				<table class="table" align="center">
+					<c:forEach var="lectureDTO" items="${sub_lec_list}" varStatus="i">
+						<tr>
+							<td width="20%">
+								<input type="hidden" name="sub_lec_chapter" value="${lectureDTO.sub_lec_chapter}"/>${lectureDTO.sub_lec_chapter}강
+								<input type="hidden" name="sub_lec_code" value="${lectureDTO.sub_lec_code }"/>
+							</td>
+							<td width="50%">
+								<input type="hidden" name="sub_lec_type" value="${lectureDTO.sub_lec_type }"/>
+								<input type="hidden" name="sub_lec_subject" value="${lectureDTO.sub_lec_subject}"/>
+								<input type="hidden" name="sub_lec_content" value="${lectureDTO.sub_lec_content}"/>
+								<c:if test="${lectureDTO.sub_lec_chapter==1||count2==1&&sessionScope.memId!=null}">
+									<c:if test="${lectureDTO.sub_lec_type==0||lectureDTO.sub_lec_type==2 }"><a href="/mooc/watchLec.mooc?sub_lec_code=${lectureDTO.sub_lec_code }&currentPage=${currentPage}" target="_blank"></c:if>
+									<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code },'${i.index }')"></c:if>
+									${lectureDTO.sub_lec_subject }
+									<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
+								</c:if>
+								<c:if test="${count2!=1&&lectureDTO.sub_lec_chapter!=1}">
+									${lectureDTO.sub_lec_subject }
+									<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
+								</c:if>
+							</td>
+							<td width="25%">
+								<c:if test="${lectureDTO.sub_lec_type==0}">녹화</c:if>
+								<c:if test="${lectureDTO.sub_lec_type==1}">실시간(${lectureDTO.live_lec_date})</c:if>
+								<c:if test="${lectureDTO.sub_lec_type==2}">실시간(종료)</c:if>
+							</td>
+							</tr>
+					</c:forEach>
+				</table>
+		    </div>
+		    
+			<div id="menu1" class="tab-pane fade">
+				<table class="table" align="center">
+					<tr>
+						<td>강사 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_id}</td>
+					</tr>
+					<tr>
+					 	<td>학력&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_education}</td>
+					</tr>
+				  	<tr>
+						<td>자격증&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_certificate}</td>
+					</tr>
+					<tr>
+						<td>수상내역&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_prize}</td>
+					</tr>
+					<tr>
+						<td>기술&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_skill}</td>
+					</tr>
+					<tr>
+						<td>소개&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${main_lec_code_tInfo.t_other}</td>
+					</tr>
+				</table>
+		    </div>
+				
+		    <div id="menu2" class="tab-pane fade">
+		    	<c:if test="${reviewCheck != 0}">
+			    	<ul>
+			    		<li class="pull-right"><a href="/mooc/user/user_viewReview.mooc?main_lec_code=${main_lec_dto.main_lec_code}">강의평 더 보기</a></li>
+			    	</ul>
+			    	<table class="table" align="center">
+						<thead>
+							<tr class="theadtop">
+								<th>번호</th>
+								<th>작성자</th>
+								<th>별점</th>
+								<th>작성일</th>
+							</tr>
+						</thead>
+						<tbody>
+						<c:forEach var="lec_review" items="${view_review}" varStatus="i">
+							<tr onclick="displaySwitch('${i.count}re');">
+								
+								<td align="center">${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
+								<td align="center">${lec_review.u_id}</td>							
+								<td align="center">
+								 	 <c:if test="${lec_review.lec_r_score<=5 && lec_review.lec_r_score>4}">★★★★★</c:if>
+			        			 	 <c:if test="${lec_review.lec_r_score<=4 && lec_review.lec_r_score>3}">★★★★☆</c:if>
+			      				  	 <c:if test="${lec_review.lec_r_score<=3 && lec_review.lec_r_score>2}">★★★☆☆</c:if>
+			      					 <c:if test="${lec_review.lec_r_score<=2 && lec_review.lec_r_score>1}">★★☆☆☆</c:if>
+			         				 <c:if test="${lec_review.lec_r_score<=1 && lec_review.lec_r_score>0}">★☆☆☆☆</c:if>
+								</td>
+								
+								<td align="center">
+									<fmt:formatDate value="${lec_review.lec_r_regdate}" pattern="YY-MM-dd"/>
+									<c:if test="${sessionScope.memId==lec_review.u_id}"><a href=""></a></c:if>
+								</td>
+							</tr>
+							<c:if test="${lec_review.lec_r_content!=null}">
+								<tr>
+									<td colspan="8" align="left">
+										<div id="content${i.count}re" style="display:none; height:auto;">
+											${lec_review.lec_r_content}<br /><br />
+										</div>					
+									</td>
+									
+								</tr>
+							</c:if>		
+							<c:set var="index" value="${index+1}" />
+						</c:forEach>
+							<tr>
+								<td colspan="4" align="right">
+								<c:if test="${sessionScope.memId!=t_id&&count2==1}">
+									<a href="/mooc/user/user_reviewContent.mooc?main_lec_code=${main_lec_dto.main_lec_code}&main_lec_subject=${main_lec_dto.main_lec_subject}">강의후기 작성</a>
+								</c:if>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</c:if>
+				<c:if test="${reviewCheck == 0}">
+					<table class="table" align="center"><tr><td>등록된 강의 후기가 없습니다.</td></tr>
+					<c:if test="${sessionScope.memId!=t_id&&count2==1}">
+						<tr> 
+							<td>
+								<input type="button" class="btn btn-default" value="강의 후기 작성" onclick="window.location='/mooc/user/user_reviewContent.mooc?main_lec_code=${main_lec_dto.main_lec_code}&main_lec_subject=${main_lec_dto.main_lec_subject}'"/>
+							</td>				
+						</tr>
+					</c:if>
+				</c:if>
+		    </div>
+		    
+		    <div id="menu3" class="tab-pane fade">
+		    	<c:if test = "${lecNoticeListCount==0}">
+					<table class="table" align="center"><tr><td>등록된 공지가 없습니다.</td></tr></table>
+				</c:if>
+		    	<c:if test = "${lecNoticeListCount!=0}">
+					<table class="table" align="center">
+					<thead>
+						<tr bgcolor="ffffff">
+							<th width="10%">번호</th>
+							<th width="45%">제목</th>
+							<th width="20%">날짜</th>
+						</tr>
+					</thead>
+						<c:forEach var="lecNoticeDto" items="${lecNoticeList}" varStatus="i">
+						<tr bgcolor="#f0f0f0">
+							<td align="center">
+								중요
+							</td>
 		
-			<td rowspan="3"><img src="${main_lec_dto.main_lec_image }" width="100" height="100"/></td>
-			<td>강의내용 </td><td>${main_lec_dto.main_lec_content }</td>
-		</tr>
-		<tr>
-			<td>강의수</td><td>${sub_lec_count}</td>
-		</tr>
-		<tr>
-			<td>강의 생성 날짜</td><td><fmt:formatDate value="${main_lec_dto.main_lec_regdate }" pattern="yyyy-MM-dd HH:mm"/></td>
-		</tr>
-	</table>
+							<td align="center">
+								<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
+							</td>
+							<td align="center"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+						</tr>
+						</c:forEach>
+					</table>
+					<table class="table"  align="center">
+						<c:forEach var="lecNoticeDto" items="${list}" varStatus="i">
+						<tr bgcolor=ffffff>
+							<td align="center" width="10%">
+								${lecNoticeDto.lec_n_num}
+							</td>
+							<td align="center" width="45%">
+								<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
+							</td>
+							<td align="center" width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd"/></td>
+						</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+		    </div>
+		</div>
+</td></tr></table>
 	
-	<table class="table" align="center">
-		<c:forEach var="lectureDTO" items="${sub_lec_list}" varStatus="i">
-			<tr>
-				<td width="20%">
-					<input type="hidden" name="sub_lec_chapter" value="${lectureDTO.sub_lec_chapter}"/>${lectureDTO.sub_lec_chapter}강
-					<input type="hidden" name="sub_lec_code" value="${lectureDTO.sub_lec_code }"/>
-				</td>
-				<td width="50%">
-					<input type="hidden" name="sub_lec_type" value="${lectureDTO.sub_lec_type }"/>
-					<input type="hidden" name="sub_lec_subject" value="${lectureDTO.sub_lec_subject}"/>
-					<input type="hidden" name="sub_lec_content" value="${lectureDTO.sub_lec_content}"/>
-					<c:if test="${lectureDTO.sub_lec_chapter==1||count2==1&&sessionScope.memId!=null}">
-						<c:if test="${lectureDTO.sub_lec_type==0||lectureDTO.sub_lec_type==2 }"><a href="/mooc/watchLec.mooc?sub_lec_code=${lectureDTO.sub_lec_code }&currentPage=${currentPage}" target="_blank"></c:if>
-						<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code },'${i.index }')"></c:if>
-						${lectureDTO.sub_lec_subject }
-						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
-					</c:if>
-					<c:if test="${count2!=1&&lectureDTO.sub_lec_chapter!=1}">
-						${lectureDTO.sub_lec_subject }
-						<input type="hidden" value="${lectureDTO.sub_lec_type }"/>
-					</c:if>
-				</td>
-				<td width="25%">
-					<c:if test="${lectureDTO.sub_lec_type==0}">녹화</c:if>
-					<c:if test="${lectureDTO.sub_lec_type==1}">실시간(${lectureDTO.live_lec_date})</c:if>
-					<c:if test="${lectureDTO.sub_lec_type==2}">실시간(종료)</c:if>
-				</td>
-				</tr>
-			
-		</c:forEach>
-	</table>

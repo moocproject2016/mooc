@@ -23,8 +23,8 @@
 	<insert id="reviewInsert" parameterClass="lec_review">
 		insert into lecture_review values(#main_lec_code#, #u_id#, #lec_r_subject#, #lec_r_content#, #lec_r_score#, sysdate)
 	</insert>
-	<select id="view_review" resultClass="lec_review" parameterClass="String">
-		select * from lecture_review where lec_r_subject=#lec_r_subject# order by lec_r_regdate desc 
+	<select id="view_review" resultClass="lec_review" parameterClass="int">
+		select * from lecture_review where main_lec_code=#main_lec_code# order by lec_r_regdate desc 
 	</select>
 	<insert id="review" parameterClass="lec_review">
 		insert into lecture_review values(lecture_review_seq.nextval, #u_id#, 'a' , #lec_r_content#, #lec_r_score#, sysdate)
