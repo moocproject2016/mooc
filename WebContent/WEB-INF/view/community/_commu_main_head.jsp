@@ -38,8 +38,8 @@
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>${u_name}님</b><strong class="caret"></strong></a>
 					<ul class="dropdown-menu" role="menu">
 						<ul class="dropdown-subTap" role="menu">
-							<b>스터디 바로가기</b>
 						<ul class="dropdown-menu-menu">
+						<p><b>스터디 바로가기</b></p>
 							<c:forEach var="stglist" items="${mystudylist}" varStatus="i">
 								<li><a href="/mooc/study/myStudyRoomMain.mooc?stg_code=${stglist.stg_code}">${stglist.stg_name}</a></li>
 							</c:forEach>

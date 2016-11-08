@@ -46,7 +46,7 @@
 		
 			<tr id="purpose_${stglist.stg_code}" style='display:none;'>
 				<td colspan="3">${stglist.stg_purpose}   </td>
-				<td align="right"><input  type="button" value="가입" Onclick="joincheck('${i.index}',${stglist.stg_code})"/></td>
+				<td align="right"><input  type="button" value="가입" Onclick="joincheck('${i.index}',${stglist.stg_code},${pageNum})"/></td>
 			</tr>
 			</c:forEach>
 		    <c:if test="${list.size() == 0}">
@@ -113,12 +113,12 @@
 	   var style = document.getElementById(id).style;
 	   style.display = (style.display == 'none' ? 'table-row' : 'none');
 	}
- function joincheck(x,stg_code){
+ function joincheck(x,stg_code,pageNum){
 			if((document.getElementsByName("stg_people")[x].value == document.getElementsByName("stg_limit")[x].value)){
 				alert("인원이 가득차 가입 할수 없습니다..")
 			
            }else{
-        	  window.location='/mooc/study/studyJoin.mooc?stg_code='+stg_code+'&sub_ctg_code='+${sub_ctg_code};
+        	  window.location='/mooc/study/studyJoin.mooc?pageNum='+pageNum+'&stg_code='+stg_code+'&sub_ctg_code='+${sub_ctg_code};
 			}
  }
 	

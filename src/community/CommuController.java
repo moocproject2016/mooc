@@ -24,15 +24,12 @@ public class CommuController {
 	
 	@RequestMapping("/community.mooc")
 	//myStudy 메인
-		public String community_main(HttpServletRequest request, String searchType, String searchValue){
+	public String community_main(HttpServletRequest request, StudygroupDTO stgDto){
 		
-		Map map = new HashMap();
-		map.put("searchType", searchType);
-		map.put("searchValue", searchValue);
-		
-		List getAllstudyGroupList = sqlMap.queryForList("getAllstudyGroupList", map); 
+		List getAllstudyGroupList = sqlMap.queryForList("getAllstudyGroupList", stgDto); 
 		
 		String pageNum=request.getParameter("pageNum");
+		if(pageNum==null){pageNum = "1";}
 		pageAction pageing=new pageAction();
 		List studylist=pageing.pageList(pageNum, getAllstudyGroupList, 10);
 		
@@ -57,13 +54,16 @@ public class CommuController {
 			List stdlist = sqlMap.queryForList("selectlist", stgDto); //카테고리코드 넘겨주기
 	
 			//페이징
-			String pageNum="1";
-			if(request.getParameter("pageNum")!=null){  pageNum=request.getParameter("pageNum");}
+			String pageNum = request.getParameter("pageNum");
+			if(pageNum==null){pageNum = "1";}
+			
 			pageAction pageing=new pageAction();
 			List list=pageing.pageList(pageNum,stdlist, 10);
+			
 			request.setAttribute("count",pageing.count());
 			request.setAttribute("currentPage", pageing.current());
 			request.setAttribute("pageSize", pageing.size());
+			request.setAttribute("pageNum", pageNum);
 			
 			request.setAttribute("name", sub_ctg_name);
 			request.setAttribute("list",list);
@@ -132,14 +132,42 @@ public class CommuController {
 	
 	@RequestMapping("study/studyJoin.mooc")
 	//스터디 가입하기
-		public String studyJoin(HttpServletRequest request,StudygroupDTO stgDto){
-			HttpSession session=request.getSession();
-			String u_id=(String) session.getAttribute("memId");
-			stgDto.setU_id(u_id);
-			sqlMap.insert("insertJoin", stgDto);
-			int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
-			return "redirect:studylist.mooc?sub_ctg_code="+sub_ctg_code;
+	public String studyJoin(HttpServletRequest request,StudygroupDTO stgDto){
+		HttpSession session=request.getSession();
+		String u_id=(String) session.getAttribute("memId");
+		String pageNum = request.getParameter("pageNum");
+		String reJsp = null;
+		
+		stgDto.setU_id(u_id);
+		
+		int stgJoinCheck = (int) sqlMap.queryForObject("stgJoinCheck", stgDto);
+		int stgJoinReadyCheck = (int) sqlMap.queryForObject("stgJoinReadyCheck", stgDto);
+		
+		System.out.println(stgJoinReadyCheck+"/////"+stgJoinCheck);
+		
+		if(stgJoinCheck==1){
+			request.setAttribute("stgJoinCheck", stgJoinCheck);
+			reJsp = "/community/commu_Error.jsp";
 		}
+		
+		if(stgJoinReadyCheck==1){
+			request.setAttribute("stgJoinReadyCheck", stgJoinReadyCheck);
+			reJsp = "/community/commu_Error.jsp";
+		}
+		
+		
+		if(stgJoinCheck!=1 && stgJoinReadyCheck!=1){
+			sqlMap.insert("insertJoin", stgDto);
+			
+			if(request.getParameter("AllstdJoin")!=null){
+				reJsp ="redirect:/community.mooc?pageNum="+pageNum;
+			}else{
+				int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
+				reJsp = "redirect:studylist.mooc?pageNum="+pageNum+"&sub_ctg_code="+sub_ctg_code;
+			}
+		}
+		return reJsp;
+	}
 	
 	@RequestMapping("study/myStudydelete.mooc")
 	//스터디 탈퇴

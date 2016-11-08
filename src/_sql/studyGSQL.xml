@@ -9,6 +9,7 @@
       studygroup_seq.nextval,#sub_ctg_code#,#u_id#,#stg_name#,#stg_type#,#stg_password#,#stg_limit#,#stg_purpose#,sysdate,'/study/'
       )
     </insert>
+    
     <select id="selectstg" resultClass="sgdto" parameterClass="int">
 		  select * from studygroup where stg_code = #stg_code#
     </select>
@@ -50,17 +51,30 @@
     <select id="selectcodeCount" resultClass="int" parameterClass="int">
     	select count(*) from studygroup_list where stg_code = #stg_code#
     </select>
-    <!-- 11 06 김효미 스터디 메인 추가 시작 -->
-    <select id="getAllstudyGroupList" resultClass="sgdto" parameterClass="java.util.HashMap">
-    	select a.*, (select u_name from userinfo where u_id=a.u_id)u_name from (select * from studyGroup natural join sub_category)a
-    	<dynamic prepend="WHERE">
-    		<isNotEmpty prepend="AND" property="searchType">
-    			<isEqual property="searchType" compareValue="stg_name">stg_name like '%'||#searchValue#||'%' </isEqual>
-    			<isEqual property="searchType" compareValue="u_id">u_id like '%'||#searchValue#||'%' </isEqual>
-    		</isNotEmpty>
-    	</dynamic>
+     <!-- 11 06 김효미 스터디 메인 추가 시작 -->
+    <select id="getAllstudyGroupList" resultClass="sgdto" parameterClass="sgdto">
+    	select c.*, (select sub_ctg_name from sub_category where sub_ctg_code=c.sub_ctg_code) sub_ctg_name from(select a.*, (select u_name from userinfo where u_id=a.u_id)u_name, nvl(b.stg_count, 0) as stg_count
+		from (
+        	select * from studygroup
+			<dynamic prepend="WHERE">
+        		<isNotNull property="searchType">
+        			<isEqual property="searchType" compareValue="stg_name">stg_name like '%'||#searchValue#||'%' </isEqual>
+        			<isEqual property="searchType" compareValue="u_id">u_id like '%'||#searchValue#||'%' </isEqual>
+        		</isNotNull>
+        	</dynamic>
+        			      		) a
+		left join (
+        	SELECT stg_code, COUNT(stg_code) AS STG_COUNT FROM studygroup_list GROUP BY stg_code 
+		) b
+		on a.stg_code = b.stg_code) c order by stg_regdate desc
     </select>
-     <!-- 11 06 김효미 스터디 메인 추가  끝-->
+    <select id="stgJoinCheck" resultClass="int" parameterClass="sgdto">
+    	select count(*) from studygroup where u_id = #u_id# and stg_code = #stg_code#
+    </select>
+    <select id="stgJoinReadyCheck" resultClass="int" parameterClass="sgdto">
+    	select count(*) from studygroup_list where u_id= #u_id# and stg_code= #stg_code#
+	</select>
+     <!-- 11 08 김효미 추가  끝-->
     
     <insert id="insertJoin" parameterClass="sgdto">
     	 insert into studygroup_list values(

@@ -8,7 +8,8 @@
 	<table class="table" align="center"> 
 		<tr valign="middle" class="tableHead">
 			<td colspan="5">	
-	    	 	<form action="/mooc/community.mooc?sub_ctg_code=${sub_ctg_code}"  method="post">
+	    	 	<form action="/mooc/community.mooc"  method="post">
+	    	 	<c:set var="index" value="0" />
 					<select  name="searchType" style="width: 200px;">
 					    <option value="stg_name">방 제목</option>
 						<option value="u_id">그룹장ID</option>
@@ -26,7 +27,7 @@
 			<th width="100">개설날짜</th>     
 	    </tr>
 		<c:forEach var="stglist" items="${studylist}" varStatus="i">
-			<tr height="30" onClick="purposeDisplay('purpose_${stglist.stg_code}')" style='cursor:pointer;'>
+			<tr height="30" onclick="displaySwitch('${i.count}re2');">
 				<td align="center">${stglist.sub_ctg_name}</td>
 				<td align="center">
 					${stglist.stg_name}
@@ -42,25 +43,15 @@
 			      <fmt:formatDate value="${stglist.stg_regdate}" pattern="yyyy-MM-dd" />
 				</td>
 			</tr>
-			<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">×</button>
-								<h3>${stglist.stg_name}</h3>
-						</div>
-						<div class="modal-body">
-							<p>${stglist.stg_purpose}</p>
-							<input  type="button" value="가입" Onclick="joincheck('${i.index}',${stglist.stg_code})"/>
-						</div>
-						<div class="modal-footer">
-							
-							<button class="btn" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-				
+			<tr>
+				<td colspan="5">
+					<p id="content${i.count}re2" style="display:none; height:auto;">
+						${stglist.stg_purpose}
+						<input type="button" value="가입" Onclick="joincheck('${i.index}',${stglist.stg_code},${pageNum})"/>
+					</p>
+				</td>
+			</tr>
+			<c:set var="index" value="${index+1}" />
 			</c:forEach>
 		    <c:if test="${list.size() == 0}">
 		    	<tr>
@@ -89,7 +80,7 @@
 								
 						<c:if test="${startPage > 10}">
 						<li>
-      						<a href="/mooc/community.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage - 10 }" aria-label="Previous">
+      						<a href="/mooc/community.mooc?pageNum=${startPage - 10 }" aria-label="Previous">
         					<span aria-hidden="true">&laquo;</span>
       						</a>
     					</li>
@@ -97,16 +88,16 @@
 				
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${currentPage==i}">
-								<li class="active"><a href="/mooc/community.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
+								<li class="active"><a href="/mooc/community.mooc?pageNum=${i}">${i}</a></li>
 							</c:if>
 							<c:if test="${currentPage!=i}">							
-								<li><a href="/mooc/community.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${i}">${i}</a></li>
+								<li><a href="/mooc/community.mooc?pageNum=${i}">${i}</a></li>
 							</c:if>
 						</c:forEach>
 					
 						<c:if test="${endPage < pageCount}">
 						<li>
-						<a href="/mooc/community.mooc?sub_ctg_code=${sub_ctg_code}&pageNum=${startPage + 10}" aria-label="Next">
+						<a href="/mooc/community.mooc?pageNum=${startPage + 10}" aria-label="Next">
         					<span aria-hidden="true">&raquo;</span>
       					</a>
       					</li>
@@ -120,19 +111,25 @@
 </form>
 </div>
 
-<script>
+<script language="JavaScript">
 
-function purposeDisplay(id) {
-	   var style = document.getElementById(id).style;
-	   style.display = (style.display == 'none' ? 'table-row' : 'none');
+function displaySwitch(num){
+	content = document.getElementById("content"+num)
+	if(content.style.display=="none"){
+		content.style.display="block";
+	}else{
+		content.style.display="none";
 	}
-function joincheck(x,stg_code){
+	
+}
+ function joincheck(x,stg_code,pageNum){
 			if((document.getElementsByName("stg_people")[x].value == document.getElementsByName("stg_limit")[x].value)){
 				alert("인원이 가득차 가입 할수 없습니다..")
 			
-        }else{
-     	  window.location='/mooc/study/studyJoin.mooc?stg_code='+stg_code+'&sub_ctg_code='+${sub_ctg_code};
+           }else{
+        	  window.location='/mooc/study/studyJoin.mooc?pageNum='+pageNum+'&AllstdJoin=&stg_code='+stg_code;
 			}
-}
+ }
 	
 </script>
+
