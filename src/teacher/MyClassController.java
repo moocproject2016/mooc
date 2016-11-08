@@ -101,19 +101,26 @@ public class MyClassController {
 		return main;
 	}
 	
-	//ajax
-	@RequestMapping("teacher/classList_Ajax.mooc")
-	public String getSubLecture(HttpServletRequest request,String main_lec_code){
-		System.out.println("getSubLecture 메서드: "+Integer.parseInt(main_lec_code));
-		LectureDTO lectureDTO=new LectureDTO();
-		lectureDTO.setMain_lec_code(Integer.parseInt(main_lec_code));
-		List subLecList=sqlMap.queryForList("selectAllSubLectureForMain",lectureDTO);
-		String main_lec_subject=(String) sqlMap.queryForObject("selectMainLecSubject", Integer.parseInt(main_lec_code));
-		request.setAttribute("main_lec_subject", main_lec_subject);
-		request.setAttribute("main_lec_code", Integer.parseInt(main_lec_code));
-		request.setAttribute("subLecList", subLecList);
-		return "teacher/myClass/teacher_classList_Ajax.jsp";
+	@RequestMapping("/teacher/classSubList.mooc")
+	//서브 강의 관리
+	public String classSubList_main(HttpServletRequest request, int main_lec_code){
+		
+		//메인강의 정보 가져오기
+		LectureDTO main_lec_dto =(LectureDTO) sqlMap.queryForObject("selectOneMainLecture", main_lec_code);
+		
+		//서브강의 목록 가져오기
+		List sub_lec_list=sqlMap.queryForList("selectAllSubLectureForMain", main_lec_dto);
+		
+		request.setAttribute("sub_lec_list", sub_lec_list);
+		request.setAttribute("main_lec_dto", main_lec_dto);
+		
+		content = "lectureMake/teacher_subLecture_list.jsp";
+		request.setAttribute("main_content", myClass_main);
+		request.setAttribute("teacher_myClass_content", content);
+		return main;
 	}
+	
+	
 	
 	
 	//메인강의 수정폼
@@ -305,16 +312,6 @@ public class MyClassController {
 		return "redirect:/teacher/classList.mooc";
 	}
 		
-	@RequestMapping("/teacher/quizList.mooc")
-	//퀴즈 관리
-	public String quizList_main(HttpServletRequest request){
-		
-		
-		content = "board/teacher_quizList.jsp";
-		request.setAttribute("main_content", myClass_main);
-		request.setAttribute("teacher_myClass_content", content);
-		return main;
-	}
 		
 	@RequestMapping("/teacher/qnaList.mooc")
 	//질문 답변
