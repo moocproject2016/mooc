@@ -43,7 +43,7 @@ public class DoLiveController {
 		String u_id=multi.getParameter("u_id");
 		String u_type=multi.getParameter("u_type");
 		System.out.println(u_id+"/"+u_type);
-		/*
+		
 		String video_fileName=multi.getParameter("video-filename");
 		MultipartFile video_file=multi.getFile("video-blob");
 		String realPath=multi.getRealPath("files")+"\\teacher\\";
@@ -71,7 +71,7 @@ public class DoLiveController {
 			lecDTO.setSub_lec_media("\\teacher\\"+video_fileName);
 			System.out.println("null¿”"+lecDTO.getSub_lec_media());
 			sqlMap.update("updateSubLecMedia", lecDTO);
-		}*/
+		}
 
 		return "doLive.jsp";
 	}

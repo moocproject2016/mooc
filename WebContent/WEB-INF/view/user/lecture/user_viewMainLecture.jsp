@@ -10,6 +10,7 @@ function myFunction(i,x) {
 	var sub_lec_code=document.getElementsByName("sub_lec_code")[x].value;
 	var sub_lec_subject=document.getElementsByName("sub_lec_subject")[x].value;
 	var sub_lec_chapter=document.getElementsByName("sub_lec_chapter")[x].value;
+	var sub_lec_content=document.getElementsByName("sub_lec_content")[x].value;
 	var u_type=0; //학생은 0, 선생은 1
 	
 	//진도업데이트
@@ -23,7 +24,7 @@ function myFunction(i,x) {
    });
 	 cw=screen.availWidth;
 	 ch=screen.availHeight;
-	 test=window.open('https://192.168.219.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
+	 test=window.open('https://192.168.30.107:9001/doStart.html?sub_lec_code='+i+'&u_name='+u_name+'&sub_lec_subject='+sub_lec_subject+'&sub_lec_chapter='+sub_lec_chapter+'&sub_lec_content='+sub_lec_content+'&u_type='+u_type+'&u_id='+u_id,'_blank','width='+cw+',height='+ch+',resizable=no,scrollbars=yes');
 }
 </script>
 <c:set var="currentPage" value="/mooc/viewMainLec.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/>
@@ -95,6 +96,7 @@ function myFunction(i,x) {
 				<td width="50%">
 					<input type="hidden" name="sub_lec_type" value="${lectureDTO.sub_lec_type }"/>
 					<input type="hidden" name="sub_lec_subject" value="${lectureDTO.sub_lec_subject}"/>
+					<input type="hidden" name="sub_lec_content" value="${lectureDTO.sub_lec_content}"/>
 					<c:if test="${lectureDTO.sub_lec_chapter==1||count2==1&&sessionScope.memId!=null}">
 						<c:if test="${lectureDTO.sub_lec_type==0||lectureDTO.sub_lec_type==2 }"><a href="/mooc/watchLec.mooc?sub_lec_code=${lectureDTO.sub_lec_code }&currentPage=${currentPage}" target="_blank"></c:if>
 						<c:if test="${lectureDTO.sub_lec_type==1 }"><a href="#" onclick="myFunction(${lectureDTO.sub_lec_code },'${i.index }')"></c:if>

@@ -33,10 +33,12 @@
 	      			유저타입 : <input type="text" id="u_type" size=1/>
 	      			방번호 : <input type="text" id="room-id" size="5" value="114">
 	            	이름 :  <input type = "text" id ="user_id" value="aa" size ="8">
-	                <button id="join-room" style="display:none;">강의 참여</button>
-		            <button id="open-room" style="display:none;">강의 준비</button>
-		            <button id="start-record" style="display:none;">강의 시작</button>
-					<button id="stop-record" style="display:none;">강의 중지</button>
+	            	<center>
+		                <button id="join-room" style="display:none;">강의 참여</button>
+			            <button id="open-room" style="display:none;">강의 준비</button>
+			            <button id="start-record" style="display:none;">강의 시작</button>
+						<button id="stop-record" style="display:none;">강의 중지</button>
+					</center>
 					<div id="saveDIV" style="text-align: center; display: none;">
                			<button id="save-to-disk1">Save Video</button>
                			<button id="save-to-disk2">Save Screen</button>
@@ -146,9 +148,7 @@
             
             connection.videosContainer = document.getElementById('videos-container');
             connection.videosContainer2 = document.getElementById('videos-container2');
-            connection.onstream = function(event) {
-				alert("onstream");
-				
+            connection.onstream = function(event) {				
                 var width = event.mediaElement.clientWidth || connection.videosContainer.clientWidth;
                 var mediaElement = getMediaElement(event.mediaElement, {
                     title: event.userid,
@@ -183,13 +183,10 @@
                     mediaElement.parentNode.removeChild(mediaElement);
                 }
                 var u_type=document.getElementById('u_type').value;
-                if(u_type==0){ alert("학습 완료");}
-                else{ alert("강의 완료");}
             };
             
             //녹화
             document.getElementById('start-record').onclick = function() {
-                alert("녹화시작");
                 document.getElementById("start-record").style.display="none";
                 document.getElementById("stop-record").style.display="block";
                 record_video.startRecording();
@@ -209,14 +206,11 @@
                     formData.append('u_id', document.getElementById('u_id').value);
                     formData.append('u_type', document.getElementById('u_type').value);
                     $.ajax({
-                    	url: 'https://192.168.219.107:8443/mooc/doLive_ajax.mooc',
+                    	url: 'https://192.168.30.107:8443/mooc/doLive_ajax.mooc',
                     	 processData : false,
                          contentType : false,
                          data : formData,
-                         type : "post",
-                         success : function(data){
-                          	alert('ajax 전송 성공');
-                         }
+                         type : "post"
                     })
                     document.getElementById('saveDIV').style.display = 'block';
                     document.getElementById('save-to-disk1').onclick = function() {
@@ -237,14 +231,11 @@
                     formData.append('u_id', document.getElementById('u_id').value);
                     formData.append('u_type', document.getElementById('u_type').value);
                     $.ajax({
-                    	url: 'https://192.168.219.107:8443/mooc/doLive_ajax.mooc',
+                    	url: 'https://192.168.30.107:8443/mooc/doLive_ajax.mooc',
                     	 processData : false,
                          contentType : false,
                          data : formData,
-                         type : "post",
-                         success : function(data){
-                          	alert('ajax 전송 성공');
-                         }
+                         type : "post"
                     })
                     document.getElementById('saveDIV').style.display = 'block';
                     document.getElementById('save-to-disk2').onclick = function() {
@@ -258,7 +249,6 @@
             // Using getScreenId.js to capture screen from any domain
             // You do NOT need to deploy Chrome Extension YOUR-Self!!
             connection.getScreenConstraints = function(callback) {
-				alert("getScreenConstraints");
                 getScreenConstraints(function(error, screen_constraints) {
 					
                     if (!error) {
@@ -272,7 +262,6 @@
             };
             //시작할때 활성화시킬 것을 결정한다.
             connection.onopen = function() {
-            	alert("onopen");
             	if(document.getElementById('u_type').value==1){ //선생인 경우
        		    	document.getElementById("start-record").style.display="block";
             	}
