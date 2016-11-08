@@ -7,7 +7,7 @@
 	</script>
 </c:if>
 <c:if test="${sessionScope.memId!=null }">
-	<form action="/mooc/teacher/noticeWritePro.mooc" encType="multipart/form-data" method="post">
+	<form action="/mooc/teacher/noticeWritePro.mooc" encType="multipart/form-data" method="post" name="orderForm" onSubmit="return check_info()">
 	<table class="tableWrap">
 		<tr><td>
 			<table class="table">
@@ -15,7 +15,7 @@
 					<td>강의</td>
 					<td>
 						<select id="main_select" name="main_lec_code">
-							<option <c:if test="${main_lec_code==0}">selected</c:if>>강의 목록</option>
+							<option value="0" selected>강의 목록</option>
 							<c:forEach var="main_lec_dto" items="${main_lec_list }">
 								<option value="${main_lec_dto.main_lec_code}" <c:if test="${main_lec_code==main_lec_dto.main_lec_code}">selected</c:if>>
 								${main_lec_dto.main_lec_subject}</option>
@@ -50,3 +50,23 @@
 	</table>	
 	</form>
 </c:if>
+
+<script>
+	function check_info() {
+		if(document.orderForm.main_lec_code.value == "0"){
+			alert("강의목록을 선택하세요");
+			document.orderForm.main_lec_code.focus();
+			return false;
+		}
+		if(document.orderForm.lec_n_subject.value == ""){
+			alert("제목을 입력하세요");
+			document.orderForm.lec_n_subject.focus();
+			return false;
+		}
+		if(document.orderForm.lec_n_content.value == ""){
+			alert("내용을 입력하세요");
+			document.orderForm.lec_n_content.focus();
+			return false;
+		}
+	}
+	</script>

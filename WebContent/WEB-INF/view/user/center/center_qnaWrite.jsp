@@ -4,7 +4,7 @@
 
 
 
-	<form method="post" name="form" action="/mooc/user/center/center_qnaWritePro.mooc">
+	<form method="post" action="/mooc/user/center/center_qnaWritePro.mooc" name="orderForm" onSubmit="return check_info()">
 		<table class="table" align="center">
 			<tr class="tableHead">
 				<td>
@@ -27,3 +27,18 @@
 			</tr>
 		</table>
 	</form>
+<script type="text/javascript">
+	function check_info() {
+		
+		if(document.orderForm.q_subject.value == ""){
+			alert("제목을 입력하세요");
+			document.orderForm.q_subject.focus();
+			return false;
+		}
+		if(document.orderForm.q_content.value == ""){
+			alert("내용을 입력하세요");
+			document.orderForm.q_content.focus();
+			return false;
+		}
+	}
+</script>

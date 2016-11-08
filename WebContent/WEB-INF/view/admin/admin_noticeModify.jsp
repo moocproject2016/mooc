@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<form action="noticeModifyPro.mooc" encType="multipart/form-data" method="post">
+<form action="noticeModifyPro.mooc" encType="multipart/form-data" method="post" name="orderForm" onSubmit="return check_info()">
 	<table class="table" align="center">
 		<tr>
 			<td>
@@ -34,3 +34,18 @@
 		</tr>
 	</table>
 </form>
+<script type="text/javascript">
+	function check_info() {
+		
+		if(document.orderForm.notice_subject.value == ""){
+			alert("제목을 입력하세요");
+			document.orderForm.notice_subject.focus();
+			return false;
+		}
+		if(document.orderForm.notice_content.value == ""){
+			alert("내용을 입력하세요");
+			document.orderForm.notice_content.focus();
+			return false;
+		}
+	}
+</script>

@@ -39,22 +39,15 @@ public class DoLiveController {
 	}
 	@RequestMapping("/doLive_ajax.mooc")
 	public String doLive_ajax(MultipartHttpServletRequest multi){
-		System.out.println("doLive_ajax");
 		String u_id=multi.getParameter("u_id");
 		String u_type=multi.getParameter("u_type");
-		System.out.println(u_id+"/"+u_type);
-		
+		//녹화영상 서버에 저장
 		String video_fileName=multi.getParameter("video-filename");
 		MultipartFile video_file=multi.getFile("video-blob");
 		String realPath=multi.getRealPath("files")+"\\teacher\\";
 		String savePath=realPath+video_fileName;
-		System.out.println(savePath);
 		File copy=new File(savePath); // 이름이 동일한 빈 파일 생성
-		try {
-			video_file.transferTo(copy);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		try {		video_file.transferTo(copy);	} catch (Exception e) {		e.printStackTrace();	}
 		//DB에 업데이트 (sub_lecture의 sub_lec_type을 2(실시간강의 완료)로  변경 및  sub_lec_media 등록, live_lecture의 live_lec_flag를 0(강의완료)으로 변경)
 		int sub_lec_code=Integer.parseInt(multi.getParameter("sub_lec_code"));
 		sqlMap.update("completeLiveLec", sub_lec_code);
@@ -72,7 +65,6 @@ public class DoLiveController {
 			System.out.println("null임"+lecDTO.getSub_lec_media());
 			sqlMap.update("updateSubLecMedia", lecDTO);
 		}
-
 		return "doLive.jsp";
 	}
 }

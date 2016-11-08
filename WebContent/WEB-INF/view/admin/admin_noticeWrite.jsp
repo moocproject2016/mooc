@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
-<form action="noticeWrite.mooc" encType="multipart/form-data" method="post">
+<form action="notice_writePro.mooc" encType="multipart/form-data" method="post" name="orderForm" onSubmit="return check_info()">
 	<table class="tableWrap">
 		<tr><td>
 			<table class="table">
@@ -34,3 +34,18 @@
 		</td></tr>
 	</table>	
 </form>
+<script type="text/javascript">
+	function check_info() {
+		
+		if(document.orderForm.notice_subject.value == ""){
+			alert("제목을 입력하세요");
+			document.orderForm.notice_subject.focus();
+			return false;
+		}
+		if(document.orderForm.notice_content.value == ""){
+			alert("내용을 입력하세요");
+			document.orderForm.notice_content.focus();
+			return false;
+		}
+	}
+</script>

@@ -8,7 +8,7 @@
 	<table class="table" align="center">
 		<tr>
 			<td colspan="3">
-				<input type="button" value="货 臂 累己" onclick="document.location.href='noticeWrite.mooc.mooc'" />
+				<input type="button" value="货 臂 累己" onclick="document.location.href='noticeWrite.mooc'" />
 			</td>
 		</tr>
 		<tr class="tableHead">

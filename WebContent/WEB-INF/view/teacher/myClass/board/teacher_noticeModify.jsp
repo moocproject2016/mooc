@@ -22,7 +22,7 @@
 	</script>
 </c:if>
 <c:if test="${sessionScope.memId!=null }">
-	<form action="/mooc/teacher/noticeModifyPro.mooc" encType="multipart/form-data" method="post">
+	<form action="/mooc/teacher/noticeModifyPro.mooc" encType="multipart/form-data" method="post"  name="orderForm" onSubmit="return check_info()">
 	<input type="hidden" value="${lecNoticeDTO.lec_n_num}" name="lec_n_num"/>
 	<table class="tableWrap">
 		<tr><td>
@@ -75,3 +75,20 @@
 	</table>	
 	</form>	
 </c:if>
+
+
+<script type="text/javascript">
+	function check_info() {
+		
+		if(document.orderForm.lec_n_subject.value == ""){
+			alert("제목을 입력하세요");
+			document.orderForm.lec_n_subject.focus();
+			return false;
+		}
+		if(document.orderForm.lec_n_content.value == ""){
+			alert("내용을 입력하세요");
+			document.orderForm.lec_n_subject.focus();
+			return false;
+		}
+	}
+</script>
