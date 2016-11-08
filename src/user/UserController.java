@@ -22,12 +22,12 @@ public class UserController {
 	SqlMapClientTemplate sqlMap;
 	
 	String main = "main.jsp";
-	String content; // °¢ main ÆäÀÌÁöÀÇ container ºÎºÐ¿¡ µé¾î°¥ content Á¤ÀÇ
-	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudyÀÇ mainÆäÀÌÁö
+	String content; // ï¿½ï¿½ main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ container ï¿½ÎºÐ¿ï¿½ ï¿½ï¿½î°¥ content ï¿½ï¿½ï¿½ï¿½
+	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudyï¿½ï¿½ mainï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	
 	@RequestMapping("user/userProfile.mooc")
-	//À¯Àú Á¤º¸ ¼öÁ¤
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public String user_modifyForm_main(HttpServletRequest request)
 	{	
 		HttpSession session=request.getSession();
@@ -50,11 +50,11 @@ public class UserController {
 			dto.setU_id(u_id);
 			sqlMap.update("modifyPro",dto);
 			
-			return "redirect:/main.mooc"; //°æ·Îº¯°æ
+			return "redirect:/main.mooc"; //ï¿½ï¿½Îºï¿½ï¿½ï¿½
 		}
 	
 	@RequestMapping("user/user_delete.mooc")
-	//À¯Àú Å»Åð
+	//ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½
 	public String user_delete(HttpServletRequest request){
 		return "/user/user_delete.jsp";
 	}
@@ -85,7 +85,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_finePw.mooc")
-	//À¯Àú ºñ¹Ð¹øÈ£ Ã£±â
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
 	public String user_finePw_main(HttpServletRequest request)
 	{	
 		content="user/user_finePw.jsp";
@@ -94,7 +94,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_lectureList.mooc")
-	//¼ö°­ °­ÀÇ ¸®½ºÆ®
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	public String lectureList_main(HttpServletRequest request){
 		String pageNum=request.getParameter("pageNum");
 		int sub_ctg_code=Integer.parseInt(request.getParameter("sub_ctg_code"));
@@ -116,7 +116,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("user/user_lectureListSerch.mooc")
-	//°­ÀÇ¸®½ºÆ® °Ë»ö
+	//ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
 	public String lectureListSerch_main(HttpServletRequest request,LectureDTO dto){
 		String pageNum=request.getParameter("pageNum");
 		List AllList=null;
@@ -147,7 +147,7 @@ public class UserController {
 	public String teacherinfoPro(HttpServletRequest request,TeacherDTO dto){
 		HttpSession session=request.getSession();
 		String id=(String)session.getAttribute("memId");
-
+		dto.setT_id(id);
 		sqlMap.insert("teacher",dto);
 		sqlMap.update("teacherType", id);
 		return "redirect:/teacher/myClass.mooc";
@@ -163,7 +163,7 @@ public class UserController {
 		return main;
 	}
 	
-	//·Î±×ÀÎ ¿¡·¯
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping("user/loginError.mooc")
 	public String user_loginError(){
 		return "/user/user_loginError.jsp";
@@ -177,11 +177,11 @@ public class UserController {
 		String canvasString=null;
 		LectureNote ppt_note=null;
 		int pageSize=0;
-		//³ëÆ®ppt °æ·Î¸¦ ªO´Â´Ù.
+		//ï¿½ï¿½Æ®ppt ï¿½ï¿½Î¸ï¿½ ï¿½Oï¿½Â´ï¿½.
 		if(pageNum==null){
 			pageNum="1";
 		}
-	//sub_lec_code="65";//ÀÓ½Ã sub_lec_code
+	//sub_lec_code="65";//ï¿½Ó½ï¿½ sub_lec_code
 		
 		if(sub_lec_code!=null){
 			LectureNote note=(LectureNote)sqlMap.queryForObject("notePath",Integer.parseInt(sub_lec_code));
