@@ -4,7 +4,7 @@
 <div class="page-header">
   <h1><small>강의 평가 작성</small></h1>
 </div>
-  <form method="post" action="http://localhost:8000/mooc/user/user_reviewInsert.mooc" name="review">
+  <form method="post" action="/mooc/user/user_reviewInsert.mooc" name="review">
   <table width="800" align="center" border="1" border-color="black"/>
   <input type="hidden" name="main_code" value="${view_code}">
   <input type="hidden" name="view_subject" value="${view_subject}">

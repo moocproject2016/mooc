@@ -60,7 +60,7 @@
 	}
 	function submitCheck(){
 		//파일 확장자 검사
-		var arrExt=new Array(".avi",".mp4",".mpeg",".wmv",".swf",".mp3");
+		var arrExt=new Array(".mp4",".ogg",".webm");
 		var state=true;
 		var fileCount=0;
 		for(var i=0;i<document.inform.sub_lec_chapter.length;i++){
