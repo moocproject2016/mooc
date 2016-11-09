@@ -46,11 +46,14 @@ public class Advice {
 		HttpSession session=request.getSession(); // ���� ���͵� ����Ʈ
 		if(session!=null){
 			String u_id=(String) session.getAttribute("memId");
-			
+			int t_idCount=0;
+			if((Integer)sqlMap.queryForObject("t_idfro",u_id)!=null){
+				t_idCount=(Integer)sqlMap.queryForObject("t_idfro",u_id);
+			}
 			List mystudylist = sqlMap.queryForList("myselectlist", u_id);
 			
 			String u_name= (String) sqlMap.queryForObject("getU_name", u_id);
-			
+			request.setAttribute("t_idCount",t_idCount);
 			request.setAttribute("u_id",u_id);
 			request.setAttribute("u_name",u_name);
 			request.setAttribute("mystudylist_main",mystudylist);

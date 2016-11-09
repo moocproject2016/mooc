@@ -18,7 +18,7 @@ function  search_blank_check(){
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="/mooc/main.mooc">MOOC</a>
+		<a class="navbar-brand" href="/mooc/main.mooc">W-MOOC</a>
 	</div>
 	<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">
@@ -63,13 +63,15 @@ function  search_blank_check(){
 						<li><a href="/mooc/user/userProfile.mooc">Setting</a></li>
 					</ul>
 				</li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Teacher<strong class="caret"></strong></a>
-					<ul class="dropdown-menu">
-						<li><a href="/mooc/teacher/myClass.mooc">MyClass</a></li>
-						<li><a href="/mooc/teacher/teacherProfile.mooc">Profile</a></li>
-					</ul>
-				</li>
+				<c:if test="${t_idCount==1}">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Teacher<strong class="caret"></strong></a>
+						<ul class="dropdown-menu">
+							<li><a href="/mooc/teacher/myClass.mooc">MyClass</a></li>
+							<li><a href="/mooc/teacher/teacherProfile.mooc">Profile</a></li>
+						</ul>
+					</li>
+				</c:if>
 			</c:if>
 		</ul>
 	</div>

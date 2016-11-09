@@ -57,6 +57,9 @@
 	<select id="t_idfrofile" parameterClass="String" resultClass="_dto.TeacherDTO">
 		select * from teacher where t_id=#id#
 	</select>
+	<select id="t_idfro" parameterClass="String" resultClass="int">
+		select u_type from userinfo where u_id=#id#
+	</select>
 	
 	<update id="teacherfrofileUpdate" parameterClass="_dto.TeacherDTO">
 		update teacher set t_education=#t_education#,t_certificate=#t_certificate#,t_prize=#t_prize#,t_skill=#t_skill#,t_other=#t_other#
