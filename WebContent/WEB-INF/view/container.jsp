@@ -3,8 +3,9 @@
 <div class="jumbotron">
   <div class="container">
     <h1>Hello, W-MOOC!</h1>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+   <p>W-MOOC(Whoever, Wherever, Whatever Massive Open Online Course)란 온라인을 통해서 누구나, 어디서나, 원하는 강의를 무료로 들을 수 있는 온라인 공개강좌 서비스를 말합니다.</p>
+	<p>아울러, 수강인원의 제한없이 누구나 수강이 가능하여, 학습자는 배경지식이 다른 학습자간 지식 공유를 통해 대학의 울타리를 넘어 새로운 학습경험을 하게 될 것입니다.</p>
+	</p>
   </div>
 </div>
 
