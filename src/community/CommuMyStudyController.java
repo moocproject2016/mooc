@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import _dto.StudygroupBoardDTO;
+import _dto.StudygroupDTO;
 
 @Controller
 public class CommuMyStudyController {
@@ -30,7 +31,7 @@ public class CommuMyStudyController {
 			session.setAttribute("code", stg_code);
 			
 			List stgMemberList = sqlMap.queryForList("stgMemberList", stg_code);	
-			List stgList = sqlMap.queryForList("selectstg", stg_code);	
+			StudygroupDTO stgList = (StudygroupDTO) sqlMap.queryForObject("selectstg", stg_code);	
 		
 			content = "_commu_myStudyRoom_container.jsp";
 			

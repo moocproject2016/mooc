@@ -55,11 +55,11 @@ function displaySwitch(num){
 			<h2>${main_lec_dto.main_lec_subject}</h2>
 			<table >
 				<tr>
-					<c:if test="${count2==1}"><td style="color:#FF0000;font-size:17px">수강중&nbsp;</td>
+					<c:if test="${count2==1}"><td style="color:#999;font-size:17px">수강중&nbsp;</td>
 					</c:if>
-					<c:if test="${count1==1}"><td style="color:#FF0000;font-size:17px">관심강의&nbsp;</td>
+					<c:if test="${count1==1}"><td style="color:#999;font-size:17px">관심강의&nbsp;</td>
 					</c:if>
-					<c:if test="${count==1}"><td style="color:#FF0000;font-size:17px">관심강사&nbsp;</td>
+					<c:if test="${count3==1}"><td style="color:#999;font-size:17px">관심강사&nbsp;</td>
 					</c:if>
 				</tr>
 			</table>
@@ -70,13 +70,14 @@ function displaySwitch(num){
 				<c:if test="${count2==0&&sessionScope.memId!=null}">
 					<input type="button" class="btn btn-default" value="수강신청" onclick="window.location='/mooc/user_lectureRegister.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>
 				</c:if>
-				<c:if test="${count==0&&sessionScope.memId!=null}">
-				<input type="button" class="btn btn-default" value="관심강사" onclick="window.location='/mooc/user_interestTeacher.mooc?t_id=${main_lec_dto.t_id}&main_lec_code=${main_lec_dto.main_lec_code}'">
-				</c:if>
 				<c:if test="${count1==0&&sessionScope.memId!=null}">
-				<input type="button" class="btn btn-default" value="관심강의" onclick="window.location='/mooc/user_interestLecture.mooc?main_lec_code=${main_lec_dto.main_lec_code}'">
+					<input type="button" class="btn btn-default" value="관심강의" onclick="window.location='/mooc/user_interestLecture.mooc?main_lec_code=${main_lec_dto.main_lec_code}'">
 				</c:if>
-		</td></tr>
+				<c:if test="${count3==0&&sessionScope.memId!=null}">
+					<input type="button" class="btn btn-default" value="관심강사" onclick="window.location='/mooc/user_interestTeacher.mooc?t_id=${main_lec_dto.t_id}&main_lec_code=${main_lec_dto.main_lec_code}'">
+				</c:if>
+			</td>
+		</tr>
 		<c:if test="${sessionScope.memId!=t_id&&count2==1}">
 		<tr> 
 			<td colspan="2"></td>

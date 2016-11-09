@@ -3,10 +3,10 @@
               
 <table class="table" align="center">
 	<tr>
-		<td><h2>스터디 </h2></td>
+		<td><h2>${stgList.stg_name} </h2></td>
 	</tr>
 	<tr>
-		<td>스터디 내용</td>
+		<td>${stgList.stg_purpose} </td>
 	</tr>
 </table> 
 

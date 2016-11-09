@@ -44,11 +44,12 @@ public class UserLecController {
 		a.put("t_id",main_lec_dto.getT_id());
 		a.put("u_id",u_id);
 		a.put("main_lec_code",main_lec_code);
-		int count=(Integer)sqlMap.queryForObject("checkT_id",a);
+		
+		int count3=(Integer)sqlMap.queryForObject("checkT_id",a);
 		int count1=(Integer)sqlMap.queryForObject("checkMain_lec_code",a);
 		int count2=(Integer)sqlMap.queryForObject("checkLecture",a);
 
-		request.setAttribute("count", count);
+		request.setAttribute("count3", count3);
 		request.setAttribute("count1", count1);
 		request.setAttribute("count2", count2);
 		request.setAttribute("main_lec_code_tInfo", main_lec_code_tInfo);
