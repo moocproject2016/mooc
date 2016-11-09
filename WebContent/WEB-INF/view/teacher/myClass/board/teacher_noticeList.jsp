@@ -24,9 +24,10 @@
 </c:if>
 <c:if test="${sessionScope.memId!=null }">
 	<input type="hidden" id="currentPage"  name="pageNum" value="${currentPage}">
-	<h2>강의 공지<h5>총 공지글 수 : ${all_count}</h5></h2>
+	
 	<form action="/mooc/teacher/noticeList.mooc" method="post">
-		<table style="width: 100%;">
+		<table class="table" align="center">
+			<tr><td><h2>강의 공지<h5>총 공지글 수 : ${all_count}</h5></h2></td></tr>
 			<tr><td>
 				<select id="main_select" onchange="select()">
 					<option value="0" <c:if test="${main_lec_code==0}">selected</c:if>>전체 강의</option>
@@ -58,29 +59,29 @@
 				</tr>
 			</thead>
 				<c:forEach var="lecNoticeDto" items="${lec_notice_list1 }" varStatus="i">
-				<tr bgcolor=aaaaaa>
-					<td>
+				<tr class="noticeTR">
+					<td align="center">
 						중요
 					</td>
-					<td>${lecNoticeDto.main_lec_subject}</td>
-					<td>
+					<td align="center">${lecNoticeDto.main_lec_subject}</td>
+					<td align="center">
 						<a href="/mooc/teacher/noticeContent.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
 					</td>
-					<td><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td align="center"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				</tr>
 				</c:forEach>
 			</table>
 			<table class="table"  align="center">
 				<c:forEach var="lecNoticeDto" items="${lec_notice_list0 }" varStatus="i">
 				<tr bgcolor=ffffff>
-					<td width="10%">
+					<td align="center" width="10%">
 						${lecNoticeDto.lec_n_num}
 					</td>
-					<td width="25%">${lecNoticeDto.main_lec_subject}</td>
-					<td width="45%">
+					<td align="center" width="25%">${lecNoticeDto.main_lec_subject}</td>
+					<td align="center" width="45%">
 						<a href="/mooc/teacher/noticeContent.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
 					</td>
-					<td width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td align="center" width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				</tr>
 				</c:forEach>
 			</table>

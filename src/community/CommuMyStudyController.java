@@ -72,6 +72,8 @@ public class CommuMyStudyController {
 		      request.setAttribute("list",list);
 		   
 			content = "board/commu_studyBoardList.jsp";
+			
+			request.setAttribute("stg_code", stg_code);
 			request.setAttribute("community_main_content", commu_main);
 			request.setAttribute("commu_myStudy_content", content);
 			return main;

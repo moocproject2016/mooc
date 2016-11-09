@@ -3,6 +3,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="/mooc/css/bootstrap.css" rel="stylesheet">
+    <link href="/mooc/css/common.css" rel="stylesheet">
+    <link href="/mooc/css/style.css" rel="stylesheet">
 <script>
 	jQuery(document).ready(function(){
 		selectMain=document.getElementById("main_select").value;

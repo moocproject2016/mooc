@@ -3,8 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <head>
-	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
-	<link href="top_style.css" rel="stylesheet" type="text/css">
+	    <link href="/mooc/css/bootstrap.css" rel="stylesheet">
+    <link href="/mooc/css/common.css" rel="stylesheet">
+    <link href="/mooc/css/style.css" rel="stylesheet">
 	<script>
 		
 		function go(){
@@ -80,13 +81,7 @@
 		}
 	</script>
 </head>	
-<br />
-<br />
-<br />
 
-<div class="tableWrap">
-	
-		<%-- <c:set var="index" value="0" /> --%>
 		<table class="table" align="center">
 			<thead>
 			<tr><td colspan="5"><h2>질문게시판</h2></td></tr>
@@ -189,4 +184,3 @@
 				</td>
 			</tr>
 	</table>
-	</div>

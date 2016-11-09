@@ -257,7 +257,7 @@ public class UserLecController {
 		
 		content = "user/myStudy/user_viewQnaList.jsp";
 		request.setAttribute("main_content", content);
-		return main;	
+		return content;	
 	
 	}
 	@RequestMapping("user/view_ReContent.mooc")
@@ -315,7 +315,7 @@ public class UserLecController {
 
 		content = "user/lecture/user_notice.jsp";
 		request.setAttribute("main_content", content);
-		return main;	
+		return content;	
 	}
 	@RequestMapping("user/user_noticeView.mooc")
 	public String user_noticeView_main(HttpServletRequest request){

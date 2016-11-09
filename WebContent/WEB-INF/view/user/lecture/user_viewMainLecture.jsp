@@ -4,6 +4,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
+function qnaOpen(){
+	window.open("/mooc/user/user_viewQnaList.mooc?main_lec_code="+${main_lec_dto.main_lec_code}, "window", "width=1000,height=600,scrollbars=no,location=no");
+}
+
+function noticeOpen(){
+	window.open("/mooc/user/user_notice.mooc?main_lec_code="+${main_lec_dto.main_lec_code}, "window", "width=1000,height=600,scrollbars=no,location=no");
+}
+
+
 function myFunction(i,x) {
 	var u_id=document.getElementById("u_id").value;
 	var u_name=document.getElementById("u_name").value;
@@ -78,8 +87,8 @@ function displaySwitch(num){
 		</c:if>
 		<tr>
 			<td colspan="2"></td>
-			<td colspan="2" align="right"><input type="button" class="btn btn-default" value="질문 게시판" onclick="window.location='/mooc/user/user_viewQnaList.mooc?main_lec_code=${main_lec_dto.main_lec_code}'" />&nbsp;&nbsp;&nbsp;
-					<input type="button" class="btn btn-default" value="강의 공지" onclick="window.location='/mooc/user/user_notice.mooc?main_lec_code=${main_lec_dto.main_lec_code}'"/>				
+			<td colspan="2" align="right"><input type="button" class="btn btn-default" value="질문 게시판" onclick="qnaOpen()" />&nbsp;&nbsp;&nbsp;
+					<input type="button" class="btn btn-default" value="강의 공지" onclick="noticeOpen()"/>				
 			</td>
 		</tr>
 		<tr>
@@ -100,7 +109,6 @@ function displaySwitch(num){
 		<li class="active"><a data-toggle="tab" href="#home">강의 보기</a></li>
 		<li><a data-toggle="tab" href="#menu1">강사 소개</a></li>
 		<li><a data-toggle="tab" href="#menu2">강의 후기</a></li>
-		<li><a data-toggle="tab" href="#menu3">강의 공지</a></li>
 	</ul>
 		<div class="tab-content">
 			<div id="home" class="tab-pane fade in active">
@@ -223,48 +231,6 @@ function displaySwitch(num){
 							</td>				
 						</tr>
 					</c:if>
-				</c:if>
-		    </div>
-		    
-		    <div id="menu3" class="tab-pane fade">
-		    	<c:if test = "${lecNoticeListCount==0}">
-					<table class="table" align="center"><tr><td>등록된 공지가 없습니다.</td></tr></table>
-				</c:if>
-		    	<c:if test = "${lecNoticeListCount!=0}">
-					<table class="table" align="center">
-					<thead>
-						<tr bgcolor="ffffff">
-							<th width="10%">번호</th>
-							<th width="45%">제목</th>
-							<th width="20%">날짜</th>
-						</tr>
-					</thead>
-						<c:forEach var="lecNoticeDto" items="${lecNoticeList}" varStatus="i">
-						<tr bgcolor="#f0f0f0">
-							<td align="center">
-								중요
-							</td>
-		
-							<td align="center">
-								<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
-							</td>
-							<td align="center"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						</tr>
-						</c:forEach>
-					</table>
-					<table class="table"  align="center">
-						<c:forEach var="lecNoticeDto" items="${list}" varStatus="i">
-						<tr bgcolor=ffffff>
-							<td align="center" width="10%">
-								${lecNoticeDto.lec_n_num}
-							</td>
-							<td align="center" width="45%">
-								<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
-							</td>
-							<td align="center" width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd"/></td>
-						</tr>
-						</c:forEach>
-					</table>
 				</c:if>
 		    </div>
 		</div>
