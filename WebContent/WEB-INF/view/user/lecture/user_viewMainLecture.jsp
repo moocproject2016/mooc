@@ -93,7 +93,7 @@ function displaySwitch(num){
 			</td>
 		</tr>
 		<tr>
-			<td rowspan="3" align="center"><img src="${main_lec_dto.main_lec_image }" width="300" height="200"/></td>
+			<td rowspan="3" align="center"><img src="/mooc/files${main_lec_dto.main_lec_image }" width="300" height="200"/></td>
 			<td>강의 개요 </td><td>${main_lec_dto.main_lec_content }</td>
 		</tr>
 		<tr>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
         <style>
@@ -63,15 +62,15 @@
             <table style="width:97%" class="table ">
                 <tr>
                     <td align="left">
-                        <a href="/mooc/user/planList.mooc?currMonth=${dto.currMonth}&currYear=${dto.currYear}&action=0">
+                        <a href="/mooc/user/planList.mooc?currMonth=${plan_dto.currMonth}&currYear=${plan_dto.currYear}&action=0">
                             <font size="2">이전달</font>
                         </a>
                     </td>
                     <td align="center">
-                        <b>${dto.title}</b>
+                        <b>${plan_dto.title}</b>
                     </td>
                     <td align="right">
-                        <a href="/mooc/user/planList.mooc?currMonth=${dto.currMonth}&currYear=${dto.currYear}&action=1">
+                        <a href="/mooc/user/planList.mooc?currMonth=${plan_dto.currMonth}&currYear=${plan_dto.currYear}&action=1">
                             <font size="2">다음달</font>
                         </a>
                     </td>
@@ -99,16 +98,16 @@
                             <c:forEach var="w" begin="1" end="6" step="1">
                                 <tr style="height:150px;">
                                     <c:forEach var="d" begin="1" end="7" step="1">
-                                        <c:if test="${count<dto.week}">
+                                        <c:if test="${count<plan_dto.week}">
                                             <td>&nbsp;</td>
                                         </c:if>
-                                        <c:if test="${count>=dto.week}">
-                                            <c:if test="${dispDay<dto.maxday}">
+                                        <c:if test="${count>=plan_dto.week}">
+                                            <c:if test="${dispDay<plan_dto.maxday}">
                                             
-                                                <c:if test="${dto.title==dto.current&&dto.currDay==dispDay}">
+                                                <c:if test="${plan_dto.title==plan_dto.current&&plan_dto.currDay==dispDay}">
                                                 	<td class="active">
                                                 </c:if>
-                                                <c:if test="${dto.title!=dto.current||dto.currDay!=dispDay}">
+                                                <c:if test="${plan_dto.title!=plan_dto.current||plan_dto.currDay!=dispDay}">
                                                 	<td>
                                                 </c:if>
                                                 
@@ -120,7 +119,7 @@
                                                     <div id="${dispDay}look" style="display:none; position:relative;">
                                                         <div class="modalContent">
                                                         	<c:forEach items="${cal}" var="data">
-                                                        	 	<c:if test="${data.month==dto.title&&data.day==dispDay}">
+                                                        	 	<c:if test="${data.month==plan_dto.title&&data.day==dispDay}">
                                                         	 	<font color="#fff">강의명 :${data.main_lec_subject}<br/>
                                                         		진도 : chapter_${data.sub_lec_chapter} : ${data.sub_lec_subject}</br/>
                                                         		목적 : ${data.ssd_type}<br/>
@@ -134,7 +133,7 @@
                                                     
                                                 
                                                     <c:forEach items="${cal}" var="cal">
-                                                        <c:if test="${cal.month==dto.title&&cal.day==dispDay}">  
+                                                        <c:if test="${cal.month==plan_dto.title&&cal.day==dispDay}">  
                                                          	  <c:if test="${cal.ssd_done==0}"> 
                                                          	  	<h6 style="font-size:18px">	
                                                           			${cal.main_lec_subject} : ${cal.sub_lec_chapter}
@@ -162,12 +161,12 @@
                                                     <div id="${dispDay}" style="display:none; position:relative;">
                                                         <div class="modalContent">
                                                             <form action="/mooc/user/mystudy/user_listPro.mooc" method="post">
-                                                                <input type="hidden" name="ssd_date" value="${dto.title}${dispDay}">
-                                                                <c:if test="${list!=null}">
+                                                                <input type="hidden" name="ssd_date" value="${plan_dto.title}${dispDay}">
+                                                                <c:if test="${plan_list!=null}">
                                                                   	  강의:
                                                                     <select name="${dispDay}" id="selectbox" class="selectbox form-control">
      																	<option value="선택">선택</option>
-     																		<c:forEach items="${list}" var="option">
+     																		<c:forEach items="${plan_list}" var="option">
      																			<option value="${option.main_lec_code}">${option.main_lec_subject}</option>
      																		</c:forEach>
 																	</select>
@@ -183,7 +182,7 @@
                                                 <c:set var="check" value="${check+1}" />
                                             </c:if>
 
-                                            <c:if test="${dispDay>=dto.maxday&& 7>=check}">
+                                            <c:if test="${dispDay>=plan_dto.maxday&& 7>=check}">
                                                 <td class='empty'></td>
                                                 <c:set var="check" value="${check+1}" />
                                             </c:if>

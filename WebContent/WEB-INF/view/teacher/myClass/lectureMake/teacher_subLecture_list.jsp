@@ -7,9 +7,9 @@
 <input type="hidden" name="currentPage" value="/mooc/teacher/subLecture_list.mooc?main_lec_code=${main_lec_dto.main_lec_code }"/> 
 <div class="tableWrap">
 		<table class="table">
-			<tr><td colspan="3">강의명 : ${main_lec_dto.main_lec_subject }<input type="hidden" name="main_lec_code" value="${main_lec_dto.main_lec_code }"/></td></tr>
+			<tr><td colspan="3"><h3>${main_lec_dto.main_lec_subject }</h3><input type="hidden" name="main_lec_code" value="${main_lec_dto.main_lec_code }"/></td></tr>
 			<tr>
-				<td rowspan="3"><img src="\mooc\files${main_lec_dto.main_lec_image }" width="100" height="100"/></td>
+				<td rowspan="3" align="center"><img src="\mooc\files${main_lec_dto.main_lec_image }" width="250" height="200"/></td>
 				<td>강의내용 </td><td>${main_lec_dto.main_lec_content }</td>
 			</tr>
 			<tr>

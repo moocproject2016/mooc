@@ -86,10 +86,10 @@ public class CalendarController {
 				choice.setMain_lec_subject(subject);			
 			}
 			request.setAttribute("cal", cal_list);
-			request.setAttribute("list", list);
+			request.setAttribute("plan_list", list);
 			
 		}
-		request.setAttribute("dto", dto);
+		request.setAttribute("plan_dto", dto);
 		content = "user_planList.jsp";
 		request.setAttribute("main_content", myStudy_main);
 		request.setAttribute("user_myStudy_content", content);
