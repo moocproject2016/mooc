@@ -29,7 +29,7 @@
    		<input type="button" value="선택 이동" onclick="moveSubCtgs()"/>
    	</form>
 </div>
-
+<br><br>
 	<form name="formCheck">
 		<table class="table">
 			<thead>
@@ -43,9 +43,9 @@
 				<form class="navbar-form navbar-left" role="search"></form>
 				<form name="updateForm" method="post">
 					<c:forEach var="c" items="${ctgList}">
-						<tr>
-							<td><input type="checkbox" name="checkbox" value="${c.sub_ctg_code}"/></td>
-							<td>
+						<tr align="center">
+							<td align="center"><input type="checkbox" name="checkbox" value="${c.sub_ctg_code}"/></td>
+							<td align="center">
 								<select name="top_ctg_code">
 					      			<c:forEach var="topCtgDto" items="${topCtgList}">
 					      				<option value="${topCtgDto.top_ctg_code}" ${c.top_ctg_code == topCtgDto.top_ctg_code ? 'selected="selected"' : '' }>
@@ -54,7 +54,7 @@
 					      			</c:forEach>
 					      		</select>
 							</td>
-							<td>
+							<td align="center">
 								<input type="text" name="sub_ctg_name" value="${c.sub_ctg_name}" />
 								<input type="hidden" name="sub_ctg_code" value="${c.sub_ctg_code}"/>
 								<a href="/mooc/admin/ctgSubPreDelete.mooc?ctg_code=${c.sub_ctg_code}">-</a>
