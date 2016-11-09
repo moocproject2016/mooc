@@ -16,40 +16,50 @@
     <script src="js/jquery.js"></script>
 	<script src="js/scripts.js"></script>
 	<script src="js/bootstrap.js"></script>
-	
 </head>
 
 <div id="wrap"> 
 <!--header -->
 	<div id="header">
-			<input type="button" id="noteBtn" value="필기노트" style="display:none;"/>
-			<header style="text-align: center;" >
-				<h4><input type="text" id="sub_lec_chapter" size=1 style="border:0px;" readonly />강 <input type="text" id="sub_lec_subject"  style="border:0px;" readonly /></h4>
-				
+	
+			<div  class="rtc_notice_file">
+	   			(*강의시청을 위해서는 확장프로그램을 추가해주세요. Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension)
+			</div>
+			
+			<div  class="rtc_top_button">
+			    <button id="join-room" style="display:none;">강의 참여</button>
+	            <button id="open-room" style="display:none;">강의 준비</button>
+	            <button id="start-record" style="display:none;">강의 시작</button>
+				<button id="stop-record" style="display:none;">강의 중지</button>
+				<input type="button" id="noteBtn" value="필기노트" style="display:none;"/>
+			</div>
+			
+			<div  class="rtc_top_teacher">
+				강사 <input type = "text" id ="user_id" size ="15" style="border:0px; background-color:transparent;" readonly /></li></ul>
+			</div>
+			
+				<div class="top_lec_title">
+					<h3>
+						<input type="text" id="sub_lec_chapter" size="1" style="border:0px; background-color:transparent;" readonly />
+						<input type="text" id="sub_lec_subject" style="border:0px; font-size: 20px; font-weight: bold; color: #444; background-color:transparent;" readonly />
+					</h3>
+				</div>
 	      		<div class="make-center">
 	      			<input type="hidden" id="u_id"/>
 	      			<input type="hidden" id="u_type" size=1/>
 	      			<input type="hidden" id="room-id" size="5" value="114">
-	            	<center>
-	            	이름 :  <input type = "text" id ="user_id" size ="8">
-		                <button id="join-room" style="display:none;">강의 참여</button>
-			            <button id="open-room" style="display:none;">강의 준비</button>
-			            <button id="start-record" style="display:none;">강의 시작</button>
-						<button id="stop-record" style="display:none;">강의 중지</button>
-					</center>
-					<div id="saveDIV" style="text-align: center; display: none;">
-               			<button id="save-to-disk1">Save Video</button>
-               			<button id="save-to-disk2">Save Screen</button>
+	            	<div id="saveDIV" style="text-align: center; display: none;">
+               			<button id="save-to-disk1">화면 공유 영상 저장</button>
+               			<button id="save-to-disk2">캠 영상 저장</button>
           			</div>
 	                <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
 	       	 	</div>
-	       	 </header>
 	</div>
 	<div id="container">
             <div class="content">
             	<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#home">영상1</a></li>
-					<li><a data-toggle="tab" href="#menu1">영상2</a></li>
+					<li class="active"><a data-toggle="tab" href="#home">화면 공유</a></li>
+					<li><a data-toggle="tab" href="#menu1">화상 캠 공유</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="home" class="tab-pane fade in active">
@@ -59,24 +69,25 @@
 						<div id="videos-container2"></div>
 		     		</div>
 		     	</div>
-	
-	            <br><br>
-	   		<div  class="rtc_bottom">
-		            <div>강의 내용 : <textArea id="sub_lec_content"></textArea></div>
-		            	(Install <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">Chrome</a> / or / <a href="https://www.webrtc-experiment.com/store/firefox-extension/enable-screen-capturing.xpi" target="_blank">Firefox</a> extension) 
+				<div  class="rtc_bottom">
+					<div>
+						<ul><li align="left" class="tabLeft">강의 내용</li></ul>
+						<textArea id="sub_lec_content" rows=3 cols=110  readonly ></textArea>
 					</div>
 				</div>
+			</div>
 			 <!-- 채팅구역 -->
 			<div class="aside">
 				<section style="height:auto; width:395px;">
 					<div id="messages"></div>
 					<input type="file" id="file" disabled><br/>
-					<input id="chatinput" type="text" placeholder="Message:" disabled/>
+					<input id="chatinput" type="text" placeholder="대화 시작" disabled/>
 				</section>
 			</div>
 			
 	</div>
 </div>
+
 	<script>
 		   var allcookies = document.cookie;
 		    var cookies = allcookies.split("; ");
@@ -89,7 +100,7 @@
 		       }else if (keyValues[0] == "u_type") {
 		    	   document.getElementById('u_type').value=unescape(keyValues[1]);
 		       }else if (keyValues[0] == "sub_lec_chapter") {
-		    	   document.getElementById('sub_lec_chapter').value=unescape(keyValues[1]);
+		    	   document.getElementById('sub_lec_chapter').value=unescape(keyValues[1])+'강';
 		       }else if (keyValues[0] == "sub_lec_subject") {
 		    	   document.getElementById('sub_lec_subject').value=unescape(keyValues[1]);
 		       }else if (keyValues[0] == "u_id") {
@@ -182,7 +193,9 @@
                     mediaElement.parentNode.removeChild(mediaElement);
                 }
                 var u_type=document.getElementById('u_type').value;
-            };
+                document.getElementById('home').innerHTML="<h2>강의가 종료되었습니다.<h2>";      
+                document.getElementById('menu1').innerHTML="<h2>강의가 종료되었습니다.<h2>";      
+             };
             
             //녹화
             document.getElementById('start-record').onclick = function() {

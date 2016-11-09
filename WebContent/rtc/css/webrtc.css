@@ -1,19 +1,20 @@
 	div{margin:0 0 1px;padding:0px 0;color:#2d2c2d;font-family:Tahoma;font-size:14px;font-weight:bold}
+	
+	
+	.top_lec_title{top:0; left: 15px; position:fixed;z-index: 2000;}
+	.rtc_bottom{bottom:0; position:fixed; z-index: 2000;}
+	.rtc_notice_file{top:0; right:100px; position:fixed; font-size: 10px; z-index: 2000;}
+	.rtc_top_button{top:0; right:10px; position:fixed; z-index: 2000;}
+	.rtc_top_teacher{top:20px; right:80px; position:fixed; z-index: 2000;}
+	
+	
 	#wrap{
 		width:100%;
 		position:relative;
 		width:auto;
 		padding:5px;
 		border:1px solid #bdbdbd;
-		background:#f7f7f7
-	}
-	#header{
-		width:100%;
-		width:auto;
-		margin-top:2px;
-		padding:2px;
-		border:2px solid #bfbfbf;
-		background:#e5e5e5
+		background:#f0f0f0;
 	}
 	#container{
 		*display:inline-block;
@@ -21,8 +22,7 @@
 		padding-right:200px;
 		padding-left:200px;
 		position:relative;
-		border:2px solid #bfbfbf;
-		background:#e5e5e5
+		background:#f0f0f0;
 	}
 	#container:after{
 		display:block;clear:both;content:''
@@ -56,23 +56,26 @@
 		margin-left:-178px;
 		left:190px;
 		width:280px;
-		height:750px;
-		
+		height:700px;
 		margin-top:10px;
-		border:1px solid #bdbdbd;
-		background:#fff;
-		/* text-align:center */
 	}
-	#room-info{
-		position: absolute;
-		top:4%;
-		left: 12%;
-		font-size: 10px;
+	#messages{
+		position : absolute;
+		top:0;
+  		overflow: scroll;
+  		background: none repeat scroll 0 0 #F9F9F9;
+  		border: 1px solid #CCCCCC;
+  		border-radius: 5px 5px 0px 0px;
+  		height: 500px;
+  		letter-spacing: 1px;
+  		margin-bottom: 0px;
+  		padding: 4px 4px;
+  		width: 270px;
 	}
-
+	
 	#chatinput{
 		position : absolute;
-		top:700px;
+		top: 500px;
   		background: none repeat scroll 0 0 #F9F9F9;
   		border: 1px solid #CCCCCC;
   		border-radius: 0px 0px 5px 5px;
@@ -84,26 +87,23 @@
 	}
 	#file{
 		position : absolute;
-		top:670px;
+		top:530px;
 	}
+	
+	#room-info{
+		position: absolute;
+		top:4%;
+		left: 12%;
+		font-size: 10px;
+	}
+
+	
 	#chatrecord {
 		position : absolute;
 		top:670px;
 		left:205px;
 	}
-	#messages{
-		position : absolute;
-		top:250px;
-  		overflow: scroll;
-  		background: none repeat scroll 0 0 #F9F9F9;
-  		border: 1px solid #CCCCCC;
-  		border-radius: 5px 5px 0px 0px;
-  		height: 400px;
-  		letter-spacing: 1px;
-  		margin-bottom: 0px;
-  		padding: 4px 4px;
-  		width: 270px;
-	}
+	
 @import url(http://fonts.googleapis.com/css?family=Oxygen+Mono);
 @charset "UTF-8";
 #cssmenu {
@@ -272,5 +272,3 @@
   left: 15px;
   margin-top: -6px;
 }
-
-.rtc_bottom{bottom:0; position:fixed;}

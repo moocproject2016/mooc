@@ -31,10 +31,10 @@
 	    </div>
 	    
 		<div id="menu1" class="tab-pane fade">
-			<li class="more">› <a href="/mooc/user/user_noticeView.mooc">강의 공지사항 더보기</a></li>
-				<c:forEach var="lecNoticeDto" items="${list}" varStatus="i">
-					<li>.<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}&check=1">${lecNoticeDto.lec_n_subject}</a>[${lecNoticeDto.main_lec_subject}]</li>
-				</c:forEach>
+			<li></li>
+			<c:forEach var="lecNoticeDto" items="${list}" varStatus="i">
+				<li>.<a href="/mooc/user/user_noticeView.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}&check=1">${lecNoticeDto.lec_n_subject}</a>[${lecNoticeDto.main_lec_subject}]</li>
+			</c:forEach>
 	    </div>
 			
 	    <div id="menu2" class="tab-pane fade">
