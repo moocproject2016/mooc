@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
@@ -120,13 +118,14 @@
                                                     <a class="modalLink" style="font-size:15px" name="${dispDay}look">상세내용 </a>
 
                                                     <div id="${dispDay}look" style="display:none; position:relative;">
-                                                        <div class="modalContent" color="#FFFFFF">
+                                                        <div class="modalContent">
                                                         	<c:forEach items="${cal}" var="data">
                                                         	 	<c:if test="${data.month==dto.title&&data.day==dispDay}">
-                                                        	 	강의명 :${data.main_lec_subject}<br/>
+                                                        	 	<font color="#fff">강의명 :${data.main_lec_subject}<br/>
                                                         		진도 : chapter_${data.sub_lec_chapter} : ${data.sub_lec_subject}</br/>
                                                         		목적 : ${data.ssd_type}<br/>
-                                                        		내용 : ${data.ssd_content}<br/><br/>
+                                                        		내용 : ${data.ssd_content}
+                                                        		</font><br/><br/>
                                                         		</c:if>
                                                         	</c:forEach>
                                                             <input type="button" class="buttonA btn  btn-primary" value="close" onclick="out();">
@@ -140,10 +139,10 @@
                                                          	  	<h6 style="font-size:18px">	
                                                           			${cal.main_lec_subject} : ${cal.sub_lec_chapter}
                                                           			<a href="/mooc/user/mystudy/user_plan_check.mooc?ssd_num=${cal.ssd_num}&ssd_done=1" >
-                                                            			<span class="glyphicon glyphicon-ok"></span>
+                                                            			√
                                                            			</a>
                                                            			<a href="/mooc/user/mystudy/user_plan_delete.mooc?ssd_num=${cal.ssd_num}" >
-                                                            			<span class="glyphicon glyphicon-remove"></span>
+                                                            			x
                                                             		</a>
                                                             	</h6>
                                                             </c:if>
@@ -151,7 +150,7 @@
                                                             	<h6 style="font-size:18px">	
                                                             		<s>${cal.main_lec_subject} : ${cal.sub_lec_chapter}</s> 	
                                                             	<a href="/mooc/user/mystudy/user_plan_delete.mooc?ssd_num=${cal.ssd_num}" >
-                                                            		<span class="glyphicon glyphicon-remove"></span>
+                                                            		x
                                                             	</a>
                                                             	</h6>
                                                             </c:if>		
