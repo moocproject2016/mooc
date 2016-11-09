@@ -52,7 +52,9 @@ function  search_blank_check(){
 				<li><a><b>${u_name}님</b></a></li>
 				<li><a href="/mooc/logout.mooc">LOGOUT</a></li>
 			</c:if>
-			<li><a href="/mooc/admin.mooc">ADMIN</a></li>
+			<c:if test='${t_idCount==2}'>
+				<li><a href="/mooc/admin.mooc">ADMIN</a></li>
+			</c:if>
 			<li><a href="/mooc/community.mooc">COMMUNITY</a></li>
 			<c:if test="${sessionScope.memId==null }"><li><a href="/mooc/user/userSign.mooc">SIGN IN</a></li></c:if>
 			<c:if test="${sessionScope.memId!=null }">
@@ -63,7 +65,7 @@ function  search_blank_check(){
 						<li><a href="/mooc/user/userProfile.mooc">Setting</a></li>
 					</ul>
 				</li>
-				<c:if test="${t_idCount==1}">
+				<c:if test="${t_idCount==1||t_idCount==2}">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Teacher<strong class="caret"></strong></a>
 						<ul class="dropdown-menu">
