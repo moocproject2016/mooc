@@ -21,4 +21,5 @@
 	<sqlMap resource="/_sql/processSQL.xml"/>
 	<sqlMap resource="/_sql/mainSQL.xml"/>
 	<sqlMap resource="/_sql/studynoteSQL.xml"/>
+	<sqlMap resource="/_sql/alramSQL.xml" />
 </sqlMapConfig>

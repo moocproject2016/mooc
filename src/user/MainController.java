@@ -19,19 +19,19 @@ public class MainController {
 	SqlMapClientTemplate sqlMap;
 	
 	String main = "main.jsp";
-	String content; // °¢ main ÆäÀÌÁöÀÇ container ºÎºÐ¿¡ µé¾î°¥ content Á¤ÀÇ
-	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudyÀÇ mainÆäÀÌÁö
+	String content; // ï¿½ï¿½ main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ container ï¿½ÎºÐ¿ï¿½ ï¿½ï¿½î°¥ content ï¿½ï¿½ï¿½ï¿½
+	String myStudy_main = "user/myStudy/_user_myStudy_main.jsp"; //myStudyï¿½ï¿½ mainï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	@RequestMapping("/main.mooc")
-	//user ¸ÞÀÎ ÆäÀÌÁö 
+	//user ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		public String _main(HttpServletRequest request){
 			List main_liveLecture_List = null;
 			List main_bestLecture_List = null;
 			List main_popularLecture_List = null;
 			
-			main_liveLecture_List = sqlMap.queryForList("main_liveLecture_List", null); //°ð ½ÃÀÛÇÏ´Â ½Ç½Ã°£ °­ÀÇ
-			main_bestLecture_List = sqlMap.queryForList("main_bestLecture_List", null); //º£½ºÆ® °­ÀÇ ¸ñ·Ï - °­ÀÇ ÆòÁ¡ ÃÑÁ¡ ±âÁØ
-			main_popularLecture_List = sqlMap.queryForList("main_popularLecture_List", null); // ÀÎ±â °­ÀÇ ¸ñ·Ï - ¼ö°­½ÅÃ» ±âÁØ 
+			main_liveLecture_List = sqlMap.queryForList("main_liveLecture_List", null); //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ç½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+			main_bestLecture_List = sqlMap.queryForList("main_bestLecture_List", null); //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			main_popularLecture_List = sqlMap.queryForList("main_popularLecture_List", null); // ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ 
 			
 			request.setAttribute("main_popularLecture_List", main_popularLecture_List);
 			request.setAttribute("main_bestLecture_List", main_bestLecture_List);
@@ -43,16 +43,16 @@ public class MainController {
 		}
 	
 	@RequestMapping("user/user_mainMoreList.mooc")
-	//¸ÞÀÎ  ´õº¸±â ¸®½ºÆ®
+	//ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	public String user_mainMoreList_main(HttpServletRequest request, String mainSearchValue){
 		
 		List liveLecture_List = null;
 		List bestLecture_List = null;
 		List popularLecture_List = null;
 		
-		liveLecture_List = sqlMap.queryForList("liveLecture_List", null); //°ð ½ÃÀÛÇÏ´Â ½Ç½Ã°£ °­ÀÇ
-		bestLecture_List = sqlMap.queryForList("bestLecture_List", null); //º£½ºÆ® °­ÀÇ ¸ñ·Ï - °­ÀÇ ÆòÁ¡ ÃÑÁ¡ ±âÁØ
-		popularLecture_List = sqlMap.queryForList("popularLecture_List", null); // ÀÎ±â °­ÀÇ ¸ñ·Ï - ¼ö°­½ÅÃ» ±âÁØ 
+		liveLecture_List = sqlMap.queryForList("liveLecture_List", null); //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ç½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
+		bestLecture_List = sqlMap.queryForList("bestLecture_List", null); //ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		popularLecture_List = sqlMap.queryForList("popularLecture_List", null); // ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ 
 		
 		request.setAttribute("popularLecture_List", popularLecture_List);
 		request.setAttribute("bestLecture_List", bestLecture_List);
@@ -64,7 +64,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("user/userSign.mooc") 
-	//·Î±×ÀÎ ÆäÀÌÁö
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public String user_sign_main(HttpServletRequest request)
 	{	
 		content = "user/user_sign.jsp";
@@ -82,11 +82,11 @@ public class MainController {
 	}
 	
 	@RequestMapping("user/loginGoogle.mooc") 
-	//±¸±Û ·Î±×ÀÎ
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½
 	public String loginGoogle_main(HttpServletRequest request,memberDTO dto)
 	{	
 		HttpSession session=request.getSession();
-		int check=(Integer)sqlMap.queryForObject("checkid1",dto.getU_id()); //ÇØ´ç¾ÆÀÌµð°¡ ÀÖÀ¸¸é 1 ¾øÀ¸¸é 0
+		int check=(Integer)sqlMap.queryForObject("checkid1",dto.getU_id()); //ï¿½Ø´ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0
 		if(check==1){
 			check=(Integer)sqlMap.queryForObject("checkidGoogle",dto.getU_id());
 			if(check==0)
@@ -109,7 +109,7 @@ public class MainController {
 	
 	
 	@RequestMapping("user/loginPro.mooc") 
-	//·Î±×ÀÎ ÇÁ·Î
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public String loginPro_main(HttpServletRequest request,memberDTO dto,HttpSession session)
 	{
 		int check=(Integer)sqlMap.queryForObject("checkid",dto);
@@ -126,6 +126,20 @@ public class MainController {
 			request.setAttribute("main_content", content);
 			return main;
 		}
+		String id = (String)session.getAttribute("memId");
+		session.setAttribute("memId", id);
+		int c_notice = (Integer)sqlMap.queryForObject("count_notice", null);
+		int c_lec_notice = (Integer)sqlMap.queryForObject("count_lec_notice", null);
+		int like_lec_list = (Integer)sqlMap.queryForObject("like_lec_list", id);
+		int c_lec_review = (Integer)sqlMap.queryForObject("count_lec_review", null);
+		int c_lec_question = (Integer)sqlMap.queryForObject("count_lec_question", null);
+		int first_count = c_notice + c_lec_notice + like_lec_list + c_lec_review + c_lec_question;
+		session.setAttribute("first_count", first_count);
+		session.setAttribute("first_notice", c_notice);
+		session.setAttribute("first_c_lec_notice", c_lec_notice);
+		session.setAttribute("first_like_lec_list", like_lec_list);
+		session.setAttribute("first_c_lec_review", c_lec_review);
+		session.setAttribute("first_c_lec_question", c_lec_question);
 		return "redirect:/main.mooc";
 	}
 
@@ -137,7 +151,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("/logout.mooc")
-	//·Î±×¾Æ¿ô
+	//ï¿½Î±×¾Æ¿ï¿½
 	public String logout_main(HttpServletRequest request,HttpSession session)
 	{	
 		session.invalidate();
@@ -147,7 +161,7 @@ public class MainController {
 	}
 	
 	@RequestMapping("user/user_categorySearchList.mooc")
-	//¸ÞÀÎ ÅëÇÕ°Ë»ö ¸®½ºÆ®
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Õ°Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	public String user_categorySearchList_main(HttpServletRequest request, String mainSearchValue){
 		List Allsearch_mainList=null;
 		List Allsearch_subList=null;
@@ -155,29 +169,29 @@ public class MainController {
 		Map MSL = new HashMap();
 		
 		MSL.put("mainSearchValue", mainSearchValue);		
-		Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL); // ¸ÞÀÎ°­ÀÇ ¸ñ·Ï
-		Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL); // ¼­ºê°­ÀÇ ¸ñ·Ï
-		Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL); // ½Ç½Ã°£ °¡ÀÇ ¸ñ·Ï
+		Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL); // ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL); // ï¿½ï¿½ï¿½ê°­ï¿½ï¿½ ï¿½ï¿½ï¿½
+		Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL); // ï¿½Ç½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		
-		if(request.getParameter("popularLikeList")!=null){ //ÀÎ±â °ü½É °­ÀÇ ¼ø Á¤·Ä
+		if(request.getParameter("popularLikeList")!=null){ //ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MSL.put("popularLikeList", request.getParameter("popularLikeList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
 			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
-		if(request.getParameter("popularTeacherList")!=null){ //ÀÎ±â °ü½É °­»ç ¼ø Á¤·Ä
+		if(request.getParameter("popularTeacherList")!=null){ //ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MSL.put("popularTeacherList", request.getParameter("popularTeacherList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
 			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
-		if(request.getParameter("sizeReviewList")!=null){ //°­ÀÇÆò ¸¹Àº ¼ø Á¤·Ä
+		if(request.getParameter("sizeReviewList")!=null){ //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MSL.put("sizeReviewList", request.getParameter("sizeReviewList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
 			Allsearch_liveList=(ArrayList)sqlMap.queryForList("live_search_List", MSL);
 		}
-		if(request.getParameter("recentlyList")!=null){ //ÃÖ½Å ¼ø Á¤·Ä
+		if(request.getParameter("recentlyList")!=null){ //ï¿½Ö½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MSL.put("recentlyList", request.getParameter("recentlyList"));
 			Allsearch_mainList=(ArrayList)sqlMap.queryForList("main_search_List", MSL);
 			Allsearch_subList=(ArrayList)sqlMap.queryForList("sub_search_List", MSL);
@@ -207,7 +221,7 @@ public class MainController {
 	
 		
 	@RequestMapping("/siteMap.mooc")
-	//»çÀÌÆ®¸Ê
+	//ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½
 	public String siteMap_main(HttpServletRequest request){
 		content="siteMap.jsp";
 		request.setAttribute("main_content", content);

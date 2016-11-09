@@ -31,6 +31,20 @@ public class MyStudyController {
 		public String myStudy_main(HttpServletRequest request){
 
 			HttpSession session=request.getSession();
+			int second_count = (Integer)session.getAttribute("second_count");
+			int first_count = second_count;
+			String id = (String)session.getAttribute("memId");
+			session.setAttribute("first_count", first_count);
+			List lec_q_alram = (ArrayList)sqlMap.queryForList("lec_question11", null);
+			request.setAttribute("lec_q_alram", lec_q_alram);
+			List notice_alram = (ArrayList)sqlMap.queryForList("notice_alram", null);
+			request.setAttribute("notice_alram", notice_alram);
+			List lec_notice_alram = (ArrayList)sqlMap.queryForList("lec_notice_alram", null);
+			request.setAttribute("lec_notice_alram", lec_notice_alram);
+			List lec_review_alram = (ArrayList)sqlMap.queryForList("lec_review_alram", null);
+			request.setAttribute("lec_revew_alram", lec_review_alram);
+			List like_lec_list = (ArrayList)sqlMap.queryForList("like_lec_list111", id);
+			request.setAttribute("like_lec_list", like_lec_list);
 			String u_id=(String)session.getAttribute("memId");
 			String pageNum=request.getParameter("pageNum");
 			if(pageNum==null){pageNum="1";}

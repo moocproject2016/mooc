@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import _dto.TeacherDTO;
 import _dto.LectureDTO;
 import _dto.LectureNote;
+import _dto.LectureQuestionDTO;
 import _dto.memberDTO;
 import _dto.pageAction;
 
@@ -234,6 +235,59 @@ public class UserController {
 		}
 	return "user/user_image.jsp";
 	}
+	@RequestMapping("user/new_alram.mooc")
+	public String test_main(HttpServletRequest request, HttpSession session){
+		String id = (String)session.getAttribute("memId");
+		int first_count = (Integer)session.getAttribute("first_count");
+		int c_notice = (Integer)sqlMap.queryForObject("count_notice1", null);
+		int c_lec_notice = (Integer)sqlMap.queryForObject("count_lec_notice2", null);
+		int like_lec_list = (Integer)sqlMap.queryForObject("like_lec_list3", id);
+		int c_lec_review = (Integer)sqlMap.queryForObject("count_lec_review4", null);
+		int c_lec_question = (Integer)sqlMap.queryForObject("count_lec_question5", null);
+		int second_count = c_notice + c_lec_notice + like_lec_list + c_lec_review + c_lec_question;
+		session.setAttribute("second_count", second_count);
+		session.setAttribute("second_notice", c_notice);
+		session.setAttribute("second_c_lec_notice", c_lec_notice);
+		session.setAttribute("second_c_lec_review", c_lec_review);
+		session.setAttribute("second_c_lec_question", c_lec_question);
+		session.setAttribute("second_like_lec_list", like_lec_list);
+		if(second_count > first_count){
+			int new_alram = 1;
+			//session.setAttribute("alram", new_alram);
+			request.setAttribute("alram1", new_alram );
+			session.setAttribute("alram", new_alram);
+		}else{
+			int new_alram = 0;
+			//session.setAttribute("alram", new_alram);
+			request.setAttribute("alram1", new_alram );
+			session.setAttribute("alram", new_alram);
+		}
+		return "headAjax.jsp";
+	}
+	@RequestMapping("user/AlramPage.mooc")
+	public String AlramPage_main(HttpServletRequest request, HttpSession session, LectureQuestionDTO dto){
+		int second_count = (Integer)session.getAttribute("second_count");
+		int first_count = second_count;
+		String id = (String)session.getAttribute("memId");
+		session.setAttribute("first_count", first_count);
+		List lec_q_alram = (ArrayList)sqlMap.queryForList("lec_question11", null);
+		request.setAttribute("lec_q_alram", lec_q_alram);
+		List notice_alram = (ArrayList)sqlMap.queryForList("notice_alram", null);
+		request.setAttribute("notice_alram", notice_alram);
+		List lec_notice_alram = (ArrayList)sqlMap.queryForList("lec_notice_alram", null);
+		request.setAttribute("lec_notice_alram", lec_notice_alram);
+		List lec_review_alram = (ArrayList)sqlMap.queryForList("lec_review_alram", null);
+		request.setAttribute("lec_revew_alram", lec_review_alram);
+		List like_lec_list = (ArrayList)sqlMap.queryForList("like_lec_list111", id);
+		request.setAttribute("like_lec_list", like_lec_list);
 
-	
+
+		
+					
+		content = "user/myStudy/user_alramPage.jsp";
+		request.setAttribute("main_content", content);
+		return main;
+	}
 }
+
+

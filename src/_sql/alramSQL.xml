@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<typeAlias type="_dto.studyNoteDTO" alias="NoteDTO"/>
+	<typeAlias type="_dto.LectureQuestionDTO" alias="lecQuestionDTO"/>
+	<typeAlias type="_dto.NoticeDTO" alias="NoticeDTO"/>
+	<typeAlias type="_dto.LecNoticeDTO" alias="lec_NoticeDTO"/>
+	<typeAlias type="_dto.LectureReviewDTO" alias="lec_reviewnDTO"/>
+	<typeAlias type="_dto.LikeLecture_joinDTO" alias="likeLecture_joinDTO"/>
+	<typeAlias type="_dto.AlramSettingDTO" alias="AlramSettingDTO"/>
+	<typeAlias type="_dto.memberDTO" alias="MemberDTO"/>
+		
+
+	<select id="count_notice" resultClass="int">
+		select count(*)from notice
+	</select>
+	<select id="count_lec_notice" resultClass="int">
+		select count(*)from lecture_notice
+	</select>
+	<select id="like_lec_list" resultClass="int" parameterClass="String">
+		select count(*) from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#id# 
+	</select>
+	<select id="count_lec_review" resultClass="int">
+		select count(*) from lecture_review
+	</select>
+	<select id="count_lec_question" resultClass="int">
+		select count(*) from lecture_question
+	</select>
+		<select id="count_notice1" resultClass="int">
+		select count(*)from notice
+	</select>
+	<select id="count_lec_notice2" resultClass="int">
+		select count(*)from lecture_notice
+	</select>
+	<select id="like_lec_list3" resultClass="int" parameterClass="String">
+		select count(*) from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#id# 
+	</select>
+	<select id="count_lec_review4" resultClass="int">
+		select count(*) from lecture_review
+	</select>
+	<select id="count_lec_question5" resultClass="int">
+		select count(*) from lecture_question
+	</select>
+	<select id="lec_question11" resultClass="lecQuestionDTO">
+		select*from(select*from lecture_question order by lec_q_regdate desc) where rownum=1
+	</select>
+	<select id="notice_alram" resultClass="NoticeDTO">
+		select*from(select*from notice order by notice_regdate desc) where rownum=1
+	</select>
+	<select id="lec_notice_alram" resultClass="lec_NoticeDTO">
+		select*from(select*from lecture_notice order by lec_n_regdate desc) where rownum=1
+	</select>
+		<select id="lec_review_alram" resultClass="lec_reviewnDTO">
+		select*from(select*from lecture_review order by lec_r_regdate desc) where rownum=1
+	</select>
+	<select id="like_lec_list111" parameterClass="String" resultClass="likeLecture_joinDTO">
+		select*from like_lecture join main_lecture on like_lecture.main_lec_code=main_lecture.main_lec_code where like_lecture.u_id=#id#
+	</select>
+
+
+	
+	<select id="select_values" parameterClass="String" resultClass="AlramSettingDTO">
+		select*from alram_setting where id=#id#
+	</select>
+	
+</sqlMap>

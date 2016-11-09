@@ -1,7 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+var first=0;
+$(document).ready(function(){
+callAjax();
+window.setInterval(callAjax, 1000000);
+	});
+function callAjax(){
+		$.ajax({	
+		url : '/mooc/user/new_alram.mooc',
+		type : "post",
+		success : test
+	});
+}
+
+
+function test(a)
+{
+	var j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>';
+	if(a==1){
+		if(first==0){
+			first=1;
+			
+		}
+		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;new<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>';
+	}else{
+		first=0;
+		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>';
+	}
+	 $('#clearz').html(j);
+}
 function  search_blank_check(){
 	if (document.getElementById('searchForm').value == null || document.getElementById('searchForm').value == "") {
         alert("검색어를 입력하세요");
@@ -61,6 +92,14 @@ function  search_blank_check(){
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">User<strong class="caret"></strong></a>
 					<ul class="dropdown-menu">
+						<li id="clearz">
+							<c:if test="${sessionScope.alram==1 && sessionScope.memId != null}">
+							<a href="/mooc/user/AlramPage.mooc"> Alram &nbsp;&nbsp;&nbsp;new<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
+							</c:if>
+							<c:if test="${sessionScope.alram==0 && sessionScope.memId != null}">
+							<a href="/mooc/user/AlramPage.mooc"> Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>
+							</c:if>
+						</li>
 						<li><a href="/mooc/user/myStudy.mooc">MyStudy</a></li>
 						<li><a href="/mooc/user/userProfile.mooc">Setting</a></li>
 					</ul>
