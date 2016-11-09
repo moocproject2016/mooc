@@ -29,9 +29,6 @@ public class LectureController {
 	@Autowired
 	SqlMapClientTemplate sqlMap;
 	
-	//List topCtgList=sqlMap.queryForList("selectAllTopCtg", null);
-	//List subCtgList=sqlMap.queryForList("selectAllsubCtg", null);
-	
 	@RequestMapping("test.mooc")
 	public String test(){
 		

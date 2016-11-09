@@ -20,7 +20,7 @@
 	<aop:aspectj-autoproxy/>
 	<bean id="aop" class="_aop.Advice"/>
 	
-	<bean id="download" class="user.DownloadView"/> 
+	<bean id="download" class="common.DownloadView"/> 
   	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"> 
     	<property name="order" value="0"/>
   	</bean>

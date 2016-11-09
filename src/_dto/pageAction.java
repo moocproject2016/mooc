@@ -17,13 +17,6 @@ public class pageAction {
         endRow = currentPage * pageSize-1;//한 페이지의 마지막 글번호
         count = AllList.size();
         
-        System.out.println("---------");
-        System.out.println(currentPage);
-        System.out.println(startRow);
-        System.out.println(currentPage);
-        System.out.println(endRow);
-        System.out.println(count);
-        
         if(count<endRow){ 
         	endRow=count;
         }

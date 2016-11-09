@@ -77,11 +77,6 @@ public class AdminController {
 		cal.setTimeInMillis(System.currentTimeMillis());
 		SimpleDateFormat simpleToday=new SimpleDateFormat("yy-MM-dd");
 		SimpleDateFormat simple=new SimpleDateFormat("yy-MM");
-/*		SimpleDateFormat simple1=new SimpleDateFormat("yyyy");
-		SimpleDateFormat simple2=new SimpleDateFormat("MM");
-		
-		String dateYear=simple1.format(cal.getTime());
-		String dateMonth=simple2.format(cal.getTime());*/
 		
 		String date=simpleToday.format(cal.getTime());
 		cal.add(Calendar.DATE,-1);
@@ -208,23 +203,12 @@ public class AdminController {
 		String indexList[] = request.getParameter("checkIndex").split(",");
 		
 		for(int i=0; i < indexList.length; i++){
-			//System.out.println("index : " + indexList[i]);
 			sqlMap.delete("qnadelete", Integer.parseInt(indexList[i]));
 		}
 		return "redirect:/admin.mooc";
 	}
 	
-	
-	
-	//----------------------------홈페이지 관리 시작----------------------------//
 				
-	/*@RequestMapping("/admin/ctgList.mooc")
-	//카테고리 관리
-		public String ctgList(HttpServletRequest request){
-			content = "admin_ctgList.jsp";
-			request.setAttribute("admin_main_content", content);
-			return main;
-		}*/
 	
 	@RequestMapping("/admin/accessList.mooc")
 	//접속현황
@@ -268,15 +252,11 @@ public class AdminController {
 		   	request.setAttribute("count", count);
 			request.setAttribute("list", list);
 			
-			System.out.println(count);
-			System.out.println(list);
-			
 			content = "admin_accessList.jsp";
 			request.setAttribute("admin_main_content", content);
 			return main;
 		}
 	
-	//----------------------------홈페이지 관리 끝----------------------------//
 	
 	//----------------------------회원 관리 시작----------------------------//
 	
@@ -307,22 +287,6 @@ public class AdminController {
 		}
 	
 	
-	/*@RequestMapping("/admin/teacherList.mooc")
-	//강사관리
-		public String teacherList(HttpServletRequest request){
-			content = "admin_teacherList.jsp";
-			request.setAttribute("admin_main_content", content);
-			return main;
-		}
-	
-	@RequestMapping("/admin/studentList.mooc")
-	//학생관리
-		public String studentList(HttpServletRequest request){
-			content = "admin_studentList.jsp";
-			request.setAttribute("admin_main_content", content);
-			return main;
-		}*/
-	
 	@RequestMapping("/admin/blackList.mooc")
 	//불량강사 관리
 		public String adm_blackList(HttpServletRequest request){
@@ -349,14 +313,6 @@ public class AdminController {
 	
 	//----------------------------게시판 관리 시작----------------------------//
 	
-	/*@RequestMapping("/admin/noticeList.mooc")
-	//공지사항 관리
-		public String noticeList(HttpServletRequest request){
-			content = "admin_noticeList.jsp";
-			request.setAttribute("admin_main_content", content);
-			return main;
-		}*/
-	
 	
 	@RequestMapping("/admin/admin_sendEmail.mooc")
 		public String admin_sendEmail(HttpServletRequest request){	//휴먼계정 메일전송
@@ -364,7 +320,6 @@ public class AdminController {
 			String[] u_id=id.split(",");
 			
 			for(int i=0;i<u_id.length;i++){
-				System.out.println(u_id[i]);
 				EmailAuthentication.sendSleepMail(u_id[i]);
 			}
 			return "redirect:/admin/accessList.mooc";
@@ -482,7 +437,6 @@ public class AdminController {
 			String indexList[] = request.getParameter("checkIndex").split(",");
 			
 			for(int i=0; i < indexList.length; i++){
-				//System.out.println("index : " + indexList[i]);
 				sqlMap.delete("qnadelete1", Integer.parseInt(indexList[i]));
 			}
 	
@@ -493,7 +447,6 @@ public class AdminController {
 	
 	@RequestMapping("/admin/adminError.mooc")
 	public String error(){
-		
 		return "/admin/adminError.jsp";
 	}
 	

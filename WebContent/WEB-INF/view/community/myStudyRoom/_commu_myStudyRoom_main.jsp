@@ -19,8 +19,6 @@ function myFunction(i) {
 				<li class="sidebar-brand"><a href="/mooc/study/myStudyRoomMain.mooc?stg_code=${sessionScope.code}">${stg_code}/ StudyRoom</a></li>
 	            <li><a href="/mooc/study/myStudyBoardList.mooc">게시판</a></li>
 				<li><a onclick="myFunction(${stg_code})">회의방</a></li>
-				
-				<li><a href="/mooc/study/myStudyMemberList.mooc">멤버 목록</a></li>
 	        </ul>
 		</div>
 

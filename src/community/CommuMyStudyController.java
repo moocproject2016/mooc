@@ -22,6 +22,27 @@ public class CommuMyStudyController {
 	
 /*나의 스터디 목록 메뉴 클릭시 */
 	
+	@RequestMapping("/study/myStudyRoomMain.mooc")
+	//나의 스터디룸 메인
+		public String myStudyRoomMain_main(HttpServletRequest request, int stg_code){
+			HttpSession session = request.getSession();
+			String u_id=(String) session.getAttribute("memId");
+			session.setAttribute("code", stg_code);
+			
+			List stgMemberList = sqlMap.queryForList("stgMemberList", stg_code);	
+			List stgList = sqlMap.queryForList("selectstg", stg_code);	
+		
+			content = "_commu_myStudyRoom_container.jsp";
+			
+			request.setAttribute("stgMemberList", stgMemberList);
+			request.setAttribute("stgList", stgList);
+			request.setAttribute("u_id", u_id);
+			request.setAttribute("stg_code", stg_code);
+			request.setAttribute("community_main_content", commu_main);
+			request.setAttribute("commu_myStudy_content", content);
+			return main;
+		}
+	
 	@RequestMapping("study/myStudyList.mooc")
 	//나의 스터디 목록 리스트
 		public String myStudyList_main(HttpServletRequest request){
@@ -30,9 +51,7 @@ public class CommuMyStudyController {
 			List mystudylist;
 			if (request.getParameter("state")!=null){	
 				mystudylist = sqlMap.queryForList("myselectlist1", u_id);	
-				System.out.println(mystudylist.size());
 			}else{	
-				System.out.println("AA");
 				mystudylist = sqlMap.queryForList("myselectlist", u_id);  
 			}
 			request.setAttribute("list", mystudylist);
@@ -42,29 +61,12 @@ public class CommuMyStudyController {
 			return main;
 		}
 	
-	
-	@RequestMapping("/study/myStudyRoomMain.mooc")
-	//나의 스터디룸 메인
-		public String myStudyRoomMain_main(HttpServletRequest request, int stg_code){
-			HttpSession session = request.getSession();
-			session.setAttribute("code", stg_code);
-		
-			content = "_commu_myStudyRoom_container.jsp";
-			
-			request.setAttribute("stg_code", stg_code);
-			request.setAttribute("community_main_content", commu_main);
-			request.setAttribute("commu_myStudy_content", content);
-			return main;
-		}
-	
 	@RequestMapping("/study/myStudyBoardList.mooc")
 	//스터디 게시판
 		public String myStudyBoardList_main(HttpServletRequest request,StudygroupBoardDTO sgbdto ){
 			HttpSession session = request.getSession();
 			int stg_code = (int) session.getAttribute("code");
 			  sgbdto.setStg_code(stg_code); 
-			  System.out.println("stg_code:"+stg_code);
-			  System.out.println("SearchBType:"+sgbdto.getSearchBType());
 			  if(sgbdto.getSearchBType()==null){ sgbdto.setSearchBType("0");}
 			  List list =sqlMap.queryForList("stgboardAll",sgbdto );
 		      request.setAttribute("list",list);
@@ -87,19 +89,6 @@ public class CommuMyStudyController {
 			request.setAttribute("community_main_content", commu_main);
 			request.setAttribute("commu_myStudy_content", content);
 			
-			return main;
-		}
-	
-	@RequestMapping("/study/myStudyMemberList.mooc")
-	//스터디 멤버 목록
-		public String myStudyMemberList_main(HttpServletRequest request){
-		
-			HttpSession session = request.getSession();
-			int stg_code = (int) session.getAttribute("code");
-		   
-			content = "commu_studyMemberList.jsp";
-			request.setAttribute("community_main_content", commu_main);
-			request.setAttribute("commu_myStudy_content", content);
 			return main;
 		}
 }
