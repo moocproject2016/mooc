@@ -120,7 +120,7 @@
                                                     <a class="modalLink" style="font-size:15px" name="${dispDay}look">상세내용 </a>
 
                                                     <div id="${dispDay}look" style="display:none; position:relative;">
-                                                        <div class="modalContent">
+                                                        <div class="modalContent" color="#FFFFFF">
                                                         	<c:forEach items="${cal}" var="data">
                                                         	 	<c:if test="${data.month==dto.title&&data.day==dispDay}">
                                                         	 	강의명 :${data.main_lec_subject}<br/>
