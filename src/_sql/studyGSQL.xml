@@ -74,6 +74,9 @@
     <select id="stgJoinReadyCheck" resultClass="int" parameterClass="sgdto">
     	select count(*) from studygroup_list where u_id= #u_id# and stg_code= #stg_code#
 	</select>
+	<select id="stgMemberList" resultClass="sgdto" parameterClass="int">
+    	select* from studygroup_list where stg_code = #stg_code#
+    </select>
      <!-- 11 08 김효미 추가  끝-->
     
     <insert id="insertJoin" parameterClass="sgdto">
