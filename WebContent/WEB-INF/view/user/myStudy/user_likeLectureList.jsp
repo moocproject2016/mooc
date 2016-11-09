@@ -60,7 +60,7 @@
 				
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
 							<c:if test="${currentPage==i}">
-								<li class="active"><a href="/mooc/user/likeLectureList.mooc.mooc?pageNum=${i}">${i}</a></li>
+								<li class="active"><a href="/mooc/user/likeLectureList.mooc?pageNum=${i}">${i}</a></li>
 							</c:if>
 							<c:if test="${currentPage!=i}">							
 								<li><a href="/mooc/user/likeLectureList.mooc?pageNum=${i}">${i}</a></li>
