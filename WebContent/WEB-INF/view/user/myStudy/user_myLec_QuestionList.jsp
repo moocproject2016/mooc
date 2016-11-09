@@ -67,7 +67,7 @@
 	}
 </script>
 
-
+<div class="tableWrap">
 <ul class="nav nav-pills">
 	<li role="presentation"><a href="myStgWriter.mooc">스터디 게시판</a></li>
 	<li role="presentation"><a href="myQuestion.mooc">관리자 문의 / 답변</a></li>
@@ -199,3 +199,4 @@
 			</c:if></td>
 	</tr>
 </table>
+</div>

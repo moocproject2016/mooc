@@ -33,7 +33,7 @@
 	</c:if>
 	<td>
 		<center>
-			<img src="${dto.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
+			<img src="/mooc/files${dto.main_lec_image}" style="width:200px;height:200px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
 			강사:${dto.t_id}
 			<a href="/mooc/user/lectureList_sub.mooc?main_lec_code=${dto.main_lec_code}"><br/>
 			강의:${dto.main_lec_subject}</a><br/>

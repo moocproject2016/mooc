@@ -19,7 +19,6 @@
 			<div class="col-md-4">
 				<p><img src="/mooc/files${mll.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}'" /></p>
 			    <h2>${mll.sub_lec_subject}</h2>
-			    <p>${mll.sub_lec_content}</p>
 			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}" role="button">상세보기 &raquo;</a></p>
 		  	</div>
 		</c:forEach>  	
@@ -36,7 +35,6 @@
 			<div class="col-md-4">
 				<p><img src="/mooc/files${mbl.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mbl.main_lec_code}'" /></p>
 			    <h2>${mbl.main_lec_subject}</h2>
-			    <p>${mbl.main_lec_content}</p>
 			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mbl.main_lec_code}" role="button">상세보기 &raquo;</a></p>
 		  	</div>
 		</c:forEach>
@@ -53,7 +51,6 @@
 			<div class="col-md-4">
 				<p><img src="/mooc/files${mpl.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mpl.main_lec_code}'" /></p>
 			    <h2>${mpl.main_lec_subject}</h2>
-			    <p>${mpl.main_lec_content}</p>
 			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mpl.main_lec_code}" role="button">상세보기 &raquo;</a></p>
 		  	</div>
 		</c:forEach>  	

@@ -4,13 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <head>
-<link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
-<link href="top_style.css" rel="stylesheet" type="text/css">
 <script>
 	jQuery(document).ready(function() {
 		selectMain = document.getElementById("main_select").value;
-		pageNum = document.getElementById("currentPage").value;
 	});
 	function select() {
 		selectMain = document.getElementById("main_select").value;

@@ -17,7 +17,7 @@
 	<c:if test="${list!=null}">
 		<c:forEach items="${list}" var="dto">
 			<tr>
-				<td align="center"><img src="${dto.main_lec_image}" style="width:50px;height:50px" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'""></td>
+				<td align="center"><img src="/mooc/files${dto.main_lec_image}" style="width:100px;height:80px" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'""></td>
 				<td align="center"><a href="/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}" target="blank">${dto.main_lec_subject}</a></td>
 				<td align="center">${dto.u_name} </td>
 				<td align="center"><fmt:formatDate value="${dto.main_lec_regdate}" type="date"/></td>

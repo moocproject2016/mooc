@@ -9,7 +9,9 @@
         <script src="/mooc/js/bootstrap.min.js"></script>
         <script>
     	function noteOpen(a){
-    		window.open("/mooc/user/user_image.mooc?sub_lec_code="+a, "window", "width=600,height=700,scrollbars=no,location=no");
+    		cw=screen.availWidth;
+			ch=screen.availHeight;
+    		window.open("/mooc/user/user_image.mooc?sub_lec_code="+a, "window", "width="+cw+",height="+ch+",scrollbars=no,location=no");
     	}
 
         </script>

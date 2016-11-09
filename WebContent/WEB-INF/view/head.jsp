@@ -20,16 +20,16 @@ function callAjax(){
 
 function test(a)
 {
-	var j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>';
+	var j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram</span></a>';
 	if(a==1){
 		if(first==0){
 			first=1;
 			
 		}
-		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;new<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>';
+		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram <b><font color="red">●</font></b></a>';
 	}else{
 		first=0;
-		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>';
+		j='<a href="/mooc/user/AlramPage.mooc" id="jungman">Alram</span></a>';
 	}
 	 $('#clearz').html(j);
 }
@@ -94,10 +94,10 @@ function  search_blank_check(){
 					<ul class="dropdown-menu">
 						<li id="clearz">
 							<c:if test="${sessionScope.alram==1 && sessionScope.memId != null}">
-							<a href="/mooc/user/AlramPage.mooc"> Alram &nbsp;&nbsp;&nbsp;new<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
+							<a href="/mooc/user/AlramPage.mooc"> Alram &nbsp;&nbsp;&nbsp;<b>new<font color="red">♥</font></b></a>
 							</c:if>
 							<c:if test="${sessionScope.alram==0 && sessionScope.memId != null}">
-							<a href="/mooc/user/AlramPage.mooc"> Alram &nbsp;&nbsp;&nbsp;새 글이 없습니다.</span></a>
+							<a href="/mooc/user/AlramPage.mooc"> Alram</span></a>
 							</c:if>
 						</li>
 						<li><a href="/mooc/user/myStudy.mooc">MyStudy</a></li>
