@@ -74,14 +74,21 @@ public class MyStudyController {
 			return main;
 		}
 	
-	@RequestMapping("/user/lectureList.mooc")
+		@RequestMapping("/user/lectureList.mooc")
 		public String myLectureList_main(HttpServletRequest request){
 			String pageNum=request.getParameter("pageNum");
+			String sub_ctg_code=request.getParameter("sub_ctg_code");
 			HttpSession session=request.getSession();
 			String id=(String)session.getAttribute("memId");
-			System.out.println(id);
-			List AllList=sqlMap.queryForList("userlecture",id);
-			System.out.println(AllList.size());
+			List AllList=null;
+			if(sub_ctg_code==null){
+				AllList=sqlMap.queryForList("userlecture",id);
+			}else{
+				HashMap map=new HashMap();
+				map.put("id", id);
+				map.put("sub_ctg_code", sub_ctg_code);
+				AllList=sqlMap.queryForList("userlectureTo",map);
+			}
 			pageAction pageing=new pageAction();
 			List list=pageing.pageList(pageNum,AllList, 12);
 			int subCount=(int)sqlMap.queryForObject("userlectureCount", id);
@@ -97,9 +104,7 @@ public class MyStudyController {
 			request.setAttribute("currentPage", pageing.current());
 			request.setAttribute("pageSize", pageing.size());
 			request.setAttribute("list", list);
-			
-			
-		
+				
 			content = "user_lectureList.jsp";
 			request.setAttribute("main_content", myStudy_main);
 			request.setAttribute("user_myStudy_content", content);

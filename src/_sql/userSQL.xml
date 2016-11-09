@@ -71,6 +71,18 @@
 			(select main_lec_code,count(*) as subLec_count from sub_lecture group by main_lec_code) b
 			on a.main_lec_code=b.main_lec_code
 		</select>
+		<select id="userlectureTo" parameterClass="java.util.HashMap" resultClass="LectureDTO">
+			select a.*,coalesce(b.subLec_count,0) as subLec_count from 
+			(select a.*, coalesce(b.lecView_count,0) as lecView_count from
+			(select a.* from main_lecture a join register_lecture b
+			on a.main_lec_code=b.main_lec_code 
+			where b.u_id=#id# and a.sub_ctg_code=#sub_ctg_code#) a 
+			left join 
+			(select main_lec_code, count(*) as lecView_count from STUDY_SUBLEC_PROCESS where u_id=#id#  group by main_lec_code) b
+			on a.main_lec_code=b.main_lec_code ) a join 
+			(select main_lec_code,count(*) as subLec_count from sub_lecture group by main_lec_code) b
+			on a.main_lec_code=b.main_lec_code
+		</select>
 			
 		<select id="userlectureCount" parameterClass="String" resultClass="int">
 			select count(*) from main_lecture join register_lecture on main_lecture.main_lec_code=register_lecture.main_lec_code 
