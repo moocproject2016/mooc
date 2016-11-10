@@ -12,6 +12,39 @@ public class LikeLecture_joinDTO {
 	private String main_lec_image;
 	private String main_lec_content;
 	Timestamp main_lec_legdate;
+	
+	private String lec_q_content;
+	
+	private int lec_q_num;
+	private String lec_q_subject;
+	private Timestamp lec_q_regdate;
+	
+	
+	
+	public String getlec_q_content() {
+		return lec_q_content;
+	}
+	public void setlec_q_content(String lec_q_content) {
+		this.lec_q_content = lec_q_content;
+	}
+	public Timestamp getLec_q_regdate() {
+		return lec_q_regdate;
+	}
+	public void setLec_q_regdate(Timestamp lec_q_regdate) {
+		this.lec_q_regdate = lec_q_regdate;
+	}
+	public String getLec_q_subject() {
+		return lec_q_subject;
+	}
+	public void setLec_q_subject(String lec_q_subject) {
+		this.lec_q_subject = lec_q_subject;
+	}
+	public int getLec_q_num() {
+		return lec_q_num;
+	}
+	public void setLec_q_num(int lec_q_num) {
+		this.lec_q_num = lec_q_num;
+	}
 	public String getU_id() {
 		return u_id;
 	}
