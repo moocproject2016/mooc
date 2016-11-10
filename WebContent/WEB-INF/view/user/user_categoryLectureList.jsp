@@ -32,7 +32,7 @@
 		<tr>
 	</c:if>
 	<td>
-		<center><img src="/mooc/files${dto.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
+		<center><img src="/mooc/files${dto.main_lec_image}" style="width:250px;height:200px" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}'" /><br/>
 		<a href="/mooc/viewMainLec.mooc?main_lec_code=${dto.main_lec_code}"><br/>${dto.main_lec_subject}</a><br/>
 		${dto.u_name}
 			</center>

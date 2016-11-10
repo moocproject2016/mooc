@@ -33,20 +33,13 @@
                     
 	<h3>최근 게시물</h3>
 	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#home">알림</a></li>
-		<li><a data-toggle="tab" href="#menu1">강의 공지사항</a></li>
-		<li><a data-toggle="tab" href="#menu2">강의 후기</a></li>
-		<li><a data-toggle="tab" href="#menu3">강의 질문</a></li>
+		<li class="active"><a data-toggle="tab" href="#home">강의 공지사항</a></li>
+		<li><a data-toggle="tab" href="#menu1">강의 후기</a></li>
+		<li><a data-toggle="tab" href="#menu2">강의 질문</a></li>
 	</ul>
 
 	<div class="tab-content">
 		<div id="home" class="tab-pane fade in active">
-			<li class="more">› <a href="#">알림 더보기</a></li>
-			<li>목록1</li>
-			<li>목록2</li>
-			<li>목록3</li>
-	    </div>
-		<div id="menu1" class="tab-pane fade">
 			<li class="more">› <a href="/mooc/teacher/noticeList.mooc">강의 공지사항 더보기</a></li>
 			<table class="table">
 				<thead>
@@ -58,7 +51,7 @@
 					</th>
 				</thead>
 				<c:forEach var="lecNoticeDto" items="${lec_notice_list1 }" varStatus="i">
-				<tr bgcolor=aaaaaa>
+				<tr bgcolor="#f0f0f0">
 					<td>
 						중요
 					</td>
@@ -73,20 +66,22 @@
 			<table class="table">
 				<c:forEach var="lecNoticeDto" items="${lec_notice_list0 }" varStatus="i">
 				<tr bgcolor=ffffff>
-					<td width="10%">
+					<td align="center" width="10%">
 						${lecNoticeDto.lec_n_num}
 					</td>
-					<td width="25%">${lecNoticeDto.main_lec_subject}</td>
-					<td width="45%">
+					<td align="center" width="25%">${lecNoticeDto.main_lec_subject}</td>
+					<td align="center" width="45%">
 						<a href="/mooc/teacher/noticeContent.mooc?lec_n_num=${lecNoticeDto.lec_n_num}&pageNum=${pageNum}">${lecNoticeDto.lec_n_subject}</a>
 					</td>
-					<td width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td align="center" width="20%"><fmt:formatDate value="${lecNoticeDto.lec_n_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				</tr>
 				</c:forEach>
 			</table>
 			
 	    </div>
-	    <div id="menu2" class="tab-pane fade">
+	    
+	    <div id="menu1" class="tab-pane fade">
+	    
 			<li class="more">› <a href="/mooc/teacher/reviewList.mooc">강의 후기 더보기</a></li>
 			<table class="table">
 			<thead>
@@ -102,13 +97,13 @@
 				<tbody>
 				<c:forEach var="lec_review" items="${lec_review_list}" varStatus="i">
 				<tr>
-					<td>${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
-					<td onclick="displaySwitch('${i.count}re');">
+					<td align="center" >${lec_review.main_lec_code}<input type="hidden" name="main_lec_code" value="${lec_review.main_lec_code}"/><input type="hidden" name="index" value="${index}" id="${index}"/></td>
+					<td align="center" onclick="displaySwitch('${i.count}re');">
 						<b>${lec_review.lec_r_subject}</b>
 					</td>
-					<td>${lec_review.u_id}</td>							
-					<td>평점 : ${lec_review.lec_r_score}</td>
-					<td>
+					<td align="center">${lec_review.u_id}</td>							
+					<td align="center">평점 : ${lec_review.lec_r_score}</td>
+					<td align="center">
 					 	 <c:if test="${lec_review.lec_r_score<=5 && lec_review.lec_r_score>4}">★★★★★</c:if>
         			 	 <c:if test="${lec_review.lec_r_score<=4 && lec_review.lec_r_score>3}">★★★★☆</c:if>
       				  	 <c:if test="${lec_review.lec_r_score<=3 && lec_review.lec_r_score>2}">★★★☆☆</c:if>
@@ -116,7 +111,7 @@
          				 <c:if test="${lec_review.lec_r_score<=1 && lec_review.lec_r_score>0}">★☆☆☆☆</c:if>
 					</td>
 					
-					<td>${lec_review.lec_r_regdate}</td>
+					<td align="center">${lec_review.lec_r_regdate}</td>
 				</tr>
 				<c:if test="${lec_review.lec_r_content!=null}">
 					<tr>
@@ -133,7 +128,9 @@
 				</tbody>
 		</table>
 	    </div>
-	    <div id="menu3" class="tab-pane fade">
+	    
+	    
+       <div id="menu2" class="tab-pane fade">
 			<li class="more">› <a href="/mooc/teacher/qnaList.mooc">강의 질문 더보기</a></li>
 			<table class="table">
 			<thead>
@@ -151,15 +148,15 @@
 					<tr>
 						<input type="hidden" name="index${i.index}" value="${article.lec_q_num}" id="index${i.index}" />	
 												
-						<td>${article.lec_q_num}
+						<td align="center">${article.lec_q_num}
 					<%-- 	<input type="text" id="num${i.index}" value="${article.q_num}"/> --%>
 						</td>
-						<td>${article.u_id}</td>
-						<td onclick="displaySwitch('${i.count}');">
+						<td align="center">${article.u_id}</td>
+						<td align="center" onclick="displaySwitch('${i.count}');">
 							<b>${article.lec_q_subject}</b>
 						</td>
-						<td><fmt:formatDate value="${article.lec_q_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td>
+						<td align="center"><fmt:formatDate value="${article.lec_q_regdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+						<td align="center">
 							<c:if test="${article.lec_c_content==null}">
 								미답
 							</c:if>
@@ -179,7 +176,7 @@
 										<form name="contentUpdate" action="/mooc/teacher/view_ReContent2.mooc">
 												<input type="hidden" name="lec_q_num" value="${article.lec_q_num}"/>
 												답변 &nbsp;:&nbsp;&nbsp;
-												<textarea name="lec_c_content" rows="40" cols="100">${article.lec_c_content}</textarea>
+												<textarea name="lec_c_content" rows="2" cols="90">${article.lec_c_content}</textarea>
 												<input type="submit" value="답변등록">			
 										</form>
 									</c:if>

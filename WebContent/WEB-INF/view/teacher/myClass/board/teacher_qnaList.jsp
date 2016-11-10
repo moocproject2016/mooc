@@ -30,11 +30,12 @@
 	}
 </script>
 </head>
-<br />
-<br />
-<br />
-<h2>질문게시판</h2>
-<table style="width: 100%;">
+
+<div class="tableWrap">
+
+	<table class="table" align="center">
+	<tr><td><h2>질문게시판</h2></td>
+	</tr>
 	<tr>
 		<td><select id="main_select" onchange="select()">
 				<option value="0" <c:if test="${main_lec_code==0}">selected</c:if>>전체
@@ -45,10 +46,7 @@
 				</c:forEach>
 		</select> 총 질문 수 : ${all_count}</td>
 	</tr>
-</table>
-<div class="tableWrap">
-
-	<%-- <c:set var="index" value="0" /> --%>
+	</table>
 	<table class="table" align="center">
 		<thead>
 			<tr>
@@ -96,7 +94,7 @@
 											value="${main_lec_code}" /> <input type="hidden"
 											name="lec_q_num" value="${article.lec_q_num}" /> 답변
 										&nbsp;:&nbsp;&nbsp;
-										<textarea name="lec_c_content" rows="40" cols="100">${article.lec_c_content}</textarea>
+										<textarea name="lec_c_content" rows="2" cols="90">${article.lec_c_content}</textarea>
 										<c:if test="${article.lec_c_content!=null}">
 											<input type="submit" value="답변수정">
 										</c:if>

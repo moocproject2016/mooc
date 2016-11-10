@@ -8,38 +8,65 @@
 	</p>
   </div>
 </div>
-
 <div class="container">
 	<div class="row">
 		<div class="page-header">
 			<h1>Starting Soon! <small>곧 시작되는 실시간 강의</small></h1>
 			<a href="/mooc/user/user_mainMoreList.mooc#live" class="pull-right">실시간 강의 더 보기</a>
 		</div>
+		<table class="table" align="center">
+		
+		<c:set var="foot" value="1"/>
 		<c:forEach	items="${main_liveLecture_List}" var="mll">
-			<div class="col-md-4">
-				<p><img src="/mooc/files${mll.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}'" /></p>
-			    <h2>${mll.sub_lec_subject}</h2>
-			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}" role="button">상세보기 &raquo;</a></p>
-		  	</div>
-		</c:forEach>  	
+		<c:if test="${foot==1||foot==5||foot==9}">
+			<tr>
+		</c:if>
+		<td>
+			<p><img src="/mooc/files${mll.main_lec_image}" style="width:250px;height:200px" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}'" /></p>
+			    <h3>${mll.sub_lec_subject}</h3>
+			    ${mpl.t_id}
+	    	<p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mll.main_lec_code}" role="button">상세보기 &raquo;</a></p>
+			  	
+		</td>
+		
+		
+		<c:if test="${foot==4||foot==8||foot==12}">
+			</tr>
+		</c:if>
+		<c:set var="foot" value="${foot+1}"/>
+		</c:forEach>
+	</table>
 	</div>
 		
 	<div class="page-header2"></div>
-		
+	
 	<div class="row">
 		<div class="page-header">
 			<h1>Best Courses <small>베스트 강의</small></h1>
 			<a href="/mooc/user/user_mainMoreList.mooc#best" class="pull-right">베스트 강의 더 보기</a>
 		</div>
-		<c:forEach	items="${main_bestLecture_List}" var="mbl">
-			<div class="col-md-4">
-				<p><img src="/mooc/files${mbl.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mbl.main_lec_code}'" /></p>
-			    <h2>${mbl.main_lec_subject}</h2>
+		<table class="table" align="center">
+		
+			<c:set var="foot" value="1"/>
+			<c:forEach	items="${main_bestLecture_List}" var="mbl">
+			<c:if test="${foot==1||foot==5||foot==9}">
+				<tr>
+			</c:if>
+			<td>
+				<p><img src="/mooc/files${mbl.main_lec_image}" style="width:250px;height:200px" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mbl.main_lec_code}'" /></p>
+				    <h3>${mbl.main_lec_subject}</h3>
+				    ${mpl.t_id}
 			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mbl.main_lec_code}" role="button">상세보기 &raquo;</a></p>
-		  	</div>
-		</c:forEach>
+			</td>
+			
+			<c:if test="${foot==4||foot==8||foot==12}">
+				</tr>
+			</c:if>
+			<c:set var="foot" value="${foot+1}"/>
+			</c:forEach>
+		</table>
 	</div>
-	
+		
 	<div class="page-header2"></div>
 	
 	<div class="row">
@@ -47,12 +74,25 @@
 			<h1>Popular Courses <small>인기 강의</small></h1>
 			<a href="/mooc/user/user_mainMoreList.mooc#popular" class="pull-right">인기 강의 더 보기</a>
 		</div>
-		<c:forEach	items="${main_popularLecture_List}" var="mpl">
-			<div class="col-md-4">
-				<p><img src="/mooc/files${mpl.main_lec_image}" style="width:250px;height:250px"  class="img-rounded"  onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mpl.main_lec_code}'" /></p>
-			    <h2>${mpl.main_lec_subject}</h2>
+		<table class="table" align="center">
+		
+			<c:set var="foot" value="1"/>
+			<c:forEach	items="${main_popularLecture_List}" var="mpl">
+			<c:if test="${foot==1||foot==5||foot==9}">
+				<tr>
+			</c:if>
+			<td>
+				<p><img src="/mooc/files${mpl.main_lec_image}" style="width:250px;height:200px;" onclick="location.href='/mooc/viewMainLec.mooc?main_lec_code=${mpl.main_lec_code}'" /></p>
+			    <h3>${mpl.main_lec_subject}</h3>
+			    ${mpl.t_id}
 			    <p><a class="btn btn-default" href="/mooc/viewMainLec.mooc?main_lec_code=${mpl.main_lec_code}" role="button">상세보기 &raquo;</a></p>
-		  	</div>
-		</c:forEach>  	
+		  	</td>
+			
+			<c:if test="${foot==4||foot==8||foot==12}">
+				</tr>
+			</c:if>
+			<c:set var="foot" value="${foot+1}"/>
+			</c:forEach>
+		</table>
 	</div>
 </div>

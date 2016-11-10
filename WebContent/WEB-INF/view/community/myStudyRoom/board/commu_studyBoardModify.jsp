@@ -11,7 +11,7 @@
 					<td><b>작성자</b>:${sgbdto.u_id}
 				</tr>
 				<tr>
-					<td width="100"  height="40" align="lest"><b>계시판유형</b></td>
+					<td width="100"  height="40" align="lest"><b>유형</b></td>
 					<td width="400" colspan="2">
 				       <select  name="stg_b_type" style="width: 90px;">
 							<option value="과제" <c:if test="${sgbdto.stg_b_type eq'과제'}">selected</c:if>>과제</option>

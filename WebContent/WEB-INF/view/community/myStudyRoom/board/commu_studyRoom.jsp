@@ -7,7 +7,7 @@
 			<tr>
 				<td width="100">글번호&nbsp;&nbsp;&nbsp;${sgbdto.stg_b_num}</td>
 				<td width="200" align="center">제목</td>
-				<td width="300" colspan="3" align="left">[${sgbdto.stg_b_type}계시판] ${sgbdto.stg_b_subject }</td>
+				<td width="300" colspan="3" align="left">[${sgbdto.stg_b_type}] ${sgbdto.stg_b_subject }</td>
 				<td width="200">작성자 :${sgbdto.u_id}</td>
 				<td width="300" align="right">${sgbdto.stg_b_regdate}</td>
 			</tr>
