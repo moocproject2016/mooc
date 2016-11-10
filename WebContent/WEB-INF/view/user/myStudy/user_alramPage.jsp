@@ -71,17 +71,17 @@
 		<c:forEach var="alram" items="${like_lec_list}" varStatus="i">
 				<tr>
 					<td>관심 강사 게시판<input type="hidden" name="num" value="${alram.lec_q_num}"/></td>
-					<td>${alram.u_id}</td>
+					<td>${alram.t_id}</td>
 					<td onclick="displaySwitch('${i.count}re7');">
-						<b>${alram.lec_q_subject}</b>
+						<b>${alram.main_lec_subject}</b>
 					</td>
-					<td>${alram.lec_q_regdate}</td>
+					<td>${alram.main_lec_regdate}</td>
 				</tr>
-				<c:if test="${alram.lec_q_content!=null}">
+				<c:if test="${alram.main_lec_content!=null}">
 					<tr>
 						<td colspan="7" align="left">
 							<div id="content${i.count}re7" style="display:none; height:auto;">
-								문의 내용 &nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${alram.lec_q_content}<br /><br />
+								문의 내용 &nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${alram.main_lec_content}<br /><br />
 								<hr>
 							</div>					
 						</td>

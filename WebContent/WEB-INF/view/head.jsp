@@ -7,7 +7,7 @@
 var first=0;
 $(document).ready(function(){
 callAjax();
-window.setInterval(callAjax, 1000000);
+window.setInterval(callAjax, 10000);
 	});
 function callAjax(){
 		$.ajax({	

@@ -11,7 +11,7 @@ public class LikeLecture_joinDTO {
 	private String main_lec_subject;
 	private String main_lec_image;
 	private String main_lec_content;
-	Timestamp main_lec_legdate;
+	Timestamp main_lec_regdate;
 	
 	private String lec_q_content;
 	
@@ -93,11 +93,11 @@ public class LikeLecture_joinDTO {
 	public void setMain_lec_content(String main_lec_content) {
 		this.main_lec_content = main_lec_content;
 	}
-	public Timestamp getMain_lec_legdate() {
-		return main_lec_legdate;
+	public Timestamp getmain_lec_regdate() {
+		return main_lec_regdate;
 	}
-	public void setMain_lec_legdate(Timestamp main_lec_legdate) {
-		this.main_lec_legdate = main_lec_legdate;
+	public void setmain_lec_regdate(Timestamp main_lec_regdate) {
+		this.main_lec_regdate = main_lec_regdate;
 	}
 	public int getMain_lec_flag() {
 		return main_lec_flag;
